@@ -1,0 +1,53 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Game</title>
+  </head>
+  <body>
+  <svg id="canvas" width="100%" length ="100%" viewBox="0 0 400 180" style="background: #bdd;">
+<g id="game">
+          <image id="BadApple" x="100" y="10" width="30" height="10" xlink:href="images/badapple.png"/>
+
+        <image id="apple1" x="50" y="30" width="10" height="10" xlink:href="images/Apple.png">
+        <animate  id="apple1Ani"attributeName="y" from="0" to="200" dur="2s"repeatCount="indefinite"/>
+      </image>
+        <image id="apple2" x="300" y="30" width="10" height="10" xlink:href="images/Apple.png">
+                <animate id="apple2Ani"attributeName="y" from="0" to="200" dur="2s"repeatCount="indefinite"/>
+              </image>
+<image id="Player" x="175" y="20" width="25" height="25" xlink:href="images/Player-Idle.png"/>
+<image id="Enemy" x="-5" y="40" width="25" height="25" xlink:href="images/Enemy.gif" opacity="0.5">
+          <animate  id="EnemyAni"attributeName="x" from="-5" to="375" dur="5s"repeatCount="indefinite"/>
+        </image>
+    <text id="score" x="325" y="25" font-family="arial" font-size="10">SCORE: 0</text>
+        <text id="Health" x="325" y="75" font-family="arial" font-size="10">HEALTH: 100</text>
+                <text id="HighScoreA" x="300" y="50" font-family="arial" font-size="10">HIGHSCORE: 0</text>
+      </g>
+      <g id="gameover">
+          <text id="gameoverscore" x="155" y="50" font-family="arial" font-size="10">SCORE: 0</text>
+          <text id="SurTime" x="115" y="75" font-family="arial" font-size="10">YOU SURVIVED FOR X UNTIS</text>
+          <text id="HighScore" x="155" y="100" font-family="arial" font-size="10">HIGHSCORE: 0</text>
+          <text id="restartbutton" x="160" y="125" font-family="arial" font-size="10"  onClick="window.location.reload()">MAIN MENU</text>
+          <text id="truerestartbutton" x="165" y="150" font-family="arial" font-size="10" onClick="Restart()">RESTART</text>
+          <button>retry</button>
+            </g>
+            <g id="gamemenu">
+              <text  x="155" y="25" font-family="arial" font-size="10" >FALLING APPLES</text>
+              <text  x="375" y="10" font-family="arial" font-size="5" >V 1.14</text>
+              <text  x="25" y="50" font-family="arial" font-size="10" >COLLECT THESE</text>
+              <image  x="50" y="70" width="20" height="20" xlink:href="images/Apple.png"/>
+              <text  x="250" y="50" font-family="arial" font-size="10" >AVOID THESE</text>
+              <image  x="265" y="70" width="20" height="20" xlink:href="images/BadApple.png"/>
+              <image  x="295" y="70" width="20" height="20" xlink:href="images/Enemy.gif"/>
+              <text  x="45" y="100" font-family="arial" font-size="10" >USE ARROW KEYS OR WASD TO MOVE AND ESC TO PAUSE.</text>
+              <text  x="25" y="150" font-family="arial" font-size="10"onClick="GameStart(200)" >EASY</text>
+              <text  x="100" y="150" font-family="arial" font-size="10" onClick="GameStart(150)">MEDIUM</text>
+              <text  x="200" y="150" font-family="arial" font-size="10" onClick="GameStart(125)">HARD</text>
+              <text  x="275" y="150" font-family="arial" font-size="10" onClick="GameStart(25)">IMPOSSIBLE</text>
+            </g>
+            <g id="paused">
+              <text x="175" y="75" font-family="arial" font-size="10">PAUSED<text>
+            <g>
+  </svg>
+  </body>
+   <script src="index.js"></script>
+</html>
