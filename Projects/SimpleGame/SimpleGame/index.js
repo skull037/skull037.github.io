@@ -34,9 +34,11 @@ document.addEventListener("keydown", function(e) {
     if (Gamebool == true && e.keyCode == 27) {
         Gamebool = false;
         document.getElementById("paused").style.visibility = "visible";
+        document.getElementById("canvas").pauseAnimations();
     } else if (Gamebool == false && e.keyCode == 27) {
         Gamebool = true;
-        document.getElementById("paused").style.visibility = "hidden";
+                document.getElementById("paused").style.visibility = "hidden";
+        document.getElementById("canvas").unpauseAnimations();
     }
     if (Gamebool) {
         //apple's location
@@ -104,7 +106,7 @@ document.addEventListener("keydown", function(e) {
             Health -= 20;
         }
         //checks if player hits the green apple
-        if (PlayerX >= GappleX - 10 && PlayerX <= GappleX + 10 && PlayerY >= GappleY - 10 && PlayerY <= GappleY + 10) {
+        if (PlayerX >= GappleX - 15 && PlayerX <= GappleX + 15 && PlayerY >= GappleY - 20 && PlayerY <= GappleY + 20) {
             document.getElementById("Player").setAttribute("xlink:href", "images/Enemy.gif")
             PlayerAnimation = 2;
             document.getElementById("BadApple").setAttribute("x", NumGen(75, 390));
@@ -117,6 +119,18 @@ document.addEventListener("keydown", function(e) {
         }
     }
     score.textContent = "SCORE: " + (FoodEaten + MoveScore);
+    //HighScore logic
+    if ((FoodEaten + MoveScore) > localStorage.getItem('highScoreStored')) {
+        localStorage.setItem('highScoreStored', (FoodEaten + MoveScore));
+        HighScoreA.textContent = "NEW HIGHSCORE: " + (FoodEaten + MoveScore);
+    } else {
+      if(localStorage.getItem('highScoreStored') == null){
+        HighScoreA.textContent = "HIGHSCORE: 0";
+    }
+    else{
+      HighScoreA.textContent = "HIGHSCORE: " + localStorage.getItem('highScoreStored');
+  }
+  }
 });
 
 //random number generator
@@ -125,19 +139,12 @@ function NumGen(min, max) {
 }
 
 function EatApple() {
-    FoodEaten += 10
+    FoodEaten += 50
     score.textContent = "SCORE: " + (FoodEaten + MoveScore);
     Health += 10;
     //prevents overheal
     if (Health > 100) {
         Health = 100
-    }
-    //HighScore logic
-    if ((FoodEaten + MoveScore) > localStorage.getItem('highScoreStored')) {
-        localStorage.setItem('highScoreStored', (FoodEaten + MoveScore));
-        HighScoreA.textContent = "NEW HIGHSCORE: " + (FoodEaten + MoveScore);
-    } else {
-        HighScoreA.textContent = "HIGHSCORE: " + localStorage.getItem('highScoreStored');
     }
 }
 
@@ -149,12 +156,14 @@ function PlayerMove() {
     //Health--
     MoveScore++
 }
+//plays after player chooses a difficulty
 function GameStart(Diff) {
   difficulty = Diff;
   document.getElementById("game").style.visibility = "visible";
   document.getElementById("gamemenu").style.visibility = "hidden";
   Gamebool = true;
   console.log(difficulty);
+  timeStart = Date.now()
   setInterval(function() {
       if(Gamebool == true){
       Health--;
@@ -164,7 +173,7 @@ function GameStart(Diff) {
       }
   }, difficulty);
 }
-
+//plays when player dies
 function GameOver() {
     var timeStop = Date.now()
     SurTime.textContent = "YOU SURVIVED FOR " + Math.round((timeStop - timeStart) / 1000) + " SECONDS";
@@ -181,6 +190,7 @@ function GameOver() {
     }
     Health = Infinity;
 }
+//function for the restart button
 function Restart(){
   Health = 100;
   FoodEaten = 0;
@@ -200,12 +210,16 @@ PlayerAnimation = 1;
   document.getElementById("game").style.visibility = "visible";
   document.getElementById("gameover").style.visibility = "hidden";
   Gamebool = true;
+  timeStart = Date.now()
 }
 //moves enemy after it finsihes its move animation
 setInterval(function() {
+  if(Gamebool == true){
     document.getElementById("Enemy").setAttribute("y", PlayerY)
+  }
 }, 5000);
 //updates health text
 setInterval(function() {
     HealthText.textContent = "Health:" + Health;
+
 }, 10);
