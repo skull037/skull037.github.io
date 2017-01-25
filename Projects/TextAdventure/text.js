@@ -36,7 +36,7 @@ room2Items={
   floor: true
 },
 room3Items={
-  desc:("You GO TO the next room." + "</br> The WALLS and FLOOR are made of stone. There is a SWORD on the floor.Finally."+ "</br>"+"There is a DOOR in font of you."),
+  desc:("You GO TO the next room." + "</br> The WALLS and FLOOR are made of stone. There is a SWORD on the floor."+ "</br>"+"There is a DOOR in front of you."),
   key:0,
   sword:1,
   door1: true,
@@ -49,7 +49,7 @@ room3Items={
   floor: true
 },
 roomvoidItems={
-  desc:("All you can see is darkness. You feel like you are not supposed to be here."+ "</br>"),
+  desc:("All you can see is DARKNESS. You feel like you are not supposed to be here."+ "</br>"),
   key:0,
   sword:0,
   door1: false,
@@ -118,7 +118,7 @@ function commands(data){
             TextBoard.innerHTML += "You TOOK the SWORD. It shines brightly.</br>";
             playerItems.sword = true;
             roomItems[CurrentFloor].sword -= 1;
-            PlayerSword = "SWORD: TRUE";
+            PlayerSword.html = "SWORD: TRUE";
       }
       else if(data[1] == "sword"&& roomItems[CurrentFloor].sword == 0){
             TextBoard.innerHTML += "You cannot find a SWORD."+"</br>";
@@ -135,6 +135,12 @@ function commands(data){
       TextBoard.innerHTML += "You LOOK";
       if(data[1] == "walls"&& roomItems[CurrentFloor].walls == true||data[1] == "wall"&& roomItems[CurrentFloor].walls == true){
         TextBoard.innerHTML += " at the WALLS. The WALLS are old, cracked, and made of stone."+"</br>";
+      }
+      else if(data[1] == "floor"&& roomItems[CurrentFloor].floor == true&&roomItems[CurrentFloor].key >0){
+        TextBoard.innerHTML += " at the FLOOR. The FLOOR is old, cracked, and made of stone. There is a KEY on the FLOOR."+"</br>";
+      }
+      else if(data[1] == "floor"&& roomItems[CurrentFloor].floor == true&&roomItems[CurrentFloor].sword >0){
+        TextBoard.innerHTML += " at the FLOOR. The FLOOR is old, cracked, and made of stone. There is a SWORD on the FLOOR."+"</br>";
       }
       else if(data[1] == "floor"&& roomItems[CurrentFloor].floor == true){
         TextBoard.innerHTML += " at the FLOOR. The FLOOR is old, cracked, and made of stone."+"</br>";
@@ -163,14 +169,19 @@ function commands(data){
   else if(data[0] == "attack"){
         TextBoard.innerHTML += "You ATTACK";
     if(data[1] == "door"&& roomItems[CurrentFloor].door1 == true && playerItems.sword == false){
-      TextBoard.innerHTML += " the DOOR with punches and kicks. The DOOR takes 1 DAMAGE. You 1 damage from ATTACKING without a SWORD."+"</br>";
+      TextBoard.innerHTML += " the DOOR with punches and kicks. The DOOR takes 1 DAMAGE. You 1 damage f torom ATTACKING without a SWORD."+"</br>";
       PlayerHealthInt -= 1;
       roomItems[CurrentFloor].door.health -=1;
            PlayerHealth.innerHTML = "HEALTH: " + PlayerHealthInt;
            if(roomItems[CurrentFloor].door.health == 0){
              roomItems[CurrentFloor].door.isLocked = false;
              roomItems[CurrentFloor].door1 = false;
-             TextBoard.innerHTML += "You destroyed the DOOR! Now you can 'GO TO' it."+"</br>";
+             if(CurrentFloor == 0){
+             TextBoard.innerHTML += "You destroyed the DOOR! Now you can 'GO TO DOOR' it."+"</br>";
+           }
+           else{
+                          TextBoard.innerHTML += "You destroyed the DOOR!"+"</br>";
+           }
            }
     }
     else if(data[1] == "door"&& roomItems[CurrentFloor].door1 == true && playerItems.sword == true){
@@ -179,7 +190,7 @@ function commands(data){
       if(roomItems[CurrentFloor].door.health == 0){
         roomItems[CurrentFloor].door.isLocked = false;
         roomItems[CurrentFloor].door1 = false;
-        TextBoard.innerHTML += "You destroyed the DOOR! Now you can 'GO TO' it."+"</br>";
+        TextBoard.innerHTML += "You destroyed the DOOR!"+"</br>";
       }
     }
     else if(data[1] == "walls" && roomItems[CurrentFloor].walls == true||data[1] == "wall"&& roomItems[CurrentFloor].walls == true){
@@ -215,7 +226,12 @@ function commands(data){
         data[4]="walls"
       }
       if(data[1] == "key"&&data[2] == "door"&&roomItems[CurrentFloor].door1 == true &&playerItems.key > 0){
-              TextBoard.innerHTML += "You USED the KEY on the DOOR. The DOOR UNLOCKS! The KEY breaks. Now you can 'GO TO' it."+"</br>";
+        if(CurrentFloor == 0){
+              TextBoard.innerHTML += "You USED the KEY on the DOOR. The DOOR UNLOCKS! The KEY breaks. Now you can 'GO TO DOOR'."+"</br>";
+}
+else{
+  TextBoard.innerHTML += "You USED the KEY on the DOOR. The DOOR UNLOCKS! The KEY breaks."+"</br>";
+}
               playerItems.key -= 1;
               PlayerKeysInt -= 1;
               roomItems[CurrentFloor].door.isLocked = false;
