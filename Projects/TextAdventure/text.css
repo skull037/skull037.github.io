@@ -1,0 +1,28 @@
+html{
+  background-image:url("Stone_Wall.jpg");
+  padding: 1vw;
+  color: white;
+}
+body{
+  background-color: #222;
+}
+#TextBoard{
+    background-color: #000;
+    height: 40vw;
+    overflow-y: auto;;
+}
+#HelpArea{
+      background-color: #222;
+      text-align: center;
+          float: right;
+              height: 40vw;
+}
+#PlayerScreen{
+      background-color: #022;
+      text-align: center;
+          float: right;
+                        height: 40vw;
+}
+#textInput{
+
+}
