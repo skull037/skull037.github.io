@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <link rel="stylesheet" href="quiz.css">
+    <title>
+      What kitchen appliance are you?
+    </title>
+</head>
+
+<body>
+
+<div class="quizarea">
+  <h2>What kitchen appliance are you?</h2>
+  <p>How do you cook?</p>
+  <div>
+    <input type="radio" name="cooking" value="rad">Radiation</input>
+<br>
+<input type="radio" name="cooking" value="heat">Heat</input>
+<br>
+  <input type="radio" name="cooking" value="dont">Do not cook</input>
+  </div>
+
+  <p>Do you use water?</p>
+
+  <div>
+    <input type="radio" name="water" value="yes">yes</input>
+<br>
+  <input type="radio" name="water" value="no">no</input>
+  </div>
+  <p>What size are you?</p>
+
+  <div>
+    <input type="radio" name="size" value="big">big</input>
+<br>
+  <input type="radio" name="size" value="med">medium</input>
+  <br>
+    <input type="radio" name="size" value="small">small</input>
+  </div>
+  <p>Do you have glass?</p>
+
+  <div>
+    <input type="radio" name="glass" value="yes">yes</input>
+<br>
+  <input type="radio" name="glass" value="no">no</input>
+  </div>
+
+  <p>Can you clean?</p>
+
+  <div>
+    <input type="radio" name="clean" value="yes">yes</input>
+<br>
+  <input type="radio" name="clean" value="no">no</input>
+  </div>
+
+  <p>Do you have a clock?</p>
+
+  <div>
+    <input type="radio" name="clock" value="yes">yes</input>
+<br>
+  <input type="radio" name="clock" value="no">no</input>
+  </div>
+  <p>What is your input?</p>
+
+  <div>
+    <input type="radio" name="input" value="buttons">Buttons</input>
+<br>
+  <input type="radio" name="input" value="knob">Knobs</input>
+  <br>
+  <input type="radio" name="input" value="none">None</input>
+  <br>
+    <input type="radio" name="input" value="other">Other</input>
+  </div>
+  <p>Do you have a handle?</p>
+
+  <div>
+    <input type="radio" name="handle" value="yes">Yes</input>
+<br>
+  <input type="radio" name="handle" value="no">No</input>
+  </div>
+  <p>Do you have a light?</p>
+
+  <div>
+    <input type="radio" name="light" value="yes">Yes</input>
+<br>
+  <input type="radio" name="light" value="no">No</input>
+  </div>
+  <p>Which appliance do you think you are?</p>
+
+  <div>
+    <input type="radio" name="choice" value="micro">Microwave</input>
+<br>
+  <input type="radio" name="choice" value="toast">Toaster</input>
+  <br>
+  <input type="radio" name="choice" value="oven">Oven</input>
+<br>
+<input type="radio" name="choice" value="wash">Dish Washer</input>
+<br>
+<input type="radio" name="choice" value="sink">Sink</input>
+<br>
+<input type="radio" name="choice" value="blend">Blender</input>
+<br>
+<input type="radio" name="choice" value="fridge">Fridge</input>
+  </div>
+
+  <div class="button-container">
+    <button onclick="submitQuiz()">Submit Quiz</button>
+  </div>
+
+  <div id="result"></div>
+  </div>
+
+<script src="quiz.js"></script>
+</body>
+</html>

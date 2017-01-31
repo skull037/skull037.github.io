@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+html{
+  font-family: Roboto;
+}
+body {
+  background: url('images/bg.jpg');
+    background-height: 100%;
+  color: white;
+  background-repeat: no-repeat;
+background-attachment: fixed;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  font-size: 56px;
+}
+
+h2 {
+  color: white;
+  text-align: center;
+  font-size: 45px;
+}
+
+p, ul {
+  color: white;
+  width: 80%;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
+a {
+  color: red;
+}
+
+.button-container {
+  text-align: center;
+  margin: auto;
+  padding: 0;
+}
+
+.quizarea {
+  background-color: rgba(0, 100, 100, 0.75);
+}
+
+button {
+  display: inline-block;
+  margin: auto;
+  font-size: 16px;
+}
+
+div {
+  padding: 20px;
+  margin: auto;
+  margin-bottom: 40px;
+  width: 80%;
+}
+
+#result {
+  color: black;
+  text-align: center;
+  font-size: 45px;
+  background-color: white;
+}
