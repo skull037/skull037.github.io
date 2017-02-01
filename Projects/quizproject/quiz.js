@@ -150,7 +150,7 @@ function submitQuiz() {
     } else if (microwaveStat == App) {
         document.getElementById('result').innerHTML = "You are a Microwave!"+"<br><img src='images/microwave.jpeg'height='500' width='500'></img>";
     } else if (ovenStat == App) {
-        document.getElementById('result').innerHTML = "You are a Oven!"+"<br><img src='images/oven.jpg'height='500' width='500'></img>";
+        document.getElementById('result').innerHTML = "You are a Oven!"+"<br><img src='images/oven.png'height='500' width='500'></img>";
     } else if (washingMachineStat == App) {
         document.getElementById('result').innerHTML = "You are a Dish Washer!"+"<br><img src='images/dishwashers.png'height='500' width='500'></img>";
     } else if (sinkStat == App) {

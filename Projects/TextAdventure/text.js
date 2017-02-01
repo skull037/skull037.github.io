@@ -93,8 +93,27 @@ var roomItems = [
         walls: false,
         floor: false
     },
+    roomEndItems = {
+        desc: ("You WAKE up. You seem to be in another stone room but this looks like a bed room.</br> You are on top of a bed. There is a STRONG<span style='color:orange'> DOOR</span> to the left.<br><span style='color:gold'> TO BE CONTINUED </span>" + "</br>"),
+        key: 0,
+        sword: 0,
+        potion: 0,
+        door1: true,
+        door: {
+            isLocked: true,
+            health: 1000
+        },
+        monster1: false,
+        monster: {
+            health: 5
+        },
+        altar: false,
+        bed: true,
+        walls: true,
+        floor: true
+    },
     roomvoidItems = {
-        desc: ("All you can see is DARKNESS. You feel like you are not supposed to be here." + "</br>"),
+        desc: ("All you can see is DARKNESS. You feel like you are not supposed to be here. You <span style='color:green'>HEAR</span> a <span style='color:#0aa'>VOICE</span> 'YOU ARE NOT SUPPOSED TO BE HERE.'" + "</br>"),
         key: 0,
         sword: 0,
         door1: false,
@@ -179,6 +198,8 @@ function commands(data) {
                 TextBoard.innerHTML += "You cannot find a <span style='color:#777'> SWORD</span>." + "</br>";
             } else if (data[1] == "door" && roomItems[CurrentFloor].door1 == true) {
                 TextBoard.innerHTML += "You try to <span style='color:green'> TAKE</span> the <span style='color:orange'> DOOR</span> but to no avail. It is LOCKED. Must be some other way to OPEN it." + "</br>";
+            } else if (data[1] == "self") {
+                TextBoard.innerHTML += "You try to <span style='color:green'> TAKE</span> yourself. Seems PHYSICS is preventing you." + "</br>";
             } else {
                 TextBoard.innerHTML += "You tried to <span style='color:green'> TAKE</span> a " + data[1] + " but couldn't find one. Try something else." + "</br>";
             }
@@ -210,7 +231,12 @@ function commands(data) {
                 TextBoard.innerHTML += " at something but couldn't. Try '<span style='color:green'> LOOK</span> at <span style='color:blue'> WALLS</span>'." + "</br>";
             } else if (data[1] == "altar" && roomItems[CurrentFloor].altar == true) {
                 TextBoard.innerHTML += " at the <span style='color:#a30'>ALTAR</span>. It has spikes on each corner. There are engravings of skulls all over." + "</br>";
-            } else {
+            } else if (data[1] == "self") {
+                TextBoard.innerHTML += " at yourself. You are wearing your usual clothes but with more tares and dirt. You can feel something in your forehead." + "</br>";
+            } else if (data[1] == "bed"&&roomItems[CurrentFloor].bed == true) {
+                TextBoard.innerHTML += " at the BED. It is clean. It has a blue blanket." + "</br>";
+            }
+             else {
                 TextBoard.innerHTML += " at " + data[1] + " but couldn't find it. Try something else." + "</br>";
             }
 
@@ -248,6 +274,14 @@ function commands(data) {
                 roomItems[CurrentFloor].key -= 1;
             } else if (data[1] == "monster" && roomItems[CurrentFloor].monster1 == false) {
                 TextBoard.innerHTML += " the <span style='color:#a00'> MONSTER</span>. But there isn't one in this room. Other than you." + "</br>";
+            }  else if (data[1] == "self" && PlayerSword == true) {
+                TextBoard.innerHTML += " yourself. 5 <span style='color:#cc0033'> DAMAGE </span> dealt. Stop slicing yourself." + "</br>";
+                PlayerHealthInt -= 5;
+                PlayerHealth.innerHTML = "HEALTH: " + PlayerHealthInt;
+            }else if (data[1] == "self") {
+                TextBoard.innerHTML += " yourself. 1 <span style='color:#cc0033'> DAMAGE </span> dealt. Stop hitting yourself." + "</br>";
+                PlayerHealthInt -= 1;
+                PlayerHealth.innerHTML = "HEALTH: " + PlayerHealthInt;
             } else if (data[1] == "monster" && roomItems[CurrentFloor].monster1 == true && playerItems.sword == true) {
                 TextBoard.innerHTML += " the <span style='color:#a00'> MONSTER</span>. 3 <span style='color:#cc0033'> DAMAGE </span> DEALT. The <span style='color:#a00'> MONSTER</span> <span style='color:green'> ATTACKS</span> for 2 <span style='color:#cc0033'> DAMAGE </span>" + "</br>";
                 PlayerHealthInt -= 2;
@@ -267,7 +301,7 @@ function commands(data) {
                     TextBoard.innerHTML += "You killed the <span style='color:#a00'> MONSTER</span>!" + "</br>";
                 }
             } else if (data[1] == "altar" && roomItems[CurrentFloor].altar == true) {
-                TextBoard.innerHTML += " the<span style='color:#a30'> ALTAR</span>. You got <span style='color:green'> STRUCK</span> by LIGHTNING for 2 <span style='color:#cc0033'>DAMAGE</span> by the <span style='color:#a30'>ALTAR</span>." + "</br>";
+                TextBoard.innerHTML += " the<span style='color:#a30'> ALTAR</span>. You got <span style='color:green'> STRUCK</span> by <span style='color:#0aa'>LIGHTNING</span> for 2 <span style='color:#cc0033'>DAMAGE</span> by the <span style='color:#a30'>ALTAR</span>." + "</br>";
                 PlayerHealthInt -= 2;
                 PlayerHealth.innerHTML = "HEALTH: " + PlayerHealthInt;
             } else {
@@ -297,10 +331,23 @@ function commands(data) {
                 TextBoard.innerHTML += "You <span style='color:green'> USED</span> the<span style='color:yellow'> KEY</span> on the <span style='color:#a00'> MONSTER</span>. The <span style='color:#a00'> MONSTER</span> seems ANNOYED. It <span style='color:green'> ATTACKS</span> you for 2 <span style='color:#cc0033'> DAMAGE </span>." + "</br>";
                 PlayerHealthInt -= 2;
                 PlayerHealth.innerHTML = "HEALTH: " + PlayerHealthInt;
+            } else if (data[1] == "potion" && data[2] == "walls" && roomItems[CurrentFloor].walls == true && PlayerPotionsInt > 0) {
+                TextBoard.innerHTML += "You <span style='color:green'> USED</span> a small amount of the<span style='color:pink'> POTION</span> on the <span style='color:blue'> WALLS</span>. The <span style='color:blue'>WALLS</span> <span style='color:green'>LOOK</span> less <span style='color:#cc0033'>DAMAGED</span>." + "</br>";
+            } else if (data[1] == "potion" && data[2] == "floor" && roomItems[CurrentFloor].floor == true && PlayerPotionsInt > 0) {
+                TextBoard.innerHTML += "You <span style='color:green'> USED</span> a small amount of the<span style='color:pink'> POTION</span> on the <span style='color:blue'> FLOOR</span>. The <span style='color:blue'>FLOOR</span> <span style='color:green'>LOOKS</span> less <span style='color:#cc0033'>DAMAGED</span>." + "</br>";
+
+            } else if (data[1] == "potion" && data[2] == "door" && roomItems[CurrentFloor].door1 == true && PlayerPotionsInt > 0) {
+                TextBoard.innerHTML += "You <span style='color:green'> USED</span> a small amount of the<span style='color:pink'> POTION</span> on the <span style='color:orange'> DOOR</span>. The <span style='color:orange'>DOOR</span> <span style='color:green'>LOOKS</span> less SCRATCHED." + "</br>";
+            } else if (data[1] == "potion" && data[2] == "monster" && roomItems[CurrentFloor].monster1 == true && PlayerPotionsInt > 0) {
+                TextBoard.innerHTML += "You <span style='color:green'> USED</span> the<span style='color:pink'> POTION</span> on the <span style='color:#a00'> MOSNTER</span>. The <span style='color:#a00'>MOSNTER</span> SCREAMS in pain. 3<span style='color:#cc0033'> DAMAGE </span>DELT." + "</br>";
+                PlayerPotionsInt -= 1;
+                PlayerPotions.innerHTML = "POTIONS: " + PlayerPotionsInt;
+                roomItems[CurrentFloor].monster.health -= 3;
             } else if (data[1] == "potion" && data[2] == "self" && PlayerPotionsInt > 0) {
                 TextBoard.innerHTML += "You <span style='color:green'> USED</span> the<span style='color:pink'> POTION</span> on Yourself. You regain 5 HEALTH." + "</br>";
                 PlayerHealthInt += 5;
                 PlayerPotionsInt -= 1;
+                PlayerPotions.innerHTML = "POTIONS: " + PlayerPotionsInt;
                 PlayerHealth.innerHTML = "HEALTH: " + PlayerHealthInt;
             } else if (data[1] == "key" && data[2] == "yourself" && playerItems.key > 0 || data[1] == "key" && data[2] == "self" && playerItems.key > 0) {
                 TextBoard.innerHTML += "You <span style='color:green'> USED</span> the<span style='color:yellow'> KEY</span> on YOURSELF. You UNLOCKED the SECRETS of the UNIVERSE. There is a small DENT from where you STABBED YOURSELF. Was it worth it?" + "</br>";
@@ -311,13 +358,13 @@ function commands(data) {
                 PlayerHealth.innerHTML = "HEALTH: " + PlayerHealthInt;
             } else if (data[1] == "key" && playerItems.key == 0) {
                 TextBoard.innerHTML += "You don't have a<span style='color:yellow'> KEY</span>." + "</br>";
-            } else if (data[1] == "potion" && playerItems.key == 0) {
+            } else if (data[1] == "potion" && PlayerPotionsInt == 0) {
                 TextBoard.innerHTML += "You don't have a<span style='color:pink'> POTION</span>." + "</br>";
             } else {
                 TextBoard.innerHTML += "You tried to USE " + data[1] + " on " + data[2] + " but couldn't." + "</br>";
             }
         }
-        //go to place / item
+        //go to place / thing
         else if (data[0] == "go" && data[1] == "to") {
             TextBoard.innerHTML += "You <span style='color:green'> GO TO</span>";
             if (data[2] == "door" && roomItems[CurrentFloor].door.isLocked == false) {
@@ -336,13 +383,13 @@ function commands(data) {
             } else if (data[2] == "monster" && roomItems[CurrentFloor].monster1 == false) {
                 TextBoard.innerHTML += " the <span style='color:#a00'> MONSTER</span>. You stay put." + "</br>";
             } else if (data[2] == "altar" && roomItems[CurrentFloor].altar == true) {
-                TextBoard.innerHTML += " the <span style='color:#a30'>ALTAR</span>. You lie down on the <span style='color:#a30'>ALTAR</span>. You are <span style='color:green'> STRUCK</span> by LIGHTNING. Everything goes black." + "</br>";
+                TextBoard.innerHTML += " the <span style='color:#a30'>ALTAR</span>. You lie down on the <span style='color:#a30'>ALTAR</span>. You are <span style='color:green'> STRUCK</span> by <span style='color:#0aa'>LIGHTNING</span>. Everything goes black." + "</br>";
                 PlayerHealthInt = 1;
                 PlayerHealth.innerHTML = "HEALTH: " + PlayerHealthInt;
                 PlayerKeysInt = 0;
                 PlayerKeys.innerHTML = "KEYS: " + PlayerKeysInt;
-                PlayerPotionssInt = 0;
-                PlayerKeys.innerHTML = "POTIONS: " + PlayerPotionsInt;
+                PlayerPotionsInt = 0;
+                PlayerPotions.innerHTML = "POTIONS: " + PlayerPotionsInt;
                 GoToNextRoom();
             } else if (data[2] == "key" && roomItems[CurrentFloor].key > 0) {
                 TextBoard.innerHTML += " the<span style='color:yellow'> KEY</span>. You pick it up.'<span style='color:green'> TAKE</span><span style='color:yellow'> KEY</span>' also works." + "</br>";
@@ -350,6 +397,11 @@ function commands(data) {
                 PlayerKeysInt += 1;
                 PlayerKeys.innerHTML = "KEYS:" + PlayerKeysInt;
                 playerItems.key += 1;
+            } else if (data[2] == "potion" && roomItems[CurrentFloor].potion > 0) {
+                TextBoard.innerHTML += " the<span style='color:pink'> POTION</span>. You pick it up.'<span style='color:green'> TAKE</span><span style='color:pink'> POTION</span>' also works." + "</br>";
+                roomItems[CurrentFloor].potion -= 1;
+                PlayerPotionInt += 1;
+                PlayerPotions.innerHTML = "POTIONS:" + PlayerPotionInt;
             } else {
                 TextBoard.innerHTML += " " + data[2] + ". You go back to the middle of the room." + "</br>";
             }
