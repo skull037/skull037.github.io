@@ -35,9 +35,9 @@ function submitQuiz() {
     currentSelection = document.querySelector("input[name='size']:checked").value;
     if (currentSelection == "big") {
         sinkStat++;
-        ovenStat++;
         fridgeStat++;
     } else if (currentSelection == "med") {
+              ovenStat++;
         washingMachineStat++;
     } else {
         blenderStat++;
@@ -144,7 +144,7 @@ function submitQuiz() {
             blenderStat++;
           }
     //determine which is highest
-    var App = Math.max(microwaveStat, toasterStat, ovenStat, washingMachineStat, sinkStat, blenderStat);
+    var App = Math.max(microwaveStat, toasterStat, ovenStat, washingMachineStat, sinkStat, blenderStat,fridgeStat);
     if (toasterStat == App) {
         document.getElementById('result').innerHTML = "You are a Toaster!"+"<br><img src='images/Toaster.jpg' height='500' width='500'></img>";
     } else if (microwaveStat == App) {
@@ -170,4 +170,5 @@ function submitQuiz() {
     washingMachineStat = 0;
     sinkStat = 0;
     blenderStat = 0;
+    fridgeStat = 0;
 }
