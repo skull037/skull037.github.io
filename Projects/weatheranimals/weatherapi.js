@@ -62,7 +62,7 @@ else{
 
   document.getElementById("imagecontainer").innerHTML = "<img src="+animalImage+" width='50%' height='50%'></img>"
 if(weatherImage==""){
-  //document.body.style.backgroundColor = "hsl("+temperature+" ,100%, 50%)";
+  document.body.style.backgroundColor = "hsl("+temperature+" ,100%, 50%)";
 }else{
   document.body.style.backgroundImage = "url("+weatherImage+")";
  document.getElementById('weatherinfocontainer').style.backgroundColor = "hsl("+temperature+" ,100%, 50%)";
