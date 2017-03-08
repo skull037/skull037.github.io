@@ -228,7 +228,7 @@ function commands(data) {
             } else if (data[1] == "sword" && roomItems[CurrentFloor].sword > 0 || data[1] == "sword" && playerItems.sword == true) {
                 TextBoard.innerHTML += " the <span style='color:#777'> SWORD</span>. It is bright and made of a silver metal. It can increase your <span style='color:green'> ATTACK</span>." + "</br>";
             } else if (data[1] == "potion" && roomItems[CurrentFloor].potion > 0) {
-                TextBoard.innerHTML += " the Potion. It is #a00 and bubbling. It is in a clear flask." + "</br>";
+                TextBoard.innerHTML += " the Potion. It is bubbling. It is in a clear flask." + "</br>";
             } else if (data[1] == "monster" && roomItems[CurrentFloor].monster1 == true) {
                 TextBoard.innerHTML += " the <span style='color:#a00'> MONSTER </span>. It is big, strong, and green. It can <span style='color:green'> ATTACK</span>." + "</br>";
             } else if (data[1] == undefined || data[1] == null) {
