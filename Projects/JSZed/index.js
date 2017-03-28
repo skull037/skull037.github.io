@@ -7,7 +7,7 @@ var lrBool = 0;
 //player
 var coolDown = 0;
 var invul =0;
-var player = makeImage("images/player.png", 200, 90, 25, 25, 1)
+var player = makeImage("Images/player.png", 200, 90, 25, 25, 1)
 document.addEventListener("keydown", playerFunction)
     //B arrays
 var bullets = [];
@@ -20,8 +20,8 @@ var healthText = makeText(healthInt,60, 20, 20, "sans-serif", "red");
 
 function start() {
     for (var i = 0; i < 100; i++) {
-        rightZedArray.push(makeImage("images/Zed.gif", random(400, 600), random(0, 170), random(24, 26), random(24, 26), 1))
-        leftZedArray.push(makeImage("images/leftZed.gif", random(0, -400), random(0, 170), random(24, 26), random(24, 26), 1))
+        rightZedArray.push(makeImage("Images/Zed.gif", random(400, 600), random(0, 170), random(24, 26), random(24, 26), 1))
+        leftZedArray.push(makeImage("Images/leftZed.gif", random(0, -400), random(0, 170), random(24, 26), random(24, 26), 1))
     }
 }
 start();
@@ -42,17 +42,17 @@ function zedMaker(){
     if(healthInt > 0){
   if(rightZedArray.length + leftZedArray.length < 20){
     for (var i = 0; i < 40; i++) {
-        rightZedArray.push(makeImage("images/Zed.gif", random(400, 600), random(0, 170), random(24, 26), random(24, 26), 1))
-        leftZedArray.push(makeImage("images/leftZed.gif", random(0, -400), random(0, 170), random(24, 26), random(24, 26), 1))
+        rightZedArray.push(makeImage("Images/Zed.gif", random(400, 600), random(0, 170), random(24, 26), random(24, 26), 1))
+        leftZedArray.push(makeImage("Images/leftZed.gif", random(0, -400), random(0, 170), random(24, 26), random(24, 26), 1))
     }
   }
 if(lrBool == 0){
   lrBool = 1
-  rightZedArray.push(makeImage("images/Zed.gif", random(400, 600), random(0, 170), random(24, 26), random(24, 26), 1))
+  rightZedArray.push(makeImage("Images/Zed.gif", random(400, 600), random(0, 170), random(24, 26), random(24, 26), 1))
 }
 else{
   lrBool = 0
-          leftZedArray.push(makeImage("images/leftZed.gif", random(0, -400), random(0, 170), random(24, 26), random(24, 26), 1))
+          leftZedArray.push(makeImage("Images/leftZed.gif", random(0, -400), random(0, 170), random(24, 26), random(24, 26), 1))
 }
   setTimeout(zedMaker,250);
 }
