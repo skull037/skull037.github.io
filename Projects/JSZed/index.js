@@ -19,7 +19,7 @@ var healthInt = 3;
 var healthText = makeText(healthInt,60, 20, 20, "sans-serif", "red");
 
 function start() {
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 50; i++) {
         rightZedArray.push(makeImage("Images/Zed.gif", random(400, 600), random(0, 170), random(24, 26), random(24, 26), 1))
         leftZedArray.push(makeImage("Images/leftZed.gif", random(0, -400), random(0, 170), random(24, 26), random(24, 26), 1))
     }
