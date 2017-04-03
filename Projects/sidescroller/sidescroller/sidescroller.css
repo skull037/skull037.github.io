@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=VT323|Slabo+27px');
+
+#canvas {
+  border-style: solid;
+  border-width: 2px;
+  cursor: none;
+  background: url("images/background.jpg");
+  background-size: 150%;
+  background-position: -120px -185px;
+  display: block;
+  margin: auto;
+}
