@@ -21,7 +21,7 @@ gameOver = false
 
 // YOUR CODE GOES HERE
 function moveplayer(){
-  if(getY(player)>220||getY(player)<0||getX(player)<0||getX(player)>600){
+  if(getY(player)>300||getY(player)<0||getX(player)<0||getX(player)>600){
     gameOver = true
     gameOverDisplay()
   }
