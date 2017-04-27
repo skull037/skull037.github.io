@@ -7,7 +7,7 @@ function gameStart() {
         document.getElementById("titleScreen").style.visibility = "hidden";
     }
     changeScreen(0, "none");
-    player.base = makeImage("Images/Characters/Player/PlayerForward.png", 400, 200, 32, 32)
+    player.base = makeImage("Images/Characters/Player/PlayerForward.png", 377.5, 185, 32, 32)
     for (var i = 0; i < player.maxHealth; i++) {
         heartArray.push(makeImage("Images/Heart.png", 16 + (i * 32), 0, 16, 16));
     }
@@ -163,6 +163,12 @@ function changeScreen(screen, direction) {
 tFadeDone= false;
   textFade(levelText);
 }
+else if(screen == 55&&direction=="south"){
+  levelText = makeText("Tiny Town", 300, 200, 32, "VT323", "white", 1)
+  totallyDone = false;
+tFadeDone= false;
+  textFade(levelText);
+}
 else if(screen == 20&&direction=="east"){
   levelText = makeText("Deadly Desert", 300, 200, 32, "VT323", "white", 1)
   totallyDone = false;
@@ -182,7 +188,7 @@ else if(screen == 19&&direction=="west"){
 tFadeDone= false;
   textFade(levelText);
 }
-else if(screen == 48&&direction=="east"){
+else if(screen == 48&&direction=="east"||screen == 49&&direction=="east"){
   levelText = makeText("Big Beaches", 300, 200, 32, "VT323", "white", 1)
   totallyDone = false;
 tFadeDone= false;

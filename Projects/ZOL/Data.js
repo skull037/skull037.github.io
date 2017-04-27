@@ -871,14 +871,6 @@ var backgroundArray = [{
         health: 5,
         speed: 2
     }],
-    fireShooter: [{
-        url: ("Images/Characters/fireShooter/fireShooter.gif"),
-        x: 712,
-        y: 200,
-        width: 32,
-        height: 32,
-        shootDir: "left"
-    }]
 }, {
     base: "Images/Screens/Screen14.png",
     exits: [{
@@ -1871,9 +1863,9 @@ var backgroundArray = [{
             y: 100,
               width: 50,
               height: 200,
-              color: "red",
+              color: "cyan",
               opacity: 0.5,
-              screenToLoad: -1,
+              screenToLoad: 53,
               direction: "west"
           }],
           backgroundElements: [],
@@ -1894,9 +1886,9 @@ var backgroundArray = [{
                 y: 375,
                 width: 300,
                 height: 50,
-                color: "red",
+                color: "cyan",
                 opacity: 0.5,
-                screenToLoad: -1,
+                screenToLoad: 59,
                 direction: "south"
             },{
                 x: 775,
@@ -1917,7 +1909,7 @@ var backgroundArray = [{
                   y: 375,
                   width: 300,
                   height: 50,
-                  color: "red",
+                  color: "cyan",
                   opacity: 0.5,
                   screenToLoad: 49,
                   direction: "south"
@@ -1949,23 +1941,278 @@ var backgroundArray = [{
                     y: 375,
                     width: 300,
                     height: 50,
-                    color: "red",
+                    color: "cyan",
                     opacity: 0.5,
-                    screenToLoad: -1,
+                    screenToLoad: 50,
                     direction: "south"
                 },{
-                    x: 775,
+                    x: -25,
                     y: 100,
                     width: 50,
                     height: 200,
                     color: "cyan",
                     opacity: 0.5,
-                    screenToLoad: 48,
-                    direction: "east"
+                    screenToLoad: 59,
+                    direction: "west"
                 }],
                 backgroundElements: [],
                 enemies: []
-              }]
+              },{
+                  base: "Images/Screens/Screen50.png",
+                  exits: [{
+                      x: 250,
+                      y: -25,
+                      width: 300,
+                      height: 50,
+                      color: "cyan",
+                      opacity: 0.5,
+                      screenToLoad: 49,
+                      direction: "north"
+                  }, {
+                      x: 250,
+                      y: 375,
+                      width: 300,
+                      height: 50,
+                      color: "cyan",
+                      opacity: 0.5,
+                      screenToLoad: 51,
+                      direction: "south"
+                  }],
+                  backgroundElements: [],
+                  enemies: []
+                },{
+                    base: "Images/Screens/Screen51.png",
+                    exits: [{
+                        x: 250,
+                        y: -25,
+                        width: 300,
+                        height: 50,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 50,
+                        direction: "north"
+                    }, {
+                        x: 775,
+                        y: 100,
+                        width: 50,
+                        height: 200,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 52,
+                        direction: "east"
+                    }],
+                    backgroundElements: [],
+                    enemies: []
+                  },{
+                        base: "Images/Screens/Screen52.png",
+                        exits: [{
+                            x: -25,
+                            y: 100,
+                            width: 50,
+                            height: 200,
+                            color: "cyan",
+                            opacity: 0.5,
+                            screenToLoad: 51,
+                            direction: "west"
+                        }],
+                    backgroundElements: [],
+                    enemies: []
+              },{
+                  base: "Images/Screens/Screen53.png",
+                  exits: [{
+                      x: 250,
+                      y: 375,
+                      width: 300,
+                      height: 50,
+                      color: "cyan",
+                      opacity: 0.5,
+                      screenToLoad: 54,
+                      direction: "south"
+                  }, {
+                      x: 775,
+                      y: 100,
+                      width: 50,
+                      height: 200,
+                      color: "cyan",
+                      opacity: 0.5,
+                      screenToLoad: 46,
+                      direction: "east"
+                  }],
+                  backgroundElements: [],
+                  enemies: []
+              },{
+                  base: "Images/Screens/Screen54.png",
+                  exits: [{
+                      x: 250,
+                      y: -25,
+                      width: 300,
+                      height: 50,
+                      color: "cyan",
+                      opacity: 0.5,
+                      screenToLoad: 53,
+                      direction: "north"
+                  }, {
+                      x: 250,
+                      y: 375,
+                      width: 300,
+                      height: 50,
+                      color: "cyan",
+                      opacity: 0.5,
+                      screenToLoad: 55,
+                      direction: "south"
+                  }],
+                  backgroundElements: [],
+                  enemies: []
+                },{
+                    base: "Images/Screens/Screen55.png",
+                    exits: [{
+                        x: 250,
+                        y: -25,
+                        width: 300,
+                        height: 50,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 54,
+                        direction: "north"
+                    }, {
+                        x: 250,
+                        y: 375,
+                        width: 300,
+                        height: 50,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 56,
+                        direction: "south"
+                    },{
+                        x: -25,
+                        y: 100,
+                        width: 50,
+                        height: 200,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 58,
+                        direction: "west"
+                    }],
+                    backgroundElements: [{
+                        url: ("Images/BackgroundElements/Buildings/Building3.png"),
+                        x: 600,
+                        y: 64,
+                        width: 128,
+                        height: 128
+                    }],
+                    enemies: []
+                },{
+                    base: "Images/Screens/Screen56.png",
+                    exits: [{
+                        x: 250,
+                        y: -25,
+                        width: 300,
+                        height: 50,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 55,
+                        direction: "north"
+                    }, {
+                        x: -25,
+                        y: 100,
+                        width: 50,
+                        height: 200,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 57,
+                        direction: "west"
+                    }],
+                    backgroundElements: [{
+                        url: ("Images/BackgroundElements/Buildings/Building1.png"),
+                        x: 600,
+                        y: 64,
+                        width: 128,
+                        height: 128
+                    }],
+                    enemies: []
+                },{
+                    base: "Images/Screens/Screen57.png",
+                    exits: [{
+                        x: 250,
+                        y: -25,
+                        width: 300,
+                        height: 50,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 58,
+                        direction: "north"
+                    }, {
+                        x: 775,
+                        y: 100,
+                        width: 50,
+                        height: 200,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 56,
+                        direction: "east"
+                    }],
+                    backgroundElements: [{
+                        url: ("Images/BackgroundElements/Buildings/Building2.png"),
+                        x: 64,
+                        y: 64,
+                        width: 128,
+                        height: 128
+                    }],
+                    enemies: []
+                },{
+                    base: "Images/Screens/Screen53.png",
+                    exits: [{
+                        x: 250,
+                        y: 375,
+                        width: 300,
+                        height: 50,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 57,
+                        direction: "south"
+                    }, {
+                        x: 775,
+                        y: 100,
+                        width: 50,
+                        height: 200,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 55,
+                        direction: "east"
+                    }],
+                    backgroundElements: [{
+                        url: ("Images/BackgroundElements/Buildings/Building1.png"),
+                        x: 64,
+                        y: 64,
+                        width: 128,
+                        height: 128
+                    }],
+                    enemies: []
+                },{
+                    base: "Images/Screens/Screen57.png",
+                    exits: [{
+                        x: 250,
+                        y: -25,
+                        width: 300,
+                        height: 50,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 47,
+                        direction: "north"
+                    }, {
+                        x: 775,
+                        y: 100,
+                        width: 50,
+                        height: 200,
+                        color: "cyan",
+                        opacity: 0.5,
+                        screenToLoad: 49,
+                        direction: "east"
+                    }],
+                    backgroundElements: [],
+                    enemies: []
+                }
+            ]
 var heartArray = [];
 var background;
 var player = {
