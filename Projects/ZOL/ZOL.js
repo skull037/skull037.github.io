@@ -14,10 +14,14 @@ function gameStart() {
     moneyIcon = makeImage("Images/Items/BlueGem.png", 16, 32, 16, 16)
     moneyIcon = makeText("x" + player.money, 32, 48, 16, "VT323", "white", 1)
     update();
+    setNpcs();
     music.play();
 }
 
 function changeScreen(screen, direction) {
+if(screen!=63){
+                    vsShadow = false;
+}
     //remove old elements
     canvas.innerHTML = ""
     for (var i = 0; i < enemies.length; i++) {
@@ -38,7 +42,7 @@ function changeScreen(screen, direction) {
     }
     for (var i = 0; i < barrier.length; i++) {
         removeArrayElement(barrier, i)
-        removeArrayElementRect(barrier, i)
+        barrier = []
     }
     for (var i = 0; i < fireShooter.length; i++) {
         removeArrayElementBase(fireShooter, i)
@@ -48,6 +52,10 @@ function changeScreen(screen, direction) {
     }
     for (var i = 0; i < fireShooterBalls.length; i++) {
         removeArrayElement(fireShooterBalls, i)
+    }
+    for (var i = 0; i < npc.length; i++) {
+        removeArrayElement(npc, i)
+        npc = [];
     }
     removeElement(levelText);
     background = makeImage(backgroundArray[screen].base, 0, 0, 800, 400)
@@ -84,10 +92,6 @@ function changeScreen(screen, direction) {
                 type: backgroundArray[screen].puzzle[i].type,
                 effects: backgroundArray[screen].puzzle[i].effects
             }
-            /*
-                    if (backgroundArray[screen].puzzle.door == "east") {
-                        background = makeImage("Images/Screens/BarrierEast.png", 0, 0, 800, 400)
-                    }*/
     }
     if (backgroundArray[screen].exits.length > 0) {
         for (var i = 0; i < backgroundArray[screen].exits.length; i++)
@@ -141,101 +145,214 @@ function changeScreen(screen, direction) {
             }
         }
     }
+    if (backgroundArray[screen].npc != undefined && backgroundArray[screen].npc.length > 0) {
+        for (var i = 0; i < backgroundArray[screen].npc.length; i++) {
+            npc[i] = {
+                base: makeImage(backgroundArray[screen].npc[i].url, backgroundArray[screen].npc[i].x, backgroundArray[screen].npc[i].y, backgroundArray[screen].npc[i].width, backgroundArray[screen].npc[i].height),
+                move: backgroundArray[screen].npc[i].move,
+                text: backgroundArray[screen].npc[i].text,
+                textCount: backgroundArray[screen].npc[i].textCount
+            }
+        }
+    }
+    northNum = 0;
+    southNum = 0;
+    westNum = 0;
+    eastNum = 0;
+    for (var x = 0; x < exits.length; x++) {
+        if (exits[x].direction == "north") {
+            northNum++
+        }
+        if (exits[x].direction == "east") {
+            eastNum++
+        }
+        if (exits[x].direction == "west") {
+            westNum++
+        }
+        if (exits[x].direction == "south") {
+            southNum++
+        }
+    }
+    if (northNum == 0) {
+        barrier[barrier.length] = {
+            base: "?",
+            direction: "north",
+            rect: (makeRect(0, 0, 1000, 48, "white", 0)),
+        }
+    } else if (northNum != 0) {
+        barrier[barrier.length] = {
+            base: "?",
+            direction: "north",
+            rect: (makeRect(0, 0, 250, 48, "white", 0)),
+        }
+        barrier[barrier.length] = {
+            base: "?",
+            direction: "north",
+            rect: (makeRect(550, 0, 250, 48, "white", 0)),
+        }
+    }
+    if (southNum == 0) {
+        barrier[barrier.length] = {
+            base: "?",
+            direction: "south",
+            rect: (makeRect(0, 350, 1000, 48, "white", 0)),
+        }
+    } else if (southNum != 0) {
+        barrier[barrier.length] = {
+            base: "?",
+            direction: "south",
+            rect: (makeRect(0, 345, 250, 48, "white", 0)),
+        }
+        barrier[barrier.length] = {
+            base: "?",
+            direction: "south",
+            rect: (makeRect(550, 345, 250, 48, "white", 0)),
+        }
+    }
+    if (eastNum == 0) {
+        barrier[barrier.length] = {
+            base: "?",
+            direction: "east",
+            rect: (makeRect(750, 0, 48, 4800, "white", 0)),
+        }
+    }
+    if (eastNum != 0) {
+      barrier[barrier.length] ={
+          base: "?",
+          direction: "east",
+          rect: (makeRect(750, 0, 48, 100, "white", 0)),
+      }
+        barrier[barrier.length] ={
+            base: "?",
+            direction: "east",
+            rect: (makeRect(750, 300, 48, 100, "white", 0)),
+        }
+    }
+    if (westNum == 0) {
+        barrier[barrier.length] = {
+            base: "?",
+            direction: "west",
+            rect: (makeRect(0, 0, 48, 4800, "white", 0)),
+        }
+    } else if (westNum != 0) {
+      barrier[barrier.length] ={
+          base: "?",
+          direction: "west",
+          rect: (makeRect(0, 0, 48, 100, "white", 0)),
+      }
+        barrier[barrier.length] ={
+            base: "?",
+            direction: "west",
+            rect: (makeRect(0, 300, 48, 100, "white", 0)),
+        }
+    }
     if (screen == 14 && dun1Left == true && dun1Right == true && barrier[1] != undefined) {
         move(barrier[1].base, -1000, 0)
         move(barrier[1].rect, -1000, 0)
-    }else if (screen == 33) {
-      if(shop[1].stock!=0){
-      itemText = makeText("Heart Container 50", 500, 264, 32, "VT323", "white", 1)
+    } else if (screen == 33) {
+        if (shop[1].stock != 0) {
+            itemText = makeText("Heart Container 50", 500, 264, 32, "VT323", "white", 1)
+        } else if (shop[1].stock == 0) {
+            itemText = makeText("Sold out", 500, 264, 32, "VT323", "white", 1)
+        }
+        itemText = makeText("Heart 20", 150, 264, 32, "VT323", "white", 1)
+        if (player.health != 1) {
+            storeText = makeText("Hurry up and buy something!", 250, 32, 32, "VT323", "white", 1)
+        } else if (player.health == 1) {
+            storeText = makeText("It'd be a shame if you died, you should buy something!", 75, 32, 32, "VT323", "white", 1)
+        }
+    } else if (screen == 1 && direction == "north") {
+        levelText = makeText("Forgotten Forest", 300, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+    }else if (screen == 63 && direction == "north"&&shadowBoss== false) {
+      if(player.maxHealth != 3){
+        levelText = makeText("I am your shadow. Your true self.", 200, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+      }else{
+        levelText = makeText("I am your shadow. Your true self. You cannot defeat me.", 50, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
       }
-      else if(shop[1].stock==0){
-        itemText = makeText("Sold out", 500, 264, 32, "VT323", "white", 1)
-      }
-      itemText = makeText("Heart 20", 150, 264, 32, "VT323", "white", 1)
-      if(player.health != 1){
-        storeText = makeText("Hurry up and buy something!", 250, 32, 32, "VT323", "white", 1)
-    }else if(player.health == 1){
-      storeText = makeText("It'd be a shame if you died, you should buy something!", 75, 32, 32, "VT323", "white", 1)
-  }
-}else if(screen == 1&&direction=="north"){
-  levelText = makeText("Forgotten Forest", 300, 200, 32, "VT323", "white", 1)
-  totallyDone = false;
-tFadeDone= false;
-  textFade(levelText);
-}
-else if(screen == 55&&direction=="south"){
-  levelText = makeText("Tiny Town", 300, 200, 32, "VT323", "white", 1)
-  totallyDone = false;
-tFadeDone= false;
-  textFade(levelText);
-}
-else if(screen == 20&&direction=="east"){
-  levelText = makeText("Deadly Desert", 300, 200, 32, "VT323", "white", 1)
-  totallyDone = false;
-tFadeDone= false;
-  textFade(levelText);
-  music.pause();
-  music = new Audio("Sounds/Cyborg Ninja.mp3")
-  music.play();
-}
-else if(screen == 19&&direction=="west"){
-  music.pause();
-  music = new Audio("Sounds/Overworld.mp3")
-  music.play();
-}else if(screen == 46&&direction=="south"){
-  levelText = makeText("Pretty Plains", 300, 200, 32, "VT323", "white", 1)
-  totallyDone = false;
-tFadeDone= false;
-  textFade(levelText);
-}
-else if(screen == 48&&direction=="east"||screen == 49&&direction=="east"){
-  levelText = makeText("Big Beaches", 300, 200, 32, "VT323", "white", 1)
-  totallyDone = false;
-tFadeDone= false;
-  textFade(levelText);
-}
-else if(screen == 34){
-  levelText = makeText("Desert Dungeon", 300, 200, 32, "VT323", "white", 1)
-  totallyDone = false;
-tFadeDone= false;
-  textFade(levelText);
-}else if(screen == 13){
-  levelText = makeText("Forest Dungeon", 300, 200, 32, "VT323", "white", 1)
-  totallyDone = false;
-tFadeDone= false;
-  textFade(levelText);
-}
+    } else if (screen == 55 && direction == "south") {
+        levelText = makeText("Tiny Town", 300, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+    } else if (screen == 20 && direction == "east") {
+        levelText = makeText("Deadly Desert", 300, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+        music.pause();
+        music = new Audio("Sounds/Cyborg Ninja.mp3")
+        music.play();
+    } else if (screen == 19 && direction == "west") {
+        music.pause();
+        music = new Audio("Sounds/Overworld.mp3")
+        music.play();
+    } else if (screen == 46 && direction == "south") {
+        levelText = makeText("Peaceful Plains", 300, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+    } else if (screen == 48 && direction == "east" || screen == 49 && direction == "east") {
+        levelText = makeText("Blissful Beaches", 300, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+    } else if (screen == 34&& direction == "east") {
+        levelText = makeText("Desert Dungeon", 300, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+    } else if (screen == 13) {
+        levelText = makeText("Forest Dungeon", 300, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+    }else if (screen == 60&& direction == "east") {
+        levelText = makeText("Water Dungeon", 300, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+    }
 }
 var keyState = {};
-window.addEventListener('keydown',function(e){
+window.addEventListener('keydown', function(e) {
     keyState[e.keyCode || e.which] = true;
-},true);
-window.addEventListener('keyup',function(e){
+}, true);
+window.addEventListener('keyup', function(e) {
     keyState[e.keyCode || e.which] = false;
-attacked= false;
-},true);
+    attacked = false;
+}, true);
+
 function playerMove() {
     if (player.health >= 1) {
-        if (keyState[37] ||keyState[65]) {
-            move(player.base, -2.5 - player.speed,0)
+        if (keyState[37] || keyState[65]) {
+            move(player.base, -2.5 - player.speed, 0)
             player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerSideA.png")
             player.lastDir = "left";
         } else if (keyState[39] || keyState[68]) {
-            move(player.base, 2.5 + player.speed,0)
+            move(player.base, 2.5 + player.speed, 0)
             player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerSideB.png")
             player.lastDir = "right";
         } else if (keyState[40] || keyState[83]) {
-            move(player.base, 0,2.5 + player.speed)
+            move(player.base, 0, 2.5 + player.speed)
             player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerForward.png")
             player.lastDir = "up";
         } else if (keyState[38] || keyState[87]) {
-            move(player.base, 0,-2.5 - player.speed)
+            move(player.base, 0, -2.5 - player.speed)
             player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerBackward.png")
             player.lastDir = "down";
-        } else if (keyState[32]&&swordCool==0&&attacked == false) {
-          swordCool = 15;
-          playerAttackSound.play();
-          attacked = true;
+        } else if (keyState[32] && swordCool == 0 && attacked == false) {
+            swordCool = 15;
+            playerAttackSound.play();
+            attacked = true;
             if (player.lastDir == "up") {
                 player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) + 32, 16, 32, "white", 0.75)
                 Attack(player.swordAttack);
@@ -252,10 +369,45 @@ function playerMove() {
         }
     }
 }
-
+function shadowMove() {
+        if (keyState[37] || keyState[65]) {
+            move(enemies[0].base, 2.5 - player.speed, 0)
+            enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowSideA.png")
+            player.lastDir = "left";
+        } else if (keyState[39] || keyState[68]) {
+            move(enemies[0].base, -2.5 + player.speed, 0)
+            enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowSide.png")
+            player.lastDir = "right";
+        } else if (keyState[40] || keyState[83]) {
+            move(enemies[0].base, 0, -2.5 + player.speed)
+            enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowBack.png")
+            player.lastDir = "up";
+        } else if (keyState[38] || keyState[87]) {
+            move(enemies[0].base, 0, 2.5 - player.speed)
+            enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowFront.png")
+            player.lastDir = "down";
+        } else if (keyState[32] && swordCool == 0 && attacked == false) {
+            swordCool = 15;
+            playerAttackSound.play();
+            attacked = true;
+            if (player.lastDir == "up") {
+                player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) + 32, 16, 32, "white", 0.75)
+                Attack(player.swordAttack);
+            } else if (player.lastDir == "down") {
+                player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) - 32, 16, 32, "white", 0.75)
+                Attack(player.swordAttack);
+            } else if (player.lastDir == "left") {
+                player.swordAttack = makeRect(getX(player.base) - 32, getY(player.base) + 8, 32, 16, "white", 0.75)
+                Attack(player.swordAttack);
+            } else if (player.lastDir == "right") {
+                player.swordAttack = makeRect(getX(player.base) + 32, getY(player.base) + 8, 32, 16, "white", 0.75)
+                Attack(player.swordAttack);
+            }
+        }
+}
 function Attack(swordAttack) {
     for (var i = 0; i < backgroundArrayElements.length; i++) {
-        if (backgroundArrayElements[i].base == undefined && collide(swordAttack, backgroundArrayElements[i]) == true && backgroundArrayElements[i].getAttribute("xlink:href") == "Images/BackgroundElements/Grass/Grass1.png"||backgroundArrayElements[i].base == undefined && collide(swordAttack, backgroundArrayElements[i]) == true && backgroundArrayElements[i].getAttribute("xlink:href") == "Images/BackgroundElements/Grass/Grass2.png") {
+        if (backgroundArrayElements[i].base == undefined && collide(swordAttack, backgroundArrayElements[i]) == true && backgroundArrayElements[i].getAttribute("xlink:href") == "Images/BackgroundElements/Grass/Grass1.png" || backgroundArrayElements[i].base == undefined && collide(swordAttack, backgroundArrayElements[i]) == true && backgroundArrayElements[i].getAttribute("xlink:href") == "Images/BackgroundElements/Grass/Grass2.png") {
             var itemChange = random(1, 8);
             if (itemChange == 1) {
                 pickups[pickups.length] = (makeImage("Images/Items/BlueGem.png", getX(backgroundArrayElements[i]) + 8, getY(backgroundArrayElements[i]) + 8, 16, 20))
@@ -298,7 +450,7 @@ function Attack(swordAttack) {
 
             }
         }
-      }
+    }
     for (var i = 0; i < enemies.length; i++) {
         if (collide(swordAttack, enemies[i].base) == true) {
             enemies[i].health -= 1;
@@ -312,13 +464,21 @@ function Attack(swordAttack) {
                 if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/Skeleton/SkeletonBoss.gif" && skeletonBossDead == false) {
                     pickups[pickups.length] = (makeImage("Images/Heart.png", getX(enemies[i].base) + 8, getY(enemies[i].base) + 8, 16, 20))
                     skeletonBossDead = true;
-                }else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/knight/BossKnight.gif" && knightBossDead == false) {
+                } else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/knight/BossKnight.gif" && knightBossDead == false) {
                     pickups[pickups.length] = (makeImage("Images/Heart.png", getX(enemies[i].base) + 8, getY(enemies[i].base) + 8, 16, 20))
                     knightBossDead = true;
+                }else if (vsShadow == true&&shadowBoss==false) {
+                  player.health -= 1;
+                  playerAttackSound.play();
+                  heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
+                  invul = 180;
+                  vsShadow = false;
+                    pickups[pickups.length] = (makeImage("Images/Heart.png", getX(enemies[i].base) + 8, getY(enemies[i].base) + 8, 16, 20))
+                    shadowBoss = true;
                 }
                 removeArrayElementBase(enemies, i);
             } else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/Skeleton/SkeletonBoss.gif") {
-                smoke = makeImage("Images/Characters/smoke.png", getX(enemies[i].base), getY(enemies[i].base), 128, 128)
+                smoke = makeImage("Images/Characters/Smoke.png", getX(enemies[i].base), getY(enemies[i].base), 128, 128)
                 setTimeout(removeElement, 1000, smoke);
                 var spawn = random(1, 4);
                 if (spawn == 1) {
@@ -334,23 +494,28 @@ function Attack(swordAttack) {
                     setX(enemies[i].base, 700)
                     setY(enemies[i].base, 300)
                 }
-                smoke = makeImage("Images/Characters/smoke.png", 0, 0, 128, 128)
+                smoke = makeImage("Images/Characters/Smoke.png", 0, 0, 128, 128)
                 setTimeout(removeElement, 1000, smoke);
-                smoke = makeImage("Images/Characters/smoke.png", 0, 300, 128, 128)
+                smoke = makeImage("Images/Characters/Smoke.png", 0, 300, 128, 128)
                 setTimeout(removeElement, 1000, smoke);
-                smoke = makeImage("Images/Characters/smoke.png", 700, 300, 128, 128)
+                smoke = makeImage("Images/Characters/Smoke.png", 700, 300, 128, 128)
                 setTimeout(removeElement, 1000, smoke);
-                smoke = makeImage("Images/Characters/smoke.png", 700, 0, 128, 128)
+                smoke = makeImage("Images/Characters/Smoke.png", 700, 0, 128, 128)
                 setTimeout(removeElement, 1000, smoke);
                 enemies[enemies.length] = {
                     base: makeImage("Images/Characters/Skeleton/Skeleton.gif", 400, 0, 36, 36),
                     health: 1
                 };
-            }  else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/knight/BossKnight.gif") {
-              var block =random(1,4)
-              if(block == 1){
-                enemies[i].health+=1;
-              }
+            } else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/knight/BossKnight.gif") {
+                var block = random(1, 4)
+                if (block == 1) {
+                    enemies[i].health += 1;
+                }
+            } else if (vsShadow == true) {
+              player.health -= 1;
+              playerAttackSound.play();
+              heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
+              invul = 180;
             }
               else {
                 if (getX(player.base) < getX(enemies[i].base)) {
@@ -363,23 +528,27 @@ function Attack(swordAttack) {
     }
     setTimeout(removeElement, 20, player.swordAttack);
 }
+
 function update() {
     if (player.health > 0) {
         moneyIcon.innerHTML = ("x" + player.money)
         checkCollisions();
         moveBasicEnemies();
         playerMove();
+        moveNpcs();
         if (invul > 0) {
             invul--;
-        }if(swordCool >0){
-        swordCool--;
-      }
+        }
+        if (swordCool > 0) {
+            swordCool--;
+        }
         if (fireShooter.length > 0) {
             fireShooterFunction();
         }
-        setTimeout(update,10)
+        setTimeout(update, 10)
     } else {
         if (gameOver == false) {
+          vsShadow = false;
             size = 0;
             gameOverRect = makeRect(0, 0, 1000, 1000, 'black', 0)
             makeText("GAME OVER", 300, 200, 32, "VT323", "white", 1)
@@ -387,9 +556,9 @@ function update() {
             player.health = player.maxHealth;
             heartArray = [];
             continueText.addEventListener("click", function() {
-              music.pause();
-              music = new Audio("Sounds/Overworld.mp3")
-              music.play();
+                music.pause();
+                music = new Audio("Sounds/Overworld.mp3")
+                music.play();
                 canvas.innerHTML = "";
                 gameStart()
             })
@@ -410,17 +579,15 @@ function checkCollisions() {
             if (collide(player.base, shop[i].base, 0, 0) == true) {
                 if (player.money > shop[i].price - 1) {
                     if (shop[i].base.getAttribute("xlink:href") == "Images/Items/HeartPickUp.png" && player.health < player.maxHealth) {
-                        backgroundArray[33].shop[i].stock-=1
+                        backgroundArray[33].shop[i].stock -= 1
                         storeText.innerHTML = "Thank you";
                         player.money -= shop[i].price
                         heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Heart.png")
                         player.health += 1;
-                        removeArrayElementBase(shop,i)
-                    } else if (shop[i].base.getAttribute("xlink:href") == "Images/Items/HeartPickUp.png" && player.health == player.maxHealth)
-                    {
+                        removeArrayElementBase(shop, i)
+                    } else if (shop[i].base.getAttribute("xlink:href") == "Images/Items/HeartPickUp.png" && player.health == player.maxHealth) {
                         storeText.innerHTML = "Lose some health first!";
-                    }
-                      else if (shop[i].base.getAttribute("xlink:href") == "Images/Heart.png") {
+                    } else if (shop[i].base.getAttribute("xlink:href") == "Images/Heart.png") {
                         if (player.health < player.maxHealth) {
                             for (var j = 0; j < heartArray.length; j++) {
                                 if (heartArray[j].getAttribute("xlink:href") == "Images/EmptyHeart.png") {
@@ -430,14 +597,14 @@ function checkCollisions() {
                         }
                         storeText.innerHTML = "Heheheh thank you"
                         player.money -= shop[i].price
-                        backgroundArray[33].shop[i].stock-=1;
+                        backgroundArray[33].shop[i].stock -= 1;
                         heartArray.push(makeImage("Images/Heart.png", 16 + (heartArray.length * 32), 0, 16, 16));
                         player.maxHealth += 1;
                         player.health = player.maxHealth;
                         removeArrayElementBase(shop, i)
                     }
-                    if(backgroundArray[33].shop[i].stock==0){
-                      backgroundArray[33].shop[i].x = "1000"
+                    if (backgroundArray[33].shop[i].stock == 0) {
+                        backgroundArray[33].shop[i].x = "1000"
                     }
                 } else if (player.money < shop[i].price) {
                     storeText.innerHTML = "You don't have enough sapphires!"
@@ -474,7 +641,7 @@ function checkCollisions() {
     for (var i = 0; i < fireShooterBalls.length; i++) {
         if (collide(player.base, fireShooterBalls[i].base, 0, 0) == true && invul == 0) {
             player.health -= 1;
-                        playerAttackSound.play();
+            playerAttackSound.play();
             heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
             invul = 180;
             if (getX(player.base) < getX(fireShooterBalls[i].base)) {
@@ -511,6 +678,11 @@ function checkCollisions() {
 
 function moveBasicEnemies() {
     if (enemies.length > 0) {
+      if(enemies[0] != undefined && enemies[0].base.getAttribute("xlink:href") == "Images/Characters/Shadow/ShadowFront.png"||vsShadow == true){
+        shadowMove();
+        vsShadow =true;
+      }
+      else if(enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Shadow/ShadowFront.png"&&vsShadow == false){
         for (var i = 0; i < enemies.length; i++) {
             if (getX(player.base) < getX(enemies[i].base)) {
                 move(enemies[i].base, -1, 0)
@@ -521,6 +693,52 @@ function moveBasicEnemies() {
                 move(enemies[i].base, 0, -1)
             } else if (getY(player.base) > getY(enemies[i].base)) {
                 move(enemies[i].base, 0, 1)
+            }
+        }
+    }
+}
+}
+function setNpcs() {
+    var randomMove = random(1, 4);
+    if (npc.length > 0) {
+        for (var i = 0; i < npc.length; i++) {
+            if (randomMove == 1 && getX(npc[i].base) < 700) {
+                npc[i].move = "right"
+            } else if (randomMove == 2 && getX(npc[i].base) > 100) {
+                npc[i].move = "left"
+            }
+            if (randomMove == 3 && getY(npc[i].base) > 100) {
+                npc[i].move = "up"
+            } else if (randomMove == 4 && getY(npc[i].base) < 300) {
+                npc[i].move = "down"
+            }
+        }
+    }
+    npcText = []
+    setTimeout(setNpcs, 250);
+}
+
+function moveNpcs() {
+    if (npc.length > 0) {
+        for (var i = 0; i < npc.length; i++) {
+            if (npc[i].move == "right") {
+                move(npc[i].base, 0.5, 0)
+            } else if (npc[i].move == "left") {
+                move(npc[i].base, -0.5, 0)
+            }
+            if (npc.move == "up") {
+                move(npc[i].base, 0, -05)
+            } else if (npc[i].move == "down") {
+                move(npc[i].base, 0, 0.5)
+            }
+            if (collide(player.base, npc[i].base) == true && npc[i].textCount < 1) {
+                npc[i].textCount++;
+                npcText[npcText.length] = makeText(npc[i].text, getX(npc[i].base), getY(npc[i].base), 16, "VT323", "white", 1);
+            } else if (collide(player.base, npc[i].base) == false && npc[i].textCount == 1) {
+                npc[i].textCount--;
+                for (var m = 0; m < npcText.length; m++) {
+                    removeArrayElement(npcText, m)
+                }
             }
         }
     }
