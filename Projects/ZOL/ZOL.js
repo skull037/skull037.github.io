@@ -27,6 +27,7 @@ if(screen!=63){
     for (var i = 0; i < enemies.length; i++) {
         //removeArrayElementBase(enemies, i)
         setX(enemies[i].base, 1000000000000000)
+        enemies[i].speed = 0;
     }
     for (var i = 0; i < backgroundArrayElements.length; i++) {
         removeArrayElement(backgroundArrayElements, i)
@@ -266,6 +267,16 @@ if(screen!=63){
         totallyDone = false;
         tFadeDone = false;
         textFade(levelText);
+    }else if (screen == 68 && direction == "west") {
+        levelText = makeText("Ruined Castle", 300, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+    }else if (screen == 64 && direction == "west") {
+        levelText = makeText("Old Ruins", 300, 200, 32, "VT323", "white", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
     }else if (screen == 63 && direction == "north"&&shadowBoss== false) {
       if(player.maxHealth != 3){
         levelText = makeText("I am your shadow. Your true self.", 200, 200, 32, "VT323", "white", 1)
@@ -333,7 +344,25 @@ window.addEventListener('keyup', function(e) {
 
 function playerMove() {
     if (player.health >= 1) {
-        if (keyState[37] || keyState[65]) {
+      if (keyState[32] && swordCool == 0 && attacked == false) {
+         swordCool = 15;
+         playerAttackSound.play();
+         attacked = true;
+         if (player.lastDir == "up") {
+             player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) + 32, 16, 32, "white", 0.75)
+             Attack(player.swordAttack);
+         } else if (player.lastDir == "down") {
+             player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) - 32, 16, 32, "white", 0.75)
+             Attack(player.swordAttack);
+         } else if (player.lastDir == "left") {
+             player.swordAttack = makeRect(getX(player.base) - 32, getY(player.base) + 8, 32, 16, "white", 0.75)
+             Attack(player.swordAttack);
+         } else if (player.lastDir == "right") {
+             player.swordAttack = makeRect(getX(player.base) + 32, getY(player.base) + 8, 32, 16, "white", 0.75)
+             Attack(player.swordAttack);
+         }
+     }
+        else if (keyState[37] || keyState[65]) {
             move(player.base, -2.5 - player.speed, 0)
             player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerSideA.png")
             player.lastDir = "left";
@@ -343,29 +372,12 @@ function playerMove() {
             player.lastDir = "right";
         } else if (keyState[40] || keyState[83]) {
             move(player.base, 0, 2.5 + player.speed)
-            player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerForward.png")
+            player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/playerForward.png")
             player.lastDir = "up";
         } else if (keyState[38] || keyState[87]) {
             move(player.base, 0, -2.5 - player.speed)
             player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerBackward.png")
             player.lastDir = "down";
-        } else if (keyState[32] && swordCool == 0 && attacked == false) {
-            swordCool = 15;
-            playerAttackSound.play();
-            attacked = true;
-            if (player.lastDir == "up") {
-                player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) + 32, 16, 32, "white", 0.75)
-                Attack(player.swordAttack);
-            } else if (player.lastDir == "down") {
-                player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) - 32, 16, 32, "white", 0.75)
-                Attack(player.swordAttack);
-            } else if (player.lastDir == "left") {
-                player.swordAttack = makeRect(getX(player.base) - 32, getY(player.base) + 8, 32, 16, "white", 0.75)
-                Attack(player.swordAttack);
-            } else if (player.lastDir == "right") {
-                player.swordAttack = makeRect(getX(player.base) + 32, getY(player.base) + 8, 32, 16, "white", 0.75)
-                Attack(player.swordAttack);
-            }
         }
     }
 }
@@ -473,8 +485,10 @@ function Attack(swordAttack) {
                   heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
                   invul = 180;
                   vsShadow = false;
-                    pickups[pickups.length] = (makeImage("Images/Heart.png", getX(enemies[i].base) + 8, getY(enemies[i].base) + 8, 16, 20))
-                    shadowBoss = true;
+                    if(player.health > 0){
+                        pickups[pickups.length] = (makeImage("Images/Heart.png", getX(enemies[i].base) + 8, getY(enemies[i].base) + 8, 16, 20))
+                        shadowBoss = true;
+                    }
                 }
                 removeArrayElementBase(enemies, i);
             } else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/Skeleton/SkeletonBoss.gif") {
@@ -656,7 +670,7 @@ function checkCollisions() {
             removeArrayElement(pickups, i)
             player.money += 1;
 
-        } else if (pickups[i].getAttribute("xlink:href") == "Images/Items/HeartPickUp.png" && collide(player.base, pickups[i], 0, 0) == true) {
+        } else if (pickups[i].getAttribute("xlink:href") == "Images/Items/HeartPickUp.png" && collide(player.base, pickups[i], 0, 0) == true&&player.health != player.maxHealth) {
             removeArrayElement(pickups, i)
             heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Heart.png")
             player.health += 1;
@@ -682,7 +696,7 @@ function moveBasicEnemies() {
         shadowMove();
         vsShadow =true;
       }
-      else if(enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Shadow/ShadowFront.png"&&vsShadow == false){
+      else if(enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Shadow/ShadowFront.png"&&vsShadow == false&&enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Knight/knightCrossbow.png"){
         for (var i = 0; i < enemies.length; i++) {
             if (getX(player.base) < getX(enemies[i].base)) {
                 move(enemies[i].base, -1, 0)
@@ -694,9 +708,9 @@ function moveBasicEnemies() {
             } else if (getY(player.base) > getY(enemies[i].base)) {
                 move(enemies[i].base, 0, 1)
             }
+            }
         }
     }
-}
 }
 function setNpcs() {
     var randomMove = random(1, 4);
@@ -715,10 +729,11 @@ function setNpcs() {
         }
     }
     npcText = []
-    setTimeout(setNpcs, 250);
+    setTimeout(setNpcs, 500);
 }
 
 function moveNpcs() {
+      npcText = []
     if (npc.length > 0) {
         for (var i = 0; i < npc.length; i++) {
             if (npc[i].move == "right") {
