@@ -302,10 +302,12 @@ if(screen!=63){
         music.pause();
         music = new Audio("Sounds/Cyborg Ninja.mp3")
         music.play();
+        music.volume = 0.5
     } else if (screen == 19 && direction == "west") {
         music.pause();
         music = new Audio("Sounds/Overworld.mp3")
         music.play();
+        music.volume = 0.5
     } else if (screen == 46 && direction == "south") {
         levelText = makeText("Peaceful Plains", 300, 200, 32, "VT323", "white", 1)
         totallyDone = false;
@@ -438,10 +440,8 @@ function Attack(swordAttack) {
                 setX(barrier[backgroundArrayElements[i].effects].rect, 0)
             } else if (backgroundArrayElements[i].type == "dun1Left") {
                 dun1Left = true
-                console.log("left")
             } else if (backgroundArrayElements[i].type == "dun1Right") {
                 dun1Right = true
-                console.log("right")
             } else {
 
                 move(barrier[backgroundArrayElements[i].effects].base, -1000, 0)
@@ -481,7 +481,7 @@ function Attack(swordAttack) {
                     knightBossDead = true;
                 }else if (vsShadow == true&&shadowBoss==false) {
                   player.health -= 1;
-                  playerAttackSound.play();
+                  playerHitSound.play();
                   heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
                   invul = 180;
                   vsShadow = false;
@@ -527,7 +527,7 @@ function Attack(swordAttack) {
                 }
             } else if (vsShadow == true) {
               player.health -= 1;
-              playerAttackSound.play();
+              playerHitSound.play();
               heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
               invul = 180;
             }
@@ -547,7 +547,7 @@ function update() {
     if (player.health > 0) {
         moneyIcon.innerHTML = ("x" + player.money)
         checkCollisions();
-        moveBasicEnemies();
+        moveEnemies();
         playerMove();
         moveNpcs();
         if (invul > 0) {
@@ -556,7 +556,7 @@ function update() {
         if (swordCool > 0) {
             swordCool--;
         }
-        if (fireShooter.length > 0) {
+        if (fireShooter.length > 0||boss.health >5) {
             fireShooterFunction();
         }
         setTimeout(update, 10)
@@ -564,7 +564,12 @@ function update() {
         if (gameOver == false) {
           vsShadow = false;
             size = 0;
+            if(boss==""||boss.health <0){
             gameOverRect = makeRect(0, 0, 1000, 1000, 'black', 0)
+          }
+          else{
+            gameOverRect = makeRect(0, 0, 1000, 1000, 'red', 0)
+          }
             makeText("GAME OVER", 300, 200, 32, "VT323", "white", 1)
             continueText = makeText("CONTINUE", 300, 300, 32, "VT323", "white", 1)
             player.health = player.maxHealth;
@@ -573,6 +578,7 @@ function update() {
                 music.pause();
                 music = new Audio("Sounds/Overworld.mp3")
                 music.play();
+                music.volume = 0.5
                 canvas.innerHTML = "";
                 gameStart()
             })
@@ -642,7 +648,7 @@ function checkCollisions() {
     for (var i = 0; i < enemies.length; i++) {
         if (collide(player.base, enemies[i].base, 0, 0) == true && invul == 0) {
             player.health -= 1;
-            playerAttackSound.play();
+            playerHitSound.play();
             heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
             invul = 180;
             if (getX(player.base) < getX(enemies[i].base)) {
@@ -655,7 +661,7 @@ function checkCollisions() {
     for (var i = 0; i < fireShooterBalls.length; i++) {
         if (collide(player.base, fireShooterBalls[i].base, 0, 0) == true && invul == 0) {
             player.health -= 1;
-            playerAttackSound.play();
+            playerHitSound.play();
             heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
             invul = 180;
             if (getX(player.base) < getX(fireShooterBalls[i].base)) {
@@ -689,15 +695,20 @@ function checkCollisions() {
         }
     }
 }
-
-function moveBasicEnemies() {
+function moveEnemies() {
     if (enemies.length > 0) {
       if(enemies[0] != undefined && enemies[0].base.getAttribute("xlink:href") == "Images/Characters/Shadow/ShadowFront.png"||vsShadow == true){
         shadowMove();
         vsShadow =true;
       }
-      else if(enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Shadow/ShadowFront.png"&&vsShadow == false&&enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Knight/knightCrossbow.png"){
+      if(enemies[0] != undefined && enemies[0].base.getAttribute("xlink:href") == "Images/Characters/Wizard/Wizard.png"&&bossStart== false){
+        bossStart = true;
+        boss= enemies[0];
+        setTimeout(startFinalBoss,1000)
+      }
+      else if(enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Shadow/ShadowFront.png"&&vsShadow == false&&enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Knight/knightCrossbow.png"&& enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Wizard/Wizard.png"){
         for (var i = 0; i < enemies.length; i++) {
+          if(enemies[i].base.getAttribute("xlink:href") != "Images/Characters/Wizard/lightning.png"){
             if (getX(player.base) < getX(enemies[i].base)) {
                 move(enemies[i].base, -1, 0)
             } else if (getX(player.base) > getX(enemies[i].base)) {
@@ -711,6 +722,7 @@ function moveBasicEnemies() {
             }
         }
     }
+}
 }
 function setNpcs() {
     var randomMove = random(1, 4);
@@ -770,7 +782,6 @@ function fireShooterFunction() {
         } else if (fireShooterBalls[j].shootDir == "left") {
             move(fireShooterBalls[j].base, -5, 0);
         } else if (fireShooterBalls[j].shootDir == "follow") {
-            console.log("follow")
         }
         if (getX(fireShooterBalls[j].base) < 0 || getX(fireShooterBalls[j].base) > 800 || getY(fireShooterBalls[j].base) < 0 || getY(fireShooterBalls[j].base) > 400) {
             removeArrayElementBase(fireShooterBalls, j)
@@ -789,4 +800,67 @@ function shootFire(screen) {
     }
     if (backgroundArray[screen].fireShooter != undefined && backgroundArray[screen].fireShooter.length > 0)
         setTimeout(shootFire, 1000, screen)
+}
+var bossSpeed =0;
+function startFinalBoss(){
+  var smoke = makeImage("Images/Characters/Smoke.png", getX(boss.base)-50, getY(boss.base)-50, 128, 128)
+  setTimeout(removeElement, 1000, smoke);
+  setX(boss.base,-50)
+  setY(boss.base,0)
+  finalBossLoop();
+}
+function finalBossLoop(){
+      bossSpeed = 500
+  if(boss.health >5&&evilBreak == false){
+    bossSpeed = 500
+move(boss.base,50,0)
+if(getX(boss.base) > 800&&evilBreak == false){
+    setX(boss.base,400)
+    setY(boss.base,200)
+    evilBreak = true;
+    setTimeout(function(){
+      var smoke = makeImage("Images/Characters/Smoke.png", getX(boss.base)-50, getY(boss.base)-50, 128, 128)
+      setTimeout(removeElement, 1000, smoke);
+      setX(boss.base,-50)
+      setY(boss.base,0)
+      evilBreak = false
+    },1000)
+
+}
+fireShooterBalls[fireShooterBalls.length] = {
+    base: makeImage("Images/Characters/fireShooter/fire.png", getX(boss.base)-16, getY(boss.base)+32, 32, 32),
+    shootDir: "down"
+}
+  }
+  else if(boss.health >2&&evilBreak == false){
+    setX(boss.base,random(64,728))
+    setY(boss.base,random(64,200))
+    bossSpeed=2000
+    var xOffSet=192;
+    if(getX(boss.base)>400){
+      xOffSet= -128
+    }
+    enemies[enemies.length] = {
+    base:makeImage("Images/Characters/Wizard/lightning.png",getX(player.base)-xOffSet,getY(player.base)-64,128,256),
+    health:9999,
+    speed:0
+  }
+    setTimeout(function(){
+      for(var i=1;i<enemies.length;i++){
+        setX(enemies[i].base,100000000)
+      }
+    },500)
+  }
+  else if(boss.health >0&&evilBreak == false){
+    setX(boss.base,random(64,728))
+    setY(boss.base,random(64,200))
+    bossSpeed=1000
+    enemies[enemies.length] = {
+        base: makeImage("Images/Characters/Skeleton/Skeleton.gif", 400, 100, 36, 36),
+        health: 1
+    };
+  }
+if(player.health>0 &&boss.health >0){
+        setTimeout(finalBossLoop, bossSpeed)
+}
 }

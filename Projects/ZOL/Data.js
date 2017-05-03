@@ -38,11 +38,17 @@ var westNum = 0;
 var eastNum = 0;
 var vsShadow = false;
 var arrows=[];
+var bossStart = false;
+var boss ="";
+var evilBreak = false;
 //audio
 var playerAttackSound = new Audio("Sounds/Attack.wav");
+playerAttackSound.volume = 0.5
 var music = new Audio("Sounds/Overworld.mp3");
+music.volume = 0.5
 music.loop = true;
 var playerHitSound = new Audio("Sounds/Hit.wav");
+playerHitSound.volume = 1
 var player = {
         base: "URL",
         health: 3,
@@ -2914,7 +2920,160 @@ var backgroundArray = [{
           }],
           backgroundElements: [],
           enemies: []
-      }]
+      },{
+          base: "Images/Screens/Screen68.png",
+          exits: [{
+              x: 775,
+              y: 100,
+              width: 50,
+              height: 200,
+              color: "cyan",
+              opacity: 0.5,
+              screenToLoad: 72,
+              direction: "east"
+          }, {
+              x: -25,
+              y: 100,
+              width: 50,
+              height: 200,
+              color: "cyan",
+              opacity: 0.5,
+              screenToLoad: 74,
+              direction: "west"
+          }],
+          backgroundElements: [],
+          enemies: []
+        },{
+            base: "Images/Screens/Screen74.png",
+            exits: [{
+                x: 250,
+                y: -25,
+                width: 300,
+                height: 50,
+                color: "cyan",
+                opacity: 0.5,
+                screenToLoad: 76,
+                direction: "north"
+            }, {
+                x: 250,
+                y: 375,
+                width: 300,
+                height: 50,
+                color: "cyan",
+                opacity: 0.5,
+                screenToLoad: 75,
+                direction: "south"
+            }, {
+                x: 775,
+                y: 100,
+                width: 50,
+                height: 200,
+                color: "cyan",
+                opacity: 0.5,
+                screenToLoad: 73,
+                direction: "east"
+            }],
+            backgroundElements: [],
+            enemies: []
+        },{
+            base: "Images/Screens/Screen75.png",
+            exits: [{
+                x: 250,
+                y: -25,
+                width: 300,
+                height: 50,
+                color: "cyan",
+                opacity: 0.5,
+                screenToLoad: 74,
+                direction: "north"
+            }],
+            backgroundElements: [],
+            enemies: []
+        },{
+            base: "Images/Screens/Screen76.png",
+            exits: [{
+                x: 250,
+                y: -25,
+                width: 300,
+                height: 50,
+                color: "cyan",
+                opacity: 0.5,
+                screenToLoad: 77,
+                direction: "north"
+            }, {
+                x: 250,
+                y: 375,
+                width: 300,
+                height: 50,
+                color: "cyan",
+                opacity: 0.5,
+                screenToLoad: 74,
+                direction: "south"
+            }],
+            backgroundElements: [],
+            enemies: []
+        },{
+            base: "Images/Screens/Screen77.png",
+            exits: [{
+                x: 775,
+                y: 100,
+                width: 50,
+                height: 200,
+                color: "cyan",
+                opacity: 0.5,
+                screenToLoad: 78,
+                direction: "east"
+            },{
+                x: 250,
+                y: 375,
+                width: 300,
+                height: 50,
+                color: "cyan",
+                opacity: 0.5,
+                screenToLoad: 76,
+                direction: "south"
+            }],
+            backgroundElements: [],
+            enemies: []
+        },{
+            base: "Images/Screens/Screen78.png",
+            exits: [{
+                x: -25,
+                y: 100,
+                width: 50,
+                height: 200,
+                color: "cyan",
+                opacity: 0.5,
+                screenToLoad: 77,
+                direction: "west"
+            }],
+            backgroundElements: [],
+            enemies: [{
+                  url: ("Images/Characters/Wizard/Wizard.png"),
+                  x: 400,
+                  y: 200,
+                  width: 32,
+                  height: 32,
+                  health: 9,
+                  speed:1
+            }],barrier: [{
+                url: ("Images/Screens/BarrierWest.png"),
+                x: 0,
+                y: 0,
+                width: 800,
+                height: 400,
+                direction: "west",
+                rect: {
+                    x: 0,
+                    y: 100,
+                    width: 50,
+                    height: 200,
+                    color: "white",
+                    opacity: 0.5,
+                    direction: "west"
+                }
+              }]
+        }]
 var heartArray = [];
 var background;
     /*
