@@ -41,6 +41,14 @@ var arrows=[];
 var bossStart = false;
 var boss ="";
 var evilBreak = false;
+var creditsArray=[
+  "AND SO OUR HERO'S JOURNEY IS OVER",
+  "THE EVIL WIZARD IS DEFEATED",
+  "CREDITS",
+  "EVERYTHING MINUS MUSIC: MAX SAMI",
+  "MUSIC: KEVIN MACLEOD",
+  "THANK YOU FOR PLAYING"
+]
 //audio
 var playerAttackSound = new Audio("Sounds/Attack.wav");
 playerAttackSound.volume = 0.5
@@ -1505,7 +1513,7 @@ var backgroundArray = [{
     }],
     backgroundElements: [],
     enemies: [{
-        url: ("Images/Characters/Knight/knight.gif"),
+        url: ("Images/Characters/Knight/knightElite.gif"),
         x: 500,
         y: 200,
         width: 64,
@@ -2704,7 +2712,7 @@ var backgroundArray = [{
           y: 200,
           width: 32,
           height: 32,
-          health: player.maxHealth,
+          health: 99,
           speed:1
       }]
   },{
@@ -2868,7 +2876,15 @@ var backgroundArray = [{
               direction: "west"
           }],
           backgroundElements: [],
-          enemies: []
+          enemies: [{
+              url: ("Images/Characters/Knight/knightElite.gif"),
+              x: 400,
+              y: 200,
+              width: 32,
+              height: 32,
+              health: 5,
+              speed: 0.5
+          }]
       },{
           base: "Images/Screens/Screen70.png",
           exits: [{
@@ -2882,7 +2898,23 @@ var backgroundArray = [{
               direction: "south"
           }],
           backgroundElements: [],
-          enemies: []
+          enemies: [{
+              url: ("Images/Characters/Knight/knightElite.gif"),
+              x: 100,
+              y: 300,
+              width: 32,
+              height: 32,
+              health: 4,
+              speed: 1
+          }, {
+              url: ("Images/Characters/Knight/knightElite.gif"),
+              x: 700,
+              y: 300,
+              width: 32,
+              height: 32,
+              health: 4,
+              speed: 1
+          }]
       },{
           base: "Images/Screens/Screen71.png",
           exits: [{
@@ -2896,7 +2928,23 @@ var backgroundArray = [{
               direction: "east"
           }],
           backgroundElements: [],
-          enemies: []
+          enemies: [{
+              url: ("Images/Characters/Knight/knightElite.gif"),
+              x: 200,
+              y: 200,
+              width: 32,
+              height: 32,
+              health: 4,
+              speed: 1
+          }, {
+              url: ("Images/Characters/Knight/knightElite.gif"),
+              x: 100,
+              y: 300,
+              width: 32,
+              height: 32,
+              health: 4,
+              speed: 1
+          }]
       },{
           base: "Images/Screens/Screen72.png",
           exits: [{
@@ -2919,7 +2967,23 @@ var backgroundArray = [{
               direction: "west"
           }],
           backgroundElements: [],
-          enemies: []
+          enemies: [{
+              url: ("Images/Characters/Knight/knightElite.gif"),
+              x: 100,
+              y: 300,
+              width: 32,
+              height: 32,
+              health: 4,
+              speed: 1
+          }, {
+              url: ("Images/Characters/Knight/knightElite.gif"),
+              x: 700,
+              y: 300,
+              width: 32,
+              height: 32,
+              health: 4,
+              speed: 1
+          }]
       },{
           base: "Images/Screens/Screen68.png",
           exits: [{
@@ -2942,7 +3006,23 @@ var backgroundArray = [{
               direction: "west"
           }],
           backgroundElements: [],
-          enemies: []
+          enemies: [{
+              url: ("Images/Characters/Knight/knightElite.gif"),
+              x: 250,
+              y: 200,
+              width: 32,
+              height: 32,
+              health: 4,
+              speed: 1
+          }, {
+              url: ("Images/Characters/Knight/knightElite.gif"),
+              x: 350,
+              y: 200,
+              width: 32,
+              height: 32,
+              health: 4,
+              speed: 1
+          }]
         },{
             base: "Images/Screens/Screen74.png",
             exits: [{
@@ -2974,7 +3054,15 @@ var backgroundArray = [{
                 direction: "east"
             }],
             backgroundElements: [],
-            enemies: []
+            enemies: [{
+                url: ("Images/Characters/Knight/knightElite.gif"),
+                x: 400,
+                y: 200,
+                width: 32,
+                height: 32,
+                health: 5,
+                speed: 0.5
+            }]
         },{
             base: "Images/Screens/Screen75.png",
             exits: [{
@@ -2988,7 +3076,23 @@ var backgroundArray = [{
                 direction: "north"
             }],
             backgroundElements: [],
-            enemies: []
+            enemies: [{
+                url: ("Images/Characters/Knight/knightElite.gif"),
+                x: 100,
+                y: 300,
+                width: 32,
+                height: 32,
+                health: 4,
+                speed: 1
+            }, {
+                url: ("Images/Characters/Knight/knightElite.gif"),
+                x: 700,
+                y: 364,
+                width: 32,
+                height: 32,
+                health: 4,
+                speed: 1
+            }]
         },{
             base: "Images/Screens/Screen76.png",
             exits: [{
@@ -3011,7 +3115,23 @@ var backgroundArray = [{
                 direction: "south"
             }],
             backgroundElements: [],
-            enemies: []
+            enemies: [{
+                url: ("Images/Characters/Knight/knightElite.gif"),
+                x: 100,
+                y: 200,
+                width: 32,
+                height: 32,
+                health: 4,
+                speed: 1
+            }, {
+                url: ("Images/Characters/Knight/knightElite.gif"),
+                x: 700,
+                y: 264,
+                width: 32,
+                height: 32,
+                health: 4,
+                speed: 1
+            }]
         },{
             base: "Images/Screens/Screen77.png",
             exits: [{

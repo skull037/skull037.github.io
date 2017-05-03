@@ -13,8 +13,10 @@ function gameStart() {
     }
     moneyIcon = makeImage("Images/Items/BlueGem.png", 16, 32, 16, 16)
     moneyIcon = makeText("x" + player.money, 32, 48, 16, "VT323", "white", 1)
+    if(player.health > 0){
     update();
     setNpcs();
+  }
     music.play();
 }
 
@@ -476,7 +478,7 @@ function Attack(swordAttack) {
                 if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/Skeleton/SkeletonBoss.gif" && skeletonBossDead == false) {
                     pickups[pickups.length] = (makeImage("Images/Heart.png", getX(enemies[i].base) + 8, getY(enemies[i].base) + 8, 16, 20))
                     skeletonBossDead = true;
-                } else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/knight/BossKnight.gif" && knightBossDead == false) {
+                } else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/Knight/BossKnight.gif" && knightBossDead == false) {
                     pickups[pickups.length] = (makeImage("Images/Heart.png", getX(enemies[i].base) + 8, getY(enemies[i].base) + 8, 16, 20))
                     knightBossDead = true;
                 }else if (vsShadow == true&&shadowBoss==false) {
@@ -520,7 +522,7 @@ function Attack(swordAttack) {
                     base: makeImage("Images/Characters/Skeleton/Skeleton.gif", 400, 0, 36, 36),
                     health: 1
                 };
-            } else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/knight/BossKnight.gif") {
+            } else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/Knight/BossKnight.gif") {
                 var block = random(1, 4)
                 if (block == 1) {
                     enemies[i].health += 1;
@@ -706,9 +708,9 @@ function moveEnemies() {
         boss= enemies[0];
         setTimeout(startFinalBoss,1000)
       }
-      else if(enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Shadow/ShadowFront.png"&&vsShadow == false&&enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Knight/knightCrossbow.png"&& enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Wizard/Wizard.png"){
+      if(enemies[0] != undefined&&enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Shadow/ShadowFront.png"&&vsShadow == false&&enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Knight/knightCrossbow.png"){
         for (var i = 0; i < enemies.length; i++) {
-          if(enemies[i].base.getAttribute("xlink:href") != "Images/Characters/Wizard/lightning.png"){
+          if(enemies[i].base.getAttribute("xlink:href") != "Images/Characters/Wizard/lightning.png"&& enemies[i].base.getAttribute("xlink:href") != "Images/Characters/Wizard/Wizard.png"){
             if (getX(player.base) < getX(enemies[i].base)) {
                 move(enemies[i].base, -1, 0)
             } else if (getX(player.base) > getX(enemies[i].base)) {
@@ -854,13 +856,48 @@ fireShooterBalls[fireShooterBalls.length] = {
   else if(boss.health >0&&evilBreak == false){
     setX(boss.base,random(64,728))
     setY(boss.base,random(64,200))
-    bossSpeed=1000
+    bossSpeed=2000
     enemies[enemies.length] = {
-        base: makeImage("Images/Characters/Skeleton/Skeleton.gif", 400, 100, 36, 36),
-        health: 1
+        base: makeImage("Images/Characters/Skeleton/Skeleton.gif", getX(boss.base), getY(boss.base), 36, 36),
+        health: 1,
+        speed:1
     };
+  }
+  else if(boss.health ==0){
+    creditsFunction();
+    boss.health = -1;
+    enemies=[];
   }
 if(player.health>0 &&boss.health >0){
         setTimeout(finalBossLoop, bossSpeed)
+}
+}
+var creditsState = 0;
+function creditsFunction(){
+  gameOverRect = makeRect(0, 0, 1000, 1000, 'white', 0)
+  gameOverAnimation();
+  setTimeout(displayCredits,2000);
+}
+function displayCredits(){
+  if(creditsState<creditsArray.length){
+  levelText = makeText(creditsArray[creditsState], 300, 200, 32, "VT323", "black", 1)
+  totallyDone = false;
+  tFadeDone = false;
+  textFade(levelText);
+  setTimeout(function(){
+    creditsState++;
+    displayCredits();
+  },2500)
+}
+ else{
+  continueText = makeText("CONTINUE", 300, 300, 32, "VT323", "black", 1)
+continueText.addEventListener("click", function() {
+      music.pause();
+      music = new Audio("Sounds/Overworld.mp3")
+      music.play();
+      music.volume = 0.5
+      canvas.innerHTML = "";
+      gameStart()
+  })
 }
 }
