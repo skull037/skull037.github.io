@@ -13,23 +13,26 @@ function gameStart() {
     }
     moneyIcon = makeImage("Images/Items/BlueGem.png", 16, 32, 16, 16)
     moneyIcon = makeText("x" + player.money, 32, 48, 16, "VT323", "white", 1)
-    if(player.health > 0){
-    update();
-    setNpcs();
-  }
     music.play();
+    if (endRestart == false) {
+        update();
+        setNpcs();
+    } else {
+        endRestart = false;
+    }
 }
-
+//
 function changeScreen(screen, direction) {
-if(screen!=63){
-                    vsShadow = false;
-}
+    if (screen != 63) {
+        vsShadow = false;
+    }
     //remove old elements
     canvas.innerHTML = ""
     for (var i = 0; i < enemies.length; i++) {
-        //removeArrayElementBase(enemies, i)
         setX(enemies[i].base, 1000000000000000)
         enemies[i].speed = 0;
+        removeArrayElementBase(enemies, i)
+        enemies = [];
     }
     for (var i = 0; i < backgroundArrayElements.length; i++) {
         removeArrayElement(backgroundArrayElements, i)
@@ -54,7 +57,7 @@ if(screen!=63){
         }
     }
     for (var i = 0; i < fireShooterBalls.length; i++) {
-        removeArrayElement(fireShooterBalls, i)
+        setX(fireShooterBalls[i].base, 1000000000000000)
     }
     for (var i = 0; i < npc.length; i++) {
         removeArrayElement(npc, i)
@@ -220,12 +223,12 @@ if(screen!=63){
         }
     }
     if (eastNum != 0) {
-      barrier[barrier.length] ={
-          base: "?",
-          direction: "east",
-          rect: (makeRect(750, 0, 48, 100, "white", 0)),
-      }
-        barrier[barrier.length] ={
+        barrier[barrier.length] = {
+            base: "?",
+            direction: "east",
+            rect: (makeRect(750, 0, 48, 100, "white", 0)),
+        }
+        barrier[barrier.length] = {
             base: "?",
             direction: "east",
             rect: (makeRect(750, 300, 48, 100, "white", 0)),
@@ -238,12 +241,12 @@ if(screen!=63){
             rect: (makeRect(0, 0, 48, 4800, "white", 0)),
         }
     } else if (westNum != 0) {
-      barrier[barrier.length] ={
-          base: "?",
-          direction: "west",
-          rect: (makeRect(0, 0, 48, 100, "white", 0)),
-      }
-        barrier[barrier.length] ={
+        barrier[barrier.length] = {
+            base: "?",
+            direction: "west",
+            rect: (makeRect(0, 0, 48, 100, "white", 0)),
+        }
+        barrier[barrier.length] = {
             base: "?",
             direction: "west",
             rect: (makeRect(0, 300, 48, 100, "white", 0)),
@@ -269,28 +272,28 @@ if(screen!=63){
         totallyDone = false;
         tFadeDone = false;
         textFade(levelText);
-    }else if (screen == 68 && direction == "west") {
+    } else if (screen == 68 && direction == "west") {
         levelText = makeText("Ruined Castle", 300, 200, 32, "VT323", "white", 1)
         totallyDone = false;
         tFadeDone = false;
         textFade(levelText);
-    }else if (screen == 64 && direction == "west") {
+    } else if (screen == 64 && direction == "west") {
         levelText = makeText("Old Ruins", 300, 200, 32, "VT323", "white", 1)
         totallyDone = false;
         tFadeDone = false;
         textFade(levelText);
-    }else if (screen == 63 && direction == "north"&&shadowBoss== false) {
-      if(player.maxHealth != 3){
-        levelText = makeText("I am your shadow. Your true self.", 200, 200, 32, "VT323", "white", 1)
-        totallyDone = false;
-        tFadeDone = false;
-        textFade(levelText);
-      }else{
-        levelText = makeText("I am your shadow. Your true self. You cannot defeat me.", 50, 200, 32, "VT323", "white", 1)
-        totallyDone = false;
-        tFadeDone = false;
-        textFade(levelText);
-      }
+    } else if (screen == 63 && direction == "north" && shadowBoss == false) {
+        if (player.maxHealth != 3) {
+            levelText = makeText("I am your shadow. Your true self.", 200, 200, 32, "VT323", "white", 1)
+            totallyDone = false;
+            tFadeDone = false;
+            textFade(levelText);
+        } else {
+            levelText = makeText("I am your shadow. Your true self. You cannot defeat me.", 50, 200, 32, "VT323", "white", 1)
+            totallyDone = false;
+            tFadeDone = false;
+            textFade(levelText);
+        }
     } else if (screen == 55 && direction == "south") {
         levelText = makeText("Tiny Town", 300, 200, 32, "VT323", "white", 1)
         totallyDone = false;
@@ -320,7 +323,7 @@ if(screen!=63){
         totallyDone = false;
         tFadeDone = false;
         textFade(levelText);
-    } else if (screen == 34&& direction == "east") {
+    } else if (screen == 34 && direction == "east") {
         levelText = makeText("Desert Dungeon", 300, 200, 32, "VT323", "white", 1)
         totallyDone = false;
         tFadeDone = false;
@@ -330,7 +333,7 @@ if(screen!=63){
         totallyDone = false;
         tFadeDone = false;
         textFade(levelText);
-    }else if (screen == 60&& direction == "east") {
+    } else if (screen == 60 && direction == "east") {
         levelText = makeText("Water Dungeon", 300, 200, 32, "VT323", "white", 1)
         totallyDone = false;
         tFadeDone = false;
@@ -348,25 +351,28 @@ window.addEventListener('keyup', function(e) {
 
 function playerMove() {
     if (player.health >= 1) {
-      if (keyState[32] && swordCool == 0 && attacked == false) {
-         swordCool = 15;
-         playerAttackSound.play();
-         attacked = true;
-         if (player.lastDir == "up") {
-             player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) + 32, 16, 32, "white", 0.75)
-             Attack(player.swordAttack);
-         } else if (player.lastDir == "down") {
-             player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) - 32, 16, 32, "white", 0.75)
-             Attack(player.swordAttack);
-         } else if (player.lastDir == "left") {
-             player.swordAttack = makeRect(getX(player.base) - 32, getY(player.base) + 8, 32, 16, "white", 0.75)
-             Attack(player.swordAttack);
-         } else if (player.lastDir == "right") {
-             player.swordAttack = makeRect(getX(player.base) + 32, getY(player.base) + 8, 32, 16, "white", 0.75)
-             Attack(player.swordAttack);
-         }
-     }
-        else if (keyState[37] || keyState[65]) {
+        if (keyState[32] && swordCool == 0 && attacked == false) {
+            swordCool = 15;
+            playerAttackSound.play();
+            attacked = true;
+            if (player.lastDir == "up") {
+                player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) + 32, 16, 32, "white", 0.05)
+                player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerAttackFront.png")
+                Attack(player.swordAttack);
+            } else if (player.lastDir == "down") {
+                player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) - 32, 16, 32, "white", 0.05)
+                player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerAttackBack.png")
+                Attack(player.swordAttack);
+            } else if (player.lastDir == "left") {
+                player.swordAttack = makeRect(getX(player.base) - 32, getY(player.base) + 8, 32, 16, "white", 0.05)
+                player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerAttackSide.png")
+                Attack(player.swordAttack);
+            } else if (player.lastDir == "right") {
+                player.swordAttack = makeRect(getX(player.base) + 32, getY(player.base) + 8, 32, 16, "white", 0.05)
+                player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerAttackSideB.png")
+                Attack(player.swordAttack);
+            }
+        } else if (keyState[37] || keyState[65]) {
             move(player.base, -2.5 - player.speed, 0)
             player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerSideA.png")
             player.lastDir = "left";
@@ -385,42 +391,44 @@ function playerMove() {
         }
     }
 }
+
 function shadowMove() {
-        if (keyState[37] || keyState[65]) {
-            move(enemies[0].base, 2.5 - player.speed, 0)
-            enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowSideA.png")
-            player.lastDir = "left";
-        } else if (keyState[39] || keyState[68]) {
-            move(enemies[0].base, -2.5 + player.speed, 0)
-            enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowSide.png")
-            player.lastDir = "right";
-        } else if (keyState[40] || keyState[83]) {
-            move(enemies[0].base, 0, -2.5 + player.speed)
-            enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowBack.png")
-            player.lastDir = "up";
-        } else if (keyState[38] || keyState[87]) {
-            move(enemies[0].base, 0, 2.5 - player.speed)
-            enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowFront.png")
-            player.lastDir = "down";
-        } else if (keyState[32] && swordCool == 0 && attacked == false) {
-            swordCool = 15;
-            playerAttackSound.play();
-            attacked = true;
-            if (player.lastDir == "up") {
-                player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) + 32, 16, 32, "white", 0.75)
-                Attack(player.swordAttack);
-            } else if (player.lastDir == "down") {
-                player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) - 32, 16, 32, "white", 0.75)
-                Attack(player.swordAttack);
-            } else if (player.lastDir == "left") {
-                player.swordAttack = makeRect(getX(player.base) - 32, getY(player.base) + 8, 32, 16, "white", 0.75)
-                Attack(player.swordAttack);
-            } else if (player.lastDir == "right") {
-                player.swordAttack = makeRect(getX(player.base) + 32, getY(player.base) + 8, 32, 16, "white", 0.75)
-                Attack(player.swordAttack);
-            }
+    if (keyState[37] || keyState[65]) {
+        move(enemies[0].base, 2.5 - player.speed, 0)
+        enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowSideA.png")
+        player.lastDir = "left";
+    } else if (keyState[39] || keyState[68]) {
+        move(enemies[0].base, -2.5 + player.speed, 0)
+        enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowSide.png")
+        player.lastDir = "right";
+    } else if (keyState[40] || keyState[83]) {
+        move(enemies[0].base, 0, -2.5 + player.speed)
+        enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowBack.png")
+        player.lastDir = "up";
+    } else if (keyState[38] || keyState[87]) {
+        move(enemies[0].base, 0, 2.5 - player.speed)
+        enemies[0].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Shadow/ShadowFront.png")
+        player.lastDir = "down";
+    } else if (keyState[32] && swordCool == 0 && attacked == false) {
+        swordCool = 15;
+        playerAttackSound.play();
+        attacked = true;
+        if (player.lastDir == "up") {
+            player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) + 32, 16, 32, "white", 0.25)
+            Attack(player.swordAttack);
+        } else if (player.lastDir == "down") {
+            player.swordAttack = makeRect(getX(player.base) + 8, getY(player.base) - 32, 16, 32, "white", 0.25)
+            Attack(player.swordAttack);
+        } else if (player.lastDir == "left") {
+            player.swordAttack = makeRect(getX(player.base) - 32, getY(player.base) + 8, 32, 16, "white", 0.25)
+            Attack(player.swordAttack);
+        } else if (player.lastDir == "right") {
+            player.swordAttack = makeRect(getX(player.base) + 32, getY(player.base) + 8, 32, 16, "white", 0.25)
+            Attack(player.swordAttack);
         }
+    }
 }
+
 function Attack(swordAttack) {
     for (var i = 0; i < backgroundArrayElements.length; i++) {
         if (backgroundArrayElements[i].base == undefined && collide(swordAttack, backgroundArrayElements[i]) == true && backgroundArrayElements[i].getAttribute("xlink:href") == "Images/BackgroundElements/Grass/Grass1.png" || backgroundArrayElements[i].base == undefined && collide(swordAttack, backgroundArrayElements[i]) == true && backgroundArrayElements[i].getAttribute("xlink:href") == "Images/BackgroundElements/Grass/Grass2.png") {
@@ -458,10 +466,9 @@ function Attack(swordAttack) {
                 barrier[backgroundArrayElements[i].effects].direction = "east"
                 barrier[backgroundArrayElements[i].effects].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Screens/BarrierEast.png")
                 setX(barrier[backgroundArrayElements[i].effects].rect, 750)
-            } else {
+            } else if (background) {
                 move(barrier[backgroundArrayElements[i].effects].base, -1000, 0)
                 move(barrier[backgroundArrayElements[i].effects].rect, -1000, 0)
-
             }
         }
     }
@@ -481,13 +488,17 @@ function Attack(swordAttack) {
                 } else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/Knight/BossKnight.gif" && knightBossDead == false) {
                     pickups[pickups.length] = (makeImage("Images/Heart.png", getX(enemies[i].base) + 8, getY(enemies[i].base) + 8, 16, 20))
                     knightBossDead = true;
-                }else if (vsShadow == true&&shadowBoss==false) {
-                  player.health -= 1;
-                  playerHitSound.play();
-                  heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
-                  invul = 180;
-                  vsShadow = false;
-                    if(player.health > 0){
+                } else if (enemies[i].base.getAttribute("xlink:href") == "Images/Characters/Knight/knightElite.gif") {
+                    if (itemChange == 3) {
+                        pickups[pickups.length] = (makeImage("Images/Items/PurpleGem.png", getX(enemies[i].base) + 8, getY(enemies[i].base) + 8, 16, 20))
+                    }
+                } else if (vsShadow == true && shadowBoss == false) {
+                    player.health -= 1;
+                    playerHitSound.play();
+                    heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
+                    invul = 180;
+                    vsShadow = false;
+                    if (player.health > 0) {
                         pickups[pickups.length] = (makeImage("Images/Heart.png", getX(enemies[i].base) + 8, getY(enemies[i].base) + 8, 16, 20))
                         shadowBoss = true;
                     }
@@ -528,12 +539,11 @@ function Attack(swordAttack) {
                     enemies[i].health += 1;
                 }
             } else if (vsShadow == true) {
-              player.health -= 1;
-              playerHitSound.play();
-              heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
-              invul = 180;
-            }
-              else {
+                player.health -= 1;
+                playerHitSound.play();
+                heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/EmptyHeart.png")
+                invul = 180;
+            } else {
                 if (getX(player.base) < getX(enemies[i].base)) {
                     move(enemies[i].base, 36, 0)
                 } else if (getX(player.base) > getX(enemies[i].base)) {
@@ -558,20 +568,19 @@ function update() {
         if (swordCool > 0) {
             swordCool--;
         }
-        if (fireShooter.length > 0||boss.health >5) {
+        if (fireShooter.length > 0 || boss.health > 5) {
             fireShooterFunction();
         }
         setTimeout(update, 10)
     } else {
         if (gameOver == false) {
-          vsShadow = false;
+            vsShadow = false;
             size = 0;
-            if(boss==""||boss.health <0){
-            gameOverRect = makeRect(0, 0, 1000, 1000, 'black', 0)
-          }
-          else{
-            gameOverRect = makeRect(0, 0, 1000, 1000, 'red', 0)
-          }
+            if (boss == "" || boss.health < 0) {
+                gameOverRect = makeRect(0, 0, 1000, 1000, 'black', 0)
+            } else {
+                gameOverRect = makeRect(0, 0, 1000, 1000, 'red', 0)
+            }
             makeText("GAME OVER", 300, 200, 32, "VT323", "white", 1)
             continueText = makeText("CONTINUE", 300, 300, 32, "VT323", "white", 1)
             player.health = player.maxHealth;
@@ -678,7 +687,11 @@ function checkCollisions() {
             removeArrayElement(pickups, i)
             player.money += 1;
 
-        } else if (pickups[i].getAttribute("xlink:href") == "Images/Items/HeartPickUp.png" && collide(player.base, pickups[i], 0, 0) == true&&player.health != player.maxHealth) {
+        } else if (pickups[i].getAttribute("xlink:href") == "Images/Items/PurpleGem.png" && collide(player.base, pickups[i], 0, 0) == true) {
+            removeArrayElement(pickups, i)
+            player.money += 25;
+
+        } else if (pickups[i].getAttribute("xlink:href") == "Images/Items/HeartPickUp.png" && collide(player.base, pickups[i], 0, 0) == true && player.health != player.maxHealth) {
             removeArrayElement(pickups, i)
             heartArray[player.health].setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Heart.png")
             player.health += 1;
@@ -697,35 +710,37 @@ function checkCollisions() {
         }
     }
 }
+
 function moveEnemies() {
     if (enemies.length > 0) {
-      if(enemies[0] != undefined && enemies[0].base.getAttribute("xlink:href") == "Images/Characters/Shadow/ShadowFront.png"||vsShadow == true){
-        shadowMove();
-        vsShadow =true;
-      }
-      if(enemies[0] != undefined && enemies[0].base.getAttribute("xlink:href") == "Images/Characters/Wizard/Wizard.png"&&bossStart== false){
-        bossStart = true;
-        boss= enemies[0];
-        setTimeout(startFinalBoss,1000)
-      }
-      if(enemies[0] != undefined&&enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Shadow/ShadowFront.png"&&vsShadow == false&&enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Knight/knightCrossbow.png"){
-        for (var i = 0; i < enemies.length; i++) {
-          if(enemies[i].base.getAttribute("xlink:href") != "Images/Characters/Wizard/lightning.png"&& enemies[i].base.getAttribute("xlink:href") != "Images/Characters/Wizard/Wizard.png"){
-            if (getX(player.base) < getX(enemies[i].base)) {
-                move(enemies[i].base, -1, 0)
-            } else if (getX(player.base) > getX(enemies[i].base)) {
-                move(enemies[i].base, 1, 0)
-            }
-            if (getY(player.base) < getY(enemies[i].base)) {
-                move(enemies[i].base, 0, -1)
-            } else if (getY(player.base) > getY(enemies[i].base)) {
-                move(enemies[i].base, 0, 1)
-            }
+        if (enemies[0] != undefined && enemies[0].base.getAttribute("xlink:href") == "Images/Characters/Shadow/ShadowFront.png" || vsShadow == true) {
+            shadowMove();
+            vsShadow = true;
+        }
+        if (enemies[0] != undefined && enemies[0].base.getAttribute("xlink:href") == "Images/Characters/Wizard/Wizard.png" && bossStart == false) {
+            bossStart = true;
+            boss = enemies[0];
+            setTimeout(startFinalBoss, 1000)
+        }
+        if (enemies[0] != undefined && enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Shadow/ShadowFront.png" && vsShadow == false && enemies[0].base.getAttribute("xlink:href") != "Images/Characters/Knight/knightCrossbow.png") {
+            for (var i = 0; i < enemies.length; i++) {
+                if (enemies[i].base.getAttribute("xlink:href") != "Images/Characters/Wizard/lightning.png" && enemies[i].base.getAttribute("xlink:href") != "Images/Characters/Wizard/Wizard.png") {
+                    if (getX(player.base) < getX(enemies[i].base)) {
+                        move(enemies[i].base, -1, 0)
+                    } else if (getX(player.base) > getX(enemies[i].base)) {
+                        move(enemies[i].base, 1, 0)
+                    }
+                    if (getY(player.base) < getY(enemies[i].base)) {
+                        move(enemies[i].base, 0, -1)
+                    } else if (getY(player.base) > getY(enemies[i].base)) {
+                        move(enemies[i].base, 0, 1)
+                    }
+                }
             }
         }
     }
 }
-}
+
 function setNpcs() {
     var randomMove = random(1, 4);
     if (npc.length > 0) {
@@ -747,7 +762,7 @@ function setNpcs() {
 }
 
 function moveNpcs() {
-      npcText = []
+    npcText = []
     if (npc.length > 0) {
         for (var i = 0; i < npc.length; i++) {
             if (npc[i].move == "right") {
@@ -783,8 +798,7 @@ function fireShooterFunction() {
             move(fireShooterBalls[j].base, 5, 0);
         } else if (fireShooterBalls[j].shootDir == "left") {
             move(fireShooterBalls[j].base, -5, 0);
-        } else if (fireShooterBalls[j].shootDir == "follow") {
-        }
+        } else if (fireShooterBalls[j].shootDir == "follow") {}
         if (getX(fireShooterBalls[j].base) < 0 || getX(fireShooterBalls[j].base) > 800 || getY(fireShooterBalls[j].base) < 0 || getY(fireShooterBalls[j].base) > 400) {
             removeArrayElementBase(fireShooterBalls, j)
         }
@@ -795,7 +809,7 @@ function shootFire(screen) {
     for (var i = 0; i < fireShooter.length; i++) {
         if (fireShooterBalls.length < fireShooter.length) {
             fireShooterBalls[fireShooterBalls.length] = {
-                base: makeImage("Images/Characters/fireShooter/fire.png", getX(fireShooter[i].base), getY(fireShooter[i].base), 32, 32),
+                base: makeImage("Images/Characters/FireShooter/Fire.png", getX(fireShooter[i].base), getY(fireShooter[i].base), 32, 32),
                 shootDir: fireShooter[i].shootDir
             }
         }
@@ -803,101 +817,111 @@ function shootFire(screen) {
     if (backgroundArray[screen].fireShooter != undefined && backgroundArray[screen].fireShooter.length > 0)
         setTimeout(shootFire, 1000, screen)
 }
-var bossSpeed =0;
-function startFinalBoss(){
-  var smoke = makeImage("Images/Characters/Smoke.png", getX(boss.base)-50, getY(boss.base)-50, 128, 128)
-  setTimeout(removeElement, 1000, smoke);
-  setX(boss.base,-50)
-  setY(boss.base,0)
-  finalBossLoop();
-}
-function finalBossLoop(){
-      bossSpeed = 500
-  if(boss.health >5&&evilBreak == false){
-    bossSpeed = 500
-move(boss.base,50,0)
-if(getX(boss.base) > 800&&evilBreak == false){
-    setX(boss.base,400)
-    setY(boss.base,200)
-    evilBreak = true;
-    setTimeout(function(){
-      var smoke = makeImage("Images/Characters/Smoke.png", getX(boss.base)-50, getY(boss.base)-50, 128, 128)
-      setTimeout(removeElement, 1000, smoke);
-      setX(boss.base,-50)
-      setY(boss.base,0)
-      evilBreak = false
-    },1000)
+var bossSpeed = 0;
 
+function startFinalBoss() {
+    var smoke = makeImage("Images/Characters/Smoke.png", getX(boss.base) - 50, getY(boss.base) - 50, 128, 128)
+    setTimeout(removeElement, 1000, smoke);
+    setX(boss.base, -50)
+    setY(boss.base, 0)
+    finalBossLoop();
 }
-fireShooterBalls[fireShooterBalls.length] = {
-    base: makeImage("Images/Characters/fireShooter/fire.png", getX(boss.base)-16, getY(boss.base)+32, 32, 32),
-    shootDir: "down"
-}
-  }
-  else if(boss.health >2&&evilBreak == false){
-    setX(boss.base,random(64,728))
-    setY(boss.base,random(64,200))
-    bossSpeed=2000
-    var xOffSet=192;
-    if(getX(boss.base)>400){
-      xOffSet= -128
+
+function finalBossLoop() {
+    bossSpeed = 500
+    if (boss.health > 5 && evilBreak == false) {
+        bossSpeed = 500
+        move(boss.base, 50, 0)
+        if (getX(boss.base) > 800 && evilBreak == false) {
+            setX(boss.base, 400)
+            setY(boss.base, 200)
+            evilBreak = true;
+            setTimeout(function() {
+                var smoke = makeImage("Images/Characters/Smoke.png", getX(boss.base) - 50, getY(boss.base) - 50, 128, 128)
+                setTimeout(removeElement, 1000, smoke);
+                setX(boss.base, -50)
+                setY(boss.base, 0)
+                evilBreak = false
+            }, 1000)
+
+        }
+        fireShooterBalls[fireShooterBalls.length] = {
+            base: makeImage("Images/Characters/fireShooter/fire.png", getX(boss.base) - 16, getY(boss.base) + 32, 32, 32),
+            shootDir: "down"
+        }
+    } else if (boss.health > 2 && evilBreak == false) {
+        setX(boss.base, random(64, 728))
+        setY(boss.base, random(64, 200))
+        bossSpeed = 2000
+        var xOffSet = 192;
+        if (getX(boss.base) > 400) {
+            xOffSet = -128
+        }
+        enemies[enemies.length] = {
+            base: makeImage("Images/Characters/Wizard/lightning.png", getX(player.base) - xOffSet, getY(player.base) - 64, 128, 256),
+            health: 9999,
+            speed: 0
+        }
+        setTimeout(function() {
+            for (var i = 1; i < enemies.length; i++) {
+                setX(enemies[i].base, 100000000)
+            }
+        }, 500)
+    } else if (boss.health > 0 && evilBreak == false) {
+        setX(boss.base, random(64, 728))
+        setY(boss.base, random(64, 200))
+        bossSpeed = 2000
+        enemies[enemies.length] = {
+            base: makeImage("Images/Characters/Skeleton/Skeleton.gif", getX(boss.base), getY(boss.base), 36, 36),
+            health: 1,
+            speed: 1
+        };
+    } else if (boss.health == 0) {
+        wizardDead = true;
+        endRestart = true;
+        creditsFunction();
+        boss.health = -1;
+        enemies = [];
     }
-    enemies[enemies.length] = {
-    base:makeImage("Images/Characters/Wizard/lightning.png",getX(player.base)-xOffSet,getY(player.base)-64,128,256),
-    health:9999,
-    speed:0
-  }
-    setTimeout(function(){
-      for(var i=1;i<enemies.length;i++){
-        setX(enemies[i].base,100000000)
-      }
-    },500)
-  }
-  else if(boss.health >0&&evilBreak == false){
-    setX(boss.base,random(64,728))
-    setY(boss.base,random(64,200))
-    bossSpeed=2000
-    enemies[enemies.length] = {
-        base: makeImage("Images/Characters/Skeleton/Skeleton.gif", getX(boss.base), getY(boss.base), 36, 36),
-        health: 1,
-        speed:1
-    };
-  }
-  else if(boss.health ==0){
-    creditsFunction();
-    boss.health = -1;
-    enemies=[];
-  }
-if(player.health>0 &&boss.health >0){
+    if (player.health > 0 && boss.health > 0) {
         setTimeout(finalBossLoop, bossSpeed)
-}
+    }
 }
 var creditsState = 0;
-function creditsFunction(){
-  gameOverRect = makeRect(0, 0, 1000, 1000, 'white', 0)
-  gameOverAnimation();
-  setTimeout(displayCredits,2000);
+
+function creditsFunction() {
+    gameOverRect = makeRect(0, 0, 1000, 1000, 'white', 0)
+    gameOverAnimation();
+    if (player.maxHealth == 3 || player.maxHealth == 4 || player.maxHealth == 5 || player.maxHealth == 6) {
+        creditsArray[6] = "THERE IS STILL MUCH TO EXPLORE"
+    } else if (player.maxHealth == 7) {
+        creditsArray[6] = "THERE IS A NEW DUNGEON HIDDEN IN THE DESERT"
+    }
+
+    setTimeout(displayCredits, 2500)
 }
-function displayCredits(){
-  if(creditsState<creditsArray.length){
-  levelText = makeText(creditsArray[creditsState], 300, 200, 32, "VT323", "black", 1)
-  totallyDone = false;
-  tFadeDone = false;
-  textFade(levelText);
-  setTimeout(function(){
-    creditsState++;
-    displayCredits();
-  },2500)
-}
- else{
-  continueText = makeText("CONTINUE", 300, 300, 32, "VT323", "black", 1)
-continueText.addEventListener("click", function() {
-      music.pause();
-      music = new Audio("Sounds/Overworld.mp3")
-      music.play();
-      music.volume = 0.5
-      canvas.innerHTML = "";
-      gameStart()
-  })
-}
+
+function displayCredits() {
+    if (creditsState < creditsArray.length) {
+        levelText = makeText(creditsArray[creditsState], 300, 200, 32, "VT323", "black", 1)
+        totallyDone = false;
+        tFadeDone = false;
+        textFade(levelText);
+        setTimeout(function() {
+            creditsState++;
+            displayCredits();
+        }, 2500)
+    } else {
+        continueText = makeText("CONTINUE", 300, 300, 32, "VT323", "black", 1)
+        continueText.addEventListener("click", function() {
+            player.health = player.maxHealth;
+            heartArray = [];
+            music.pause();
+            music = new Audio("Sounds/Overworld.mp3")
+            music.play();
+            music.volume = 0.5
+            canvas.innerHTML = "";
+            gameStart()
+        })
+    }
 }

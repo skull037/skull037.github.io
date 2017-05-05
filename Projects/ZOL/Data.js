@@ -37,19 +37,21 @@ var southNum = 0;
 var westNum = 0;
 var eastNum = 0;
 var vsShadow = false;
-var arrows=[];
+var wizardDead = false;
+var endRestart = false;
+var arrows = [];
 var bossStart = false;
-var boss ="";
+var boss = "";
 var evilBreak = false;
-var creditsArray=[
-  "AND SO OUR HERO'S JOURNEY IS OVER",
-  "THE EVIL WIZARD IS DEFEATED",
-  "CREDITS",
-  "EVERYTHING MINUS MUSIC: MAX SAMI",
-  "MUSIC: KEVIN MACLEOD",
-  "THANK YOU FOR PLAYING"
-]
-//audio
+var creditsArray = [
+        "AND SO OUR HERO'S JOURNEY IS OVER",
+        "THE EVIL WIZARD IS DEFEATED",
+        "CREDITS",
+        "EVERYTHING MINUS MUSIC: MAX SAMI",
+        "MUSIC: KEVIN MACLEOD",
+        "THANK YOU FOR PLAYING"
+    ]
+    //audio
 var playerAttackSound = new Audio("Sounds/Attack.wav");
 playerAttackSound.volume = 0.5
 var music = new Audio("Sounds/Overworld.mp3");
@@ -58,15 +60,15 @@ music.loop = true;
 var playerHitSound = new Audio("Sounds/Hit.wav");
 playerHitSound.volume = 1
 var player = {
-        base: "URL",
-        health: 3,
-        maxHealth: 3,
-        attack: 0,
-        speed: 0,
-        money: 0,
-        lastDir: "up",
-        swordAttack: "RECT",
-    }
+    base: "URL",
+    health: 3,
+    maxHealth: 3,
+    attack: 0,
+    speed: 0,
+    money: 0,
+    lastDir: "up",
+    swordAttack: "RECT",
+}
 var backgroundArray = [{
     base: "Images/Screens/Screen1.png",
     exits: [{
@@ -75,7 +77,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 1,
         direction: "north"
     }, {
@@ -84,7 +86,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 46,
         direction: "south"
     }, {
@@ -93,7 +95,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 19,
         direction: "east"
     }, {
@@ -102,7 +104,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 64,
         direction: "west"
     }],
@@ -146,7 +148,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 4,
         direction: "north"
     }, {
@@ -155,7 +157,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 0,
         direction: "south"
     }, {
@@ -164,7 +166,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 6,
         direction: "east"
     }, {
@@ -173,7 +175,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 2,
         direction: "west"
     }],
@@ -193,7 +195,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 3,
         direction: "north"
     }, {
@@ -202,7 +204,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 1,
         direction: "east"
     }],
@@ -222,7 +224,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 2,
         direction: "south"
     }],
@@ -308,7 +310,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 1,
         direction: "south"
     }, {
@@ -317,7 +319,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 5,
         direction: "east"
     }],
@@ -337,7 +339,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 7,
         direction: "north"
     }, {
@@ -346,7 +348,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 4,
         direction: "west"
     }],
@@ -376,7 +378,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 1,
         direction: "west"
     }],
@@ -422,7 +424,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 8,
         direction: "north"
     }, {
@@ -431,7 +433,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 5,
         direction: "south"
     }],
@@ -460,7 +462,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 7,
         direction: "south"
     }, {
@@ -469,7 +471,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 9,
         direction: "west"
     }],
@@ -491,7 +493,7 @@ var backgroundArray = [{
         y: 82,
         width: 32,
         height: 32
-    },{
+    }, {
         url: ("Images/BackgroundElements/Grass/Grass1.png"),
         x: 668,
         y: 118,
@@ -509,7 +511,7 @@ var backgroundArray = [{
         y: 82,
         width: 32,
         height: 32
-    },{
+    }, {
         url: ("Images/BackgroundElements/Grass/Grass1.png"),
         x: 636,
         y: 118,
@@ -537,7 +539,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 8,
         direction: "east"
     }, {
@@ -546,7 +548,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 10,
         direction: "west"
     }, ],
@@ -575,7 +577,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 11,
         direction: "south"
     }, {
@@ -584,7 +586,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 9,
         direction: "east"
     }],
@@ -614,7 +616,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 10,
         direction: "north"
     }, {
@@ -623,7 +625,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 12,
         direction: "east"
     }, ],
@@ -637,7 +639,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 11,
         direction: "west"
     }, {
@@ -729,7 +731,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 14,
         direction: "north"
     }, {
@@ -739,7 +741,7 @@ var backgroundArray = [{
         height: 50,
         color: "cyan",
         screenToLoad: 12,
-        opacity: 0.5,
+        opacity: 0,
         direction: "south"
     }, ],
     backgroundElements: [{
@@ -776,7 +778,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 17,
         direction: "north"
     }, {
@@ -785,7 +787,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 13,
         direction: "south"
     }, {
@@ -794,7 +796,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 15,
         direction: "east"
     }, {
@@ -803,7 +805,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 16,
         direction: "west"
     }],
@@ -832,7 +834,7 @@ var backgroundArray = [{
             width: 50,
             height: 200,
             color: "white",
-            opacity: 0.5,
+            opacity: 0,
             direction: "east"
         },
     }, {
@@ -848,7 +850,7 @@ var backgroundArray = [{
             width: 300,
             height: 50,
             color: "white",
-            opacity: 0.5,
+            opacity: 0,
             direction: "north"
         },
     }],
@@ -861,7 +863,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 14,
         direction: "west"
     }],
@@ -886,7 +888,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 14,
         direction: "east"
     }],
@@ -911,7 +913,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 18,
         direction: "north"
     }, {
@@ -921,7 +923,7 @@ var backgroundArray = [{
         height: 50,
         color: "cyan",
         screenToLoad: 14,
-        opacity: 0.5,
+        opacity: 0,
         direction: "south"
     }],
     backgroundElements: [],
@@ -950,7 +952,7 @@ var backgroundArray = [{
         height: 50,
         color: "cyan",
         screenToLoad: 17,
-        opacity: 0.5,
+        opacity: 0,
         direction: "south"
     }],
     backgroundElements: [],
@@ -971,7 +973,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 20,
         direction: "east"
     }, {
@@ -980,7 +982,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 0,
         direction: "west"
     }, ],
@@ -1010,7 +1012,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 21,
         direction: "east"
     }, {
@@ -1019,7 +1021,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 19,
         direction: "west"
     }, ],
@@ -1055,7 +1057,7 @@ var backgroundArray = [{
         height: 50,
         width: 300,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 22,
         direction: "north"
     }, {
@@ -1064,7 +1066,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 23,
         direction: "south"
     }, {
@@ -1073,7 +1075,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 25,
         direction: "east"
     }, {
@@ -1082,7 +1084,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 20,
         direction: "west"
     }],
@@ -1126,7 +1128,7 @@ var backgroundArray = [{
         height: 50,
         width: 300,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 33,
         direction: "north"
     }, {
@@ -1135,7 +1137,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 21,
         direction: "south"
     }, {
@@ -1144,7 +1146,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 24,
         direction: "east"
     }],
@@ -1188,7 +1190,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 21,
         direction: "north"
     }, {
@@ -1197,7 +1199,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 26,
         direction: "east"
     }, ],
@@ -1227,7 +1229,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 25,
         direction: "south"
     }, {
@@ -1236,7 +1238,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 22,
         direction: "west"
     }],
@@ -1272,7 +1274,7 @@ var backgroundArray = [{
         height: 50,
         width: 300,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 24,
         direction: "north"
     }, {
@@ -1281,7 +1283,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 26,
         direction: "south"
     }, {
@@ -1290,7 +1292,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 28,
         direction: "east"
     }, {
@@ -1299,7 +1301,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 21,
         direction: "west"
     }],
@@ -1335,7 +1337,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 25,
         direction: "north"
     }, {
@@ -1344,7 +1346,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 23,
         direction: "west"
     }],
@@ -1372,7 +1374,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 28,
         direction: "south"
     }],
@@ -1392,7 +1394,7 @@ var backgroundArray = [{
         height: 50,
         width: 300,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 27,
         direction: "north"
     }, {
@@ -1401,7 +1403,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 29,
         direction: "south"
     }, {
@@ -1410,7 +1412,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 31,
         direction: "east"
     }, {
@@ -1419,7 +1421,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 25,
         direction: "west"
     }],
@@ -1439,7 +1441,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 28,
         direction: "north"
     }],
@@ -1467,7 +1469,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 31,
         direction: "south"
     }],
@@ -1481,7 +1483,7 @@ var backgroundArray = [{
         height: 50,
         width: 300,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 30,
         direction: "north"
     }, {
@@ -1490,7 +1492,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 32,
         direction: "south"
     }, {
@@ -1499,7 +1501,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 28,
         direction: "west"
     }, {
@@ -1511,7 +1513,43 @@ var backgroundArray = [{
         screenToLoad: 34,
         direction: "east"
     }],
-    backgroundElements: [],
+    backgroundElements: [{
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 200,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
+        x: 400,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
+        x: 600,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 200,
+        y: 272,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
+        x: 400,
+        y: 272,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
+        x: 600,
+        y: 272,
+        width: 32,
+        height: 64
+    }],
     enemies: [{
         url: ("Images/Characters/Knight/knightElite.gif"),
         x: 500,
@@ -1529,7 +1567,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 31,
         direction: "north"
     }],
@@ -1543,7 +1581,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 22,
         direction: "south"
     }],
@@ -1582,7 +1620,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 36,
         direction: "east"
     }, {
@@ -1591,7 +1629,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 31,
         direction: "west"
     }],
@@ -1629,7 +1667,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 31,
         direction: "south"
     }],
@@ -1643,7 +1681,7 @@ var backgroundArray = [{
         height: 50,
         width: 300,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 37,
         direction: "north"
     }, {
@@ -1652,7 +1690,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 34,
         direction: "west"
     }],
@@ -1672,7 +1710,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 36,
         direction: "south"
     }, {
@@ -1681,7 +1719,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 38,
         direction: "west"
     }],
@@ -1712,7 +1750,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 39,
         direction: "south"
     }, {
@@ -1721,7 +1759,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 37,
         direction: "east"
     }],
@@ -1752,7 +1790,7 @@ var backgroundArray = [{
         height: 50,
         width: 300,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 38,
         direction: "north"
     }, {
@@ -1761,7 +1799,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 45,
         direction: "east"
     }],
@@ -1782,7 +1820,7 @@ var backgroundArray = [{
         height: 50,
         width: 300,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 41,
         direction: "north"
     }, {
@@ -1791,7 +1829,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 39,
         direction: "west"
     }],
@@ -1811,7 +1849,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 40,
         direction: "south"
     }, {
@@ -1820,7 +1858,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 42,
         direction: "west"
     }],
@@ -1843,7 +1881,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 43,
         direction: "south"
     }, {
@@ -1852,7 +1890,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 41,
         direction: "east"
     }],
@@ -1883,7 +1921,7 @@ var backgroundArray = [{
         height: 50,
         width: 300,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 42,
         direction: "north"
     }, {
@@ -1892,7 +1930,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 45,
         direction: "east"
     }],
@@ -1913,7 +1951,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 43,
         direction: "south"
     }, {
@@ -1922,7 +1960,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 41,
         direction: "east"
     }],
@@ -1945,7 +1983,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 43,
         direction: "west"
     }],
@@ -1968,7 +2006,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 0,
         direction: "north"
     }, {
@@ -1977,7 +2015,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 47,
         direction: "south"
     }, {
@@ -1986,11 +2024,35 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 53,
         direction: "west"
     }],
-    backgroundElements: [],
+    backgroundElements: [{
+        url: ("Images/BackgroundElements/Grass/Grass1.png"),
+        x: 704,
+        y: 64,
+        width: 32,
+        height: 32
+    }, {
+        url: ("Images/BackgroundElements/Grass/Grass1.png"),
+        x: 704,
+        y: 96,
+        width: 32,
+        height: 32
+    }, {
+        url: ("Images/BackgroundElements/Grass/Grass1.png"),
+        x: 672,
+        y: 64,
+        width: 32,
+        height: 32
+    }, {
+        url: ("Images/BackgroundElements/Grass/Grass1.png"),
+        x: 672,
+        y: 96,
+        width: 32,
+        height: 32
+    }],
     enemies: []
 }, {
     base: "Images/Screens/Screen47.png",
@@ -2000,7 +2062,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 46,
         direction: "north"
     }, {
@@ -2009,7 +2071,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 59,
         direction: "south"
     }, {
@@ -2018,7 +2080,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 48,
         direction: "east"
     }],
@@ -2032,7 +2094,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 49,
         direction: "south"
     }, {
@@ -2041,7 +2103,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 47,
         direction: "west"
     }],
@@ -2055,7 +2117,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 48,
         direction: "north"
     }, {
@@ -2064,7 +2126,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 50,
         direction: "south"
     }, {
@@ -2073,7 +2135,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 59,
         direction: "west"
     }],
@@ -2087,7 +2149,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 49,
         direction: "north"
     }, {
@@ -2096,7 +2158,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 51,
         direction: "south"
     }],
@@ -2110,7 +2172,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 50,
         direction: "north"
     }, {
@@ -2119,7 +2181,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 52,
         direction: "east"
     }],
@@ -2133,19 +2195,55 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 51,
         direction: "west"
-    },{
-            url: "Images/BackgroundElements/DungeonEnt/WaterDungeon.png",
-            x: 600,
-            y: 175,
-            width: 64,
-            height: 64,
-            screenToLoad: 60,
-            direction: "east"
-        }],
-    backgroundElements: [],
+    }, {
+        url: "Images/BackgroundElements/DungeonEnt/WaterDungeon.png",
+        x: 600,
+        y: 175,
+        width: 64,
+        height: 64,
+        screenToLoad: 60,
+        direction: "east"
+    }],
+    backgroundElements: [{
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 200,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
+        x: 400,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken1.png"),
+        x: 600,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 200,
+        y: 272,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken1.png"),
+        x: 400,
+        y: 272,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 600,
+        y: 272,
+        width: 32,
+        height: 64
+    }],
     enemies: []
 }, {
     base: "Images/Screens/Screen53.png",
@@ -2155,7 +2253,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 54,
         direction: "south"
     }, {
@@ -2164,7 +2262,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 46,
         direction: "east"
     }],
@@ -2178,7 +2276,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 53,
         direction: "north"
     }, {
@@ -2187,7 +2285,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 55,
         direction: "south"
     }],
@@ -2201,7 +2299,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 54,
         direction: "north"
     }, {
@@ -2210,7 +2308,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 56,
         direction: "south"
     }, {
@@ -2219,7 +2317,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 58,
         direction: "west"
     }],
@@ -2239,7 +2337,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 55,
         direction: "north"
     }, {
@@ -2248,7 +2346,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 57,
         direction: "west"
     }],
@@ -2268,7 +2366,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 58,
         direction: "north"
     }, {
@@ -2277,7 +2375,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 56,
         direction: "east"
     }],
@@ -2297,7 +2395,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 57,
         direction: "south"
     }, {
@@ -2306,7 +2404,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 55,
         direction: "east"
     }],
@@ -2336,7 +2434,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 47,
         direction: "north"
     }, {
@@ -2345,7 +2443,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 49,
         direction: "east"
     }],
@@ -2359,7 +2457,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 61,
         direction: "south"
     }, {
@@ -2368,7 +2466,7 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 52,
         direction: "west"
     }],
@@ -2398,7 +2496,7 @@ var backgroundArray = [{
         height: 32
     }],
     enemies: []
-},{
+}, {
     base: "Images/Screens/Screen61.png",
     exits: [{
         x: 250,
@@ -2406,7 +2504,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 60,
         direction: "north"
     }, {
@@ -2415,13 +2513,13 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 62,
         direction: "east"
     }],
     backgroundElements: [],
     enemies: []
-},{
+}, {
     base: "Images/Screens/Screen62.png",
     exits: [{
         x: 250,
@@ -2429,7 +2527,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 63,
         direction: "north"
     }, {
@@ -2438,13 +2536,13 @@ var backgroundArray = [{
         width: 50,
         height: 200,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 61,
         direction: "west"
     }],
     backgroundElements: [],
     enemies: []
-},{
+}, {
     base: "Images/Screens/Screen63.png",
     exits: [{
         x: 250,
@@ -2452,7 +2550,7 @@ var backgroundArray = [{
         width: 300,
         height: 50,
         color: "cyan",
-        opacity: 0.5,
+        opacity: 0,
         screenToLoad: 62,
         direction: "south"
     }],
@@ -2464,775 +2562,776 @@ var backgroundArray = [{
         width: 32,
         height: 32,
         health: 3,
-        speed:1
+        speed: 1
     }]
-  },{
-      base: "Images/Screens/Screen64.png",
-      exits: [{
-          x: 775,
-          y: 100,
-          width: 50,
-          height: 200,
-          color: "cyan",
-          opacity: 0.5,
-          screenToLoad: 0,
-          direction: "east"
-      }, {
-          x: -25,
-          y: 100,
-          width: 50,
-          height: 200,
-          color: "cyan",
-          opacity: 0.5,
-          screenToLoad: 65,
-          direction: "west"
-      }],
-      backgroundElements: [{
-          url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
-          x: 200,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
-          x: 400,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
-          x: 600,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
-          x: 200,
-          y: 272,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
-          x: 400,
-          y: 272,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
-          x: 600,
-          y: 272,
-          width: 32,
-          height: 64
-      }],
-      enemies: [{
-          url: ("Images/Characters/Skeleton/Skeleton.gif"),
-          x: 500,
-          y: 100,
-          width: 32,
-          height: 32,
-          health: 1,
-          speed: 1
-      }, {
-          url: ("Images/Characters/Skeleton/Skeleton.gif"),
-          x: 200,
-          y: 100,
-          width: 32,
-          height: 32,
-          health: 1,
-          speed: 1
-      }, {
-          url: ("Images/Characters/Skeleton/Skeleton.gif"),
-          x: 232,
-          y: 300,
-          width: 32,
-          height: 32,
-          health: 1,
-          speed: 1
-      }, {
-          url: ("Images/Characters/Skeleton/Skeleton.gif"),
-          x: 300,
-          y: 300,
-          width: 32,
-          height: 32,
-          health: 1,
-          speed: 1
-      }]
-  },{
-      base: "Images/Screens/Screen64.png",
-      exits: [{
-          x: 775,
-          y: 100,
-          width: 50,
-          height: 200,
-          color: "cyan",
-          opacity: 0.5,
-          screenToLoad: 64,
-          direction: "east"
-      }, {
-          x: -25,
-          y: 100,
-          width: 50,
-          height: 200,
-          color: "cyan",
-          opacity: 0.5,
-          screenToLoad: 66,
-          direction: "west"
-      }],
-      backgroundElements: [{
-          url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
-          x: 200,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
-          x: 400,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
-          x: 600,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken1.png"),
-          x: 200,
-          y: 272,
-          height: 64,
-          width: 32,
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
-          x: 400,
-          y: 272,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
-          x: 600,
-          y: 272,
-          width: 32,
-          height: 64
-      }],
-      enemies: [{
-  url: ("Images/Characters/Knight/knight.gif"),
-          x: 500,
-          y: 100,
-          width: 32,
-          height: 32,
-          health: 3,
-          speed: 1
-      }, {
-  url: ("Images/Characters/Knight/knight.gif"),
-          x: 200,
-          y: 100,
-          width: 32,
-          height: 32,
-          health: 3,
-          speed: 1
-      }, {
-  url: ("Images/Characters/Knight/knight.gif"),
-          x: 100,
-          y: 200,
-          width: 32,
-          height: 32,
-          health: 3,
-          speed: 1
-      }, {
-  url: ("Images/Characters/Knight/knight.gif"),
-          x: 300,
-          y: 300,
-          width: 32,
-          height: 32,
-          health: 3,
-          speed: 1
-      }]
-  },{
-      base: "Images/Screens/Screen64.png",
-      exits: [{
-          x: 775,
-          y: 100,
-          width: 50,
-          height: 200,
-          color: "cyan",
-          opacity: 0.5,
-          screenToLoad: 65,
-          direction: "east"
-      }, {
-          x: -25,
-          y: 100,
-          width: 50,
-          height: 200,
-          color: "cyan",
-          opacity: 0.5,
-          screenToLoad: 67,
-          direction: "west"
-      }],
-      backgroundElements: [{
-          url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
-          x: 200,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
-          x: 400,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
-          x: 600,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
-          x: 200,
-          y: 272,
-          height: 64,
-          width: 32,
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken1.png"),
-          x: 400,
-          y: 272,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
-          x: 600,
-          y: 272,
-          width: 32,
-          height: 64
-      }],
-      enemies: [{
-          url: ("Images/Characters/Shadow/ShadowFront.png"),
-          x: 32,
-          y: 200,
-          width: 32,
-          height: 32,
-          health: 99,
-          speed:1
-      }]
-  },{
-      base: "Images/Screens/Screen67.png",
-      exits: [{
-          x: 775,
-          y: 100,
-          width: 50,
-          height: 200,
-          color: "cyan",
-          opacity: 0.5,
-          screenToLoad: 66,
-          direction: "east"
-      }, {
-          x: -25,
-          y: 100,
-          width: 50,
-          height: 200,
-          color: "cyan",
-          opacity: 0.5,
-          screenToLoad: 68,
-          direction: "west"
-      }],
-      backgroundElements: [{
-          url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
-          x: 200,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
-          x: 400,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
-          x: 600,
-          y: 64,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
-          x: 200,
-          y: 272,
-          height: 64,
-          width: 32,
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken1.png"),
-          x: 400,
-          y: 272,
-          width: 32,
-          height: 64
-      },{
-          url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
-          x: 600,
-          y: 272,
-          width: 32,
-          height: 64
-      }],
-      enemies: [],
-      fireShooter:[{
-          url: ("Images/Characters/FireShooter/fireShooter.gif"),
-          x: 712,
-          y: 100,
-          width: 32,
-          height: 32,
-          shootDir: "down"
-      }, {
-          url: ("Images/Characters/FireShooter/fireShooter.gif"),
-          x: 64,
-          y: 300,
-          width: 32,
-          height: 32,
-          shootDir: "up"
-      }]
-    },{
-        base: "Images/Screens/Screen68.png",
-        exits: [{
-            x: 775,
-            y: 100,
-            width: 50,
-            height: 200,
-            color: "cyan",
-            opacity: 0.5,
-            screenToLoad: 67,
-            direction: "east"
-        }, {
-            x: -25,
-            y: 100,
-            width: 50,
-            height: 200,
-            color: "cyan",
-            opacity: 0.5,
-            screenToLoad: 69,
-            direction: "west"
-        }],
-        backgroundElements: [{
-            url: ("Images/BackgroundElements/Statue/knightStatue.png"),
-            x: 250,
-            y: 100,
-            width: 32,
-            height: 32
-        }, {
-            url: ("Images/BackgroundElements/Statue/knightStatue.png"),
-            x: 500,
-            y: 100,
-            width: 32,
-            height: 32
-        }, {
-            url: ("Images/BackgroundElements/Statue/knightStatue.png"),
-            x: 250,
-            y: 300,
-            width: 32,
-            height: 32
-        }, {
-            url: ("Images/BackgroundElements/Statue/knightStatue.png"),
-            x: 500,
-            y: 300,
-            width: 32,
-            height: 32
-        }],
-        enemies: []
-      },{
-          base: "Images/Screens/Screen69.png",
-          exits: [{
-              x: 250,
-              y: -25,
-              width: 300,
-              height: 50,
-              color: "cyan",
-              opacity: 0.5,
-              screenToLoad: 70,
-              direction: "north"
-          }, {
-              x: 250,
-              y: 375,
-              width: 300,
-              height: 50,
-              color: "cyan",
-              opacity: 0.5,
-              screenToLoad: 72,
-              direction: "south"
-          }, {
-              x: 775,
-              y: 100,
-              width: 50,
-              height: 200,
-              color: "cyan",
-              opacity: 0.5,
-              screenToLoad: 68,
-              direction: "east"
-          }, {
-              x: -25,
-              y: 100,
-              width: 50,
-              height: 200,
-              color: "cyan",
-              opacity: 0.5,
-              screenToLoad: 71,
-              direction: "west"
-          }],
-          backgroundElements: [],
-          enemies: [{
-              url: ("Images/Characters/Knight/knightElite.gif"),
-              x: 400,
-              y: 200,
-              width: 32,
-              height: 32,
-              health: 5,
-              speed: 0.5
-          }]
-      },{
-          base: "Images/Screens/Screen70.png",
-          exits: [{
-              x: 250,
-              y: 375,
-              width: 300,
-              height: 50,
-              color: "cyan",
-              opacity: 0.5,
-              screenToLoad: 69,
-              direction: "south"
-          }],
-          backgroundElements: [],
-          enemies: [{
-              url: ("Images/Characters/Knight/knightElite.gif"),
-              x: 100,
-              y: 300,
-              width: 32,
-              height: 32,
-              health: 4,
-              speed: 1
-          }, {
-              url: ("Images/Characters/Knight/knightElite.gif"),
-              x: 700,
-              y: 300,
-              width: 32,
-              height: 32,
-              health: 4,
-              speed: 1
-          }]
-      },{
-          base: "Images/Screens/Screen71.png",
-          exits: [{
-              x: 775,
-              y: 100,
-              width: 50,
-              height: 200,
-              color: "cyan",
-              opacity: 0.5,
-              screenToLoad: 69,
-              direction: "east"
-          }],
-          backgroundElements: [],
-          enemies: [{
-              url: ("Images/Characters/Knight/knightElite.gif"),
-              x: 200,
-              y: 200,
-              width: 32,
-              height: 32,
-              health: 4,
-              speed: 1
-          }, {
-              url: ("Images/Characters/Knight/knightElite.gif"),
-              x: 100,
-              y: 300,
-              width: 32,
-              height: 32,
-              health: 4,
-              speed: 1
-          }]
-      },{
-          base: "Images/Screens/Screen72.png",
-          exits: [{
-              x: 250,
-              y: -25,
-              width: 300,
-              height: 50,
-              color: "cyan",
-              opacity: 0.5,
-              screenToLoad: 69,
-              direction: "north"
-          }, {
-              x: -25,
-              y: 100,
-              width: 50,
-              height: 200,
-              color: "cyan",
-              opacity: 0.5,
-              screenToLoad: 73,
-              direction: "west"
-          }],
-          backgroundElements: [],
-          enemies: [{
-              url: ("Images/Characters/Knight/knightElite.gif"),
-              x: 100,
-              y: 300,
-              width: 32,
-              height: 32,
-              health: 4,
-              speed: 1
-          }, {
-              url: ("Images/Characters/Knight/knightElite.gif"),
-              x: 700,
-              y: 300,
-              width: 32,
-              height: 32,
-              health: 4,
-              speed: 1
-          }]
-      },{
-          base: "Images/Screens/Screen68.png",
-          exits: [{
-              x: 775,
-              y: 100,
-              width: 50,
-              height: 200,
-              color: "cyan",
-              opacity: 0.5,
-              screenToLoad: 72,
-              direction: "east"
-          }, {
-              x: -25,
-              y: 100,
-              width: 50,
-              height: 200,
-              color: "cyan",
-              opacity: 0.5,
-              screenToLoad: 74,
-              direction: "west"
-          }],
-          backgroundElements: [],
-          enemies: [{
-              url: ("Images/Characters/Knight/knightElite.gif"),
-              x: 250,
-              y: 200,
-              width: 32,
-              height: 32,
-              health: 4,
-              speed: 1
-          }, {
-              url: ("Images/Characters/Knight/knightElite.gif"),
-              x: 350,
-              y: 200,
-              width: 32,
-              height: 32,
-              health: 4,
-              speed: 1
-          }]
-        },{
-            base: "Images/Screens/Screen74.png",
-            exits: [{
-                x: 250,
-                y: -25,
-                width: 300,
-                height: 50,
-                color: "cyan",
-                opacity: 0.5,
-                screenToLoad: 76,
-                direction: "north"
-            }, {
-                x: 250,
-                y: 375,
-                width: 300,
-                height: 50,
-                color: "cyan",
-                opacity: 0.5,
-                screenToLoad: 75,
-                direction: "south"
-            }, {
-                x: 775,
-                y: 100,
-                width: 50,
-                height: 200,
-                color: "cyan",
-                opacity: 0.5,
-                screenToLoad: 73,
-                direction: "east"
-            }],
-            backgroundElements: [],
-            enemies: [{
-                url: ("Images/Characters/Knight/knightElite.gif"),
-                x: 400,
-                y: 200,
-                width: 32,
-                height: 32,
-                health: 5,
-                speed: 0.5
-            }]
-        },{
-            base: "Images/Screens/Screen75.png",
-            exits: [{
-                x: 250,
-                y: -25,
-                width: 300,
-                height: 50,
-                color: "cyan",
-                opacity: 0.5,
-                screenToLoad: 74,
-                direction: "north"
-            }],
-            backgroundElements: [],
-            enemies: [{
-                url: ("Images/Characters/Knight/knightElite.gif"),
-                x: 100,
-                y: 300,
-                width: 32,
-                height: 32,
-                health: 4,
-                speed: 1
-            }, {
-                url: ("Images/Characters/Knight/knightElite.gif"),
-                x: 700,
-                y: 364,
-                width: 32,
-                height: 32,
-                health: 4,
-                speed: 1
-            }]
-        },{
-            base: "Images/Screens/Screen76.png",
-            exits: [{
-                x: 250,
-                y: -25,
-                width: 300,
-                height: 50,
-                color: "cyan",
-                opacity: 0.5,
-                screenToLoad: 77,
-                direction: "north"
-            }, {
-                x: 250,
-                y: 375,
-                width: 300,
-                height: 50,
-                color: "cyan",
-                opacity: 0.5,
-                screenToLoad: 74,
-                direction: "south"
-            }],
-            backgroundElements: [],
-            enemies: [{
-                url: ("Images/Characters/Knight/knightElite.gif"),
-                x: 100,
-                y: 200,
-                width: 32,
-                height: 32,
-                health: 4,
-                speed: 1
-            }, {
-                url: ("Images/Characters/Knight/knightElite.gif"),
-                x: 700,
-                y: 264,
-                width: 32,
-                height: 32,
-                health: 4,
-                speed: 1
-            }]
-        },{
-            base: "Images/Screens/Screen77.png",
-            exits: [{
-                x: 775,
-                y: 100,
-                width: 50,
-                height: 200,
-                color: "cyan",
-                opacity: 0.5,
-                screenToLoad: 78,
-                direction: "east"
-            },{
-                x: 250,
-                y: 375,
-                width: 300,
-                height: 50,
-                color: "cyan",
-                opacity: 0.5,
-                screenToLoad: 76,
-                direction: "south"
-            }],
-            backgroundElements: [],
-            enemies: []
-        },{
-            base: "Images/Screens/Screen78.png",
-            exits: [{
-                x: -25,
-                y: 100,
-                width: 50,
-                height: 200,
-                color: "cyan",
-                opacity: 0.5,
-                screenToLoad: 77,
-                direction: "west"
-            }],
-            backgroundElements: [],
-            enemies: [{
-                  url: ("Images/Characters/Wizard/Wizard.png"),
-                  x: 400,
-                  y: 200,
-                  width: 32,
-                  height: 32,
-                  health: 9,
-                  speed:1
-            }],barrier: [{
-                url: ("Images/Screens/BarrierWest.png"),
-                x: 0,
-                y: 0,
-                width: 800,
-                height: 400,
-                direction: "west",
-                rect: {
-                    x: 0,
-                    y: 100,
-                    width: 50,
-                    height: 200,
-                    color: "white",
-                    opacity: 0.5,
-                    direction: "west"
-                }
-              }]
-        }]
-var heartArray = [];
-var background;
-    /*
-    grass template
-    {
-        url: ("Images/BackgroundElements/Grass/Grass1.png"),
-        x: 632,
-        y: 82,
+}, {
+    base: "Images/Screens/Screen64.png",
+    exits: [{
+        x: 775,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 0,
+        direction: "east"
+    }, {
+        x: -25,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 65,
+        direction: "west"
+    }],
+    backgroundElements: [{
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 200,
+        y: 64,
         width: 32,
-        height: 32
-    }
-    skeleton template
-    {
-        url: ("Images/Characters/Skeleton/Skeleton.gif"),
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
+        x: 400,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
         x: 600,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 200,
+        y: 272,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
+        x: 400,
+        y: 272,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
+        x: 600,
+        y: 272,
+        width: 32,
+        height: 64
+    }],
+    enemies: [{
+        url: ("Images/Characters/Skeleton/Skeleton.gif"),
+        x: 500,
+        y: 100,
+        width: 32,
+        height: 32,
+        health: 1,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Skeleton/Skeleton.gif"),
+        x: 200,
+        y: 100,
+        width: 32,
+        height: 32,
+        health: 1,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Skeleton/Skeleton.gif"),
+        x: 232,
         y: 300,
         width: 32,
         height: 32,
         health: 1,
-        speed:1
-    }
-    knight template
-    {
-        url: ("Images/Characters/Knight/knight.gif"),
+        speed: 1
+    }, {
+        url: ("Images/Characters/Skeleton/Skeleton.gif"),
+        x: 300,
+        y: 300,
+        width: 32,
+        height: 32,
+        health: 1,
+        speed: 1
+    }]
+}, {
+    base: "Images/Screens/Screen64.png",
+    exits: [{
+        x: 775,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 64,
+        direction: "east"
+    }, {
+        x: -25,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 66,
+        direction: "west"
+    }],
+    backgroundElements: [{
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 200,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
+        x: 400,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
         x: 600,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken1.png"),
+        x: 200,
+        y: 272,
+        height: 64,
+        width: 32,
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
+        x: 400,
+        y: 272,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
+        x: 600,
+        y: 272,
+        width: 32,
+        height: 64
+    }],
+    enemies: [{
+        url: ("Images/Characters/Knight/knight.gif"),
+        x: 500,
+        y: 100,
+        width: 32,
+        height: 32,
+        health: 3,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Knight/knight.gif"),
+        x: 200,
+        y: 100,
+        width: 32,
+        height: 32,
+        health: 3,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Knight/knight.gif"),
+        x: 100,
+        y: 200,
+        width: 32,
+        height: 32,
+        health: 3,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Knight/knight.gif"),
+        x: 300,
         y: 300,
         width: 32,
         height: 32,
         health: 3,
-        speed:1
-    }
-    dungeon enterance
-    {
-        url: "Images/BackgroundElements/DungeonEnt/DesertDungeon.png",
-        x: 600,
-        y: 175,
-        width: 64,
-        height: 64,
-        screenToLoad: 34,
+        speed: 1
+    }]
+}, {
+    base: "Images/Screens/Screen64.png",
+    exits: [{
+        x: 775,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 65,
         direction: "east"
-    }
-    */
+    }, {
+        x: -25,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 67,
+        direction: "west"
+    }],
+    backgroundElements: [{
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 200,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 400,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 600,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
+        x: 200,
+        y: 272,
+        height: 64,
+        width: 32,
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken1.png"),
+        x: 400,
+        y: 272,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
+        x: 600,
+        y: 272,
+        width: 32,
+        height: 64
+    }],
+    enemies: [{
+        url: ("Images/Characters/Shadow/ShadowFront.png"),
+        x: 32,
+        y: 200,
+        width: 32,
+        height: 32,
+        health: 99,
+        speed: 1
+    }]
+}, {
+    base: "Images/Screens/Screen67.png",
+    exits: [{
+        x: 775,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 66,
+        direction: "east"
+    }, {
+        x: -25,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 68,
+        direction: "west"
+    }],
+    backgroundElements: [{
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 200,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 400,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarOld.png"),
+        x: 600,
+        y: 64,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2.png"),
+        x: 200,
+        y: 272,
+        height: 64,
+        width: 32,
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken1.png"),
+        x: 400,
+        y: 272,
+        width: 32,
+        height: 64
+    }, {
+        url: ("Images/BackgroundElements/Pillars/PillarBroken2A.png"),
+        x: 600,
+        y: 272,
+        width: 32,
+        height: 64
+    }],
+    enemies: [],
+    fireShooter: [{
+        url: ("Images/Characters/FireShooter/fireShooter.gif"),
+        x: 712,
+        y: 100,
+        width: 32,
+        height: 32,
+        shootDir: "down"
+    }, {
+        url: ("Images/Characters/FireShooter/fireShooter.gif"),
+        x: 64,
+        y: 300,
+        width: 32,
+        height: 32,
+        shootDir: "up"
+    }]
+}, {
+    base: "Images/Screens/Screen68.png",
+    exits: [{
+        x: 775,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 67,
+        direction: "east"
+    }, {
+        x: -25,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 69,
+        direction: "west"
+    }],
+    backgroundElements: [{
+        url: ("Images/BackgroundElements/Statue/knightStatue.png"),
+        x: 250,
+        y: 100,
+        width: 32,
+        height: 32
+    }, {
+        url: ("Images/BackgroundElements/Statue/knightStatue.png"),
+        x: 500,
+        y: 100,
+        width: 32,
+        height: 32
+    }, {
+        url: ("Images/BackgroundElements/Statue/knightStatue.png"),
+        x: 250,
+        y: 300,
+        width: 32,
+        height: 32
+    }, {
+        url: ("Images/BackgroundElements/Statue/knightStatue.png"),
+        x: 500,
+        y: 300,
+        width: 32,
+        height: 32
+    }],
+    enemies: []
+}, {
+    base: "Images/Screens/Screen69.png",
+    exits: [{
+        x: 250,
+        y: -25,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 70,
+        direction: "north"
+    }, {
+        x: 250,
+        y: 375,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 72,
+        direction: "south"
+    }, {
+        x: 775,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 68,
+        direction: "east"
+    }, {
+        x: -25,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 71,
+        direction: "west"
+    }],
+    backgroundElements: [],
+    enemies: [{
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 400,
+        y: 200,
+        width: 32,
+        height: 32,
+        health: 5,
+        speed: 0.5
+    }]
+}, {
+    base: "Images/Screens/Screen70.png",
+    exits: [{
+        x: 250,
+        y: 375,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 69,
+        direction: "south"
+    }],
+    backgroundElements: [],
+    enemies: [{
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 100,
+        y: 300,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 700,
+        y: 300,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }]
+}, {
+    base: "Images/Screens/Screen71.png",
+    exits: [{
+        x: 775,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 69,
+        direction: "east"
+    }],
+    backgroundElements: [],
+    enemies: [{
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 200,
+        y: 200,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 100,
+        y: 300,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }]
+}, {
+    base: "Images/Screens/Screen72.png",
+    exits: [{
+        x: 250,
+        y: -25,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 69,
+        direction: "north"
+    }, {
+        x: -25,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 73,
+        direction: "west"
+    }],
+    backgroundElements: [],
+    enemies: [{
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 100,
+        y: 300,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 700,
+        y: 300,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }]
+}, {
+    base: "Images/Screens/Screen68.png",
+    exits: [{
+        x: 775,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 72,
+        direction: "east"
+    }, {
+        x: -25,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 74,
+        direction: "west"
+    }],
+    backgroundElements: [],
+    enemies: [{
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 250,
+        y: 200,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 350,
+        y: 200,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }]
+}, {
+    base: "Images/Screens/Screen74.png",
+    exits: [{
+        x: 250,
+        y: -25,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 76,
+        direction: "north"
+    }, {
+        x: 250,
+        y: 375,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 75,
+        direction: "south"
+    }, {
+        x: 775,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 73,
+        direction: "east"
+    }],
+    backgroundElements: [],
+    enemies: [{
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 400,
+        y: 200,
+        width: 32,
+        height: 32,
+        health: 5,
+        speed: 0.5
+    }]
+}, {
+    base: "Images/Screens/Screen75.png",
+    exits: [{
+        x: 250,
+        y: -25,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 74,
+        direction: "north"
+    }],
+    backgroundElements: [],
+    enemies: [{
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 100,
+        y: 300,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 700,
+        y: 364,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }]
+}, {
+    base: "Images/Screens/Screen76.png",
+    exits: [{
+        x: 250,
+        y: -25,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 77,
+        direction: "north"
+    }, {
+        x: 250,
+        y: 375,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 74,
+        direction: "south"
+    }],
+    backgroundElements: [],
+    enemies: [{
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 100,
+        y: 200,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }, {
+        url: ("Images/Characters/Knight/knightElite.gif"),
+        x: 700,
+        y: 264,
+        width: 32,
+        height: 32,
+        health: 4,
+        speed: 1
+    }]
+}, {
+    base: "Images/Screens/Screen77.png",
+    exits: [{
+        x: 775,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 78,
+        direction: "east"
+    }, {
+        x: 250,
+        y: 375,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 76,
+        direction: "south"
+    }],
+    backgroundElements: [],
+    enemies: []
+}, {
+    base: "Images/Screens/Screen78.png",
+    exits: [{
+        x: -25,
+        y: 100,
+        width: 50,
+        height: 200,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 77,
+        direction: "west"
+    }],
+    backgroundElements: [],
+    enemies: [{
+        url: ("Images/Characters/Wizard/Wizard.png"),
+        x: 400,
+        y: 200,
+        width: 32,
+        height: 32,
+        health: 9,
+        speed: 1
+    }],
+    barrier: [{
+        url: ("Images/Screens/BarrierWest.png"),
+        x: 0,
+        y: 0,
+        width: 800,
+        height: 400,
+        direction: "west",
+        rect: {
+            x: 0,
+            y: 100,
+            width: 50,
+            height: 200,
+            color: "white",
+            opacity: 0,
+            direction: "west"
+        }
+    }]
+}]
+var heartArray = [];
+var background;
+/*
+grass template
+{
+    url: ("Images/BackgroundElements/Grass/Grass1.png"),
+    x: 632,
+    y: 82,
+    width: 32,
+    height: 32
+}
+skeleton template
+{
+    url: ("Images/Characters/Skeleton/Skeleton.gif"),
+    x: 600,
+    y: 300,
+    width: 32,
+    height: 32,
+    health: 1,
+    speed:1
+}
+knight template
+{
+    url: ("Images/Characters/Knight/knight.gif"),
+    x: 600,
+    y: 300,
+    width: 32,
+    height: 32,
+    health: 3,
+    speed:1
+}
+dungeon enterance
+{
+    url: "Images/BackgroundElements/DungeonEnt/DesertDungeon.png",
+    x: 600,
+    y: 175,
+    width: 64,
+    height: 64,
+    screenToLoad: 34,
+    direction: "east"
+}
+*/
