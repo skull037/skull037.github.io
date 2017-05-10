@@ -21,10 +21,13 @@ function gameStart() {
         endRestart = false;
     }
 }
-//
 function changeScreen(screen, direction) {
     if (screen != 63) {
         vsShadow = false;
+    }if(screen !=78){
+      vsBoss = false;
+    }else{
+      vsBoss = true;
     }
     //remove old elements
     canvas.innerHTML = ""
@@ -252,6 +255,16 @@ function changeScreen(screen, direction) {
             rect: (makeRect(0, 300, 48, 100, "white", 0)),
         }
     }
+    if(screen==31){
+      if(skeletonBossDead == true){
+        setX(enemies[0].base,1000000000)
+      }
+      barrier[barrier.length] = {
+          base: "?",
+          direction: "east",
+          rect: (makeRect(750, 0, 48, 4800, "white", 0)),
+      }
+    }
     if (screen == 14 && dun1Left == true && dun1Right == true && barrier[1] != undefined) {
         move(barrier[1].base, -1000, 0)
         move(barrier[1].rect, -1000, 0)
@@ -452,7 +465,7 @@ function Attack(swordAttack) {
                 dun1Left = true
             } else if (backgroundArrayElements[i].type == "dun1Right") {
                 dun1Right = true
-            } else {
+            } else if(barrier[backgroundArrayElements[i].effects].base != undefined){
 
                 move(barrier[backgroundArrayElements[i].effects].base, -1000, 0)
                 move(barrier[backgroundArrayElements[i].effects].rect, -1000, 0)
@@ -466,7 +479,7 @@ function Attack(swordAttack) {
                 barrier[backgroundArrayElements[i].effects].direction = "east"
                 barrier[backgroundArrayElements[i].effects].base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Screens/BarrierEast.png")
                 setX(barrier[backgroundArrayElements[i].effects].rect, 750)
-            } else if (background) {
+            } else if(barrier[backgroundArrayElements[i].effects].base != "?" && barrier[backgroundArrayElements[i].effects].rect != "?"){
                 move(barrier[backgroundArrayElements[i].effects].base, -1000, 0)
                 move(barrier[backgroundArrayElements[i].effects].rect, -1000, 0)
             }
@@ -828,6 +841,7 @@ function startFinalBoss() {
 }
 
 function finalBossLoop() {
+  if(vsBoss == true){
     bossSpeed = 500
     if (boss.health > 5 && evilBreak == false) {
         bossSpeed = 500
@@ -883,9 +897,10 @@ function finalBossLoop() {
         boss.health = -1;
         enemies = [];
     }
-    if (player.health > 0 && boss.health > 0) {
+    if (player.health > 0&& boss.health > 0) {
         setTimeout(finalBossLoop, bossSpeed)
     }
+}
 }
 var creditsState = 0;
 

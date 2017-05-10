@@ -42,6 +42,7 @@ var endRestart = false;
 var arrows = [];
 var bossStart = false;
 var boss = "";
+var vsBoss = false;
 var evilBreak = false;
 var creditsArray = [
         "AND SO OUR HERO'S JOURNEY IS OVER",
@@ -2328,7 +2329,17 @@ var backgroundArray = [{
         width: 128,
         height: 128
     }],
-    enemies: []
+    enemies: [],
+    npc: [{
+        url: ("Images/Characters/npc1.png"),
+        x: 128,
+        y: 256,
+        width: 32,
+        height: 32,
+        move: "none",
+        textCount: 0,
+        text: "Few that go to the castle return."
+    }],
 }, {
     base: "Images/Screens/Screen56.png",
     exits: [{
@@ -2357,7 +2368,17 @@ var backgroundArray = [{
         width: 128,
         height: 128
     }],
-    enemies: []
+    enemies: [],
+    npc: [{
+        url: ("Images/Characters/npc2.png"),
+        x: 128,
+        y: 256,
+        width: 32,
+        height: 32,
+        move: "none",
+        textCount: 0,
+        text: "Have you seen my dog?"
+    }],
 }, {
     base: "Images/Screens/Screen57.png",
     exits: [{
@@ -2386,7 +2407,17 @@ var backgroundArray = [{
         width: 128,
         height: 128
     }],
-    enemies: []
+    enemies: [],
+    npc: [{
+        url: ("Images/Characters/npc3.png"),
+        x: 128,
+        y: 256,
+        width: 32,
+        height: 32,
+        move: "none",
+        textCount: 0,
+        text: "My friend told me there is something wrong with the desert dungeon."
+    }],
 }, {
     base: "Images/Screens/Screen53.png",
     exits: [{
