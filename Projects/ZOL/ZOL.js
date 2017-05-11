@@ -26,7 +26,7 @@ function changeScreen(screen, direction) {
         vsShadow = false;
     }if(screen !=78){
       vsBoss = false;
-    }else{
+    }else if(screen ==78){
       vsBoss = true;
     }
     //remove old elements
@@ -162,6 +162,13 @@ function changeScreen(screen, direction) {
                 text: backgroundArray[screen].npc[i].text,
                 textCount: backgroundArray[screen].npc[i].textCount
             }
+        }
+    }
+    if(screen == 30&& wizardDead == true){
+        exits[exits.length] = {
+            base: makeRect(250, -25, 300, 50, "orange", 0),
+            screenToLoad: 79,
+            direction: "north"
         }
     }
     northNum = 0;
@@ -589,7 +596,7 @@ function update() {
         if (gameOver == false) {
             vsShadow = false;
             size = 0;
-            if (boss == "" || boss.health < 0) {
+            if (boss == "" || vsBoss == false) {
                 gameOverRect = makeRect(0, 0, 1000, 1000, 'black', 0)
             } else {
                 gameOverRect = makeRect(0, 0, 1000, 1000, 'red', 0)
