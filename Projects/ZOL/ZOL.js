@@ -24,10 +24,12 @@ function gameStart() {
 function changeScreen(screen, direction) {
     if (screen != 63) {
         vsShadow = false;
-    }if(screen !=78){
+    }
+    if(screen !=78){
       vsBoss = false;
     }else if(screen ==78){
       vsBoss = true;
+      bossStart = false;
     }
     //remove old elements
     canvas.innerHTML = ""
@@ -171,6 +173,12 @@ function changeScreen(screen, direction) {
             direction: "north"
         }
     }
+    else if(screen == 79){
+      levelText = makeText("Didnt code this yet. Come back in a while.", 300, 200, 32, "VT323", "white", 1)
+      totallyDone = false;
+      tFadeDone = false;
+      textFade(levelText);
+    }
     northNum = 0;
     southNum = 0;
     westNum = 0;
@@ -263,7 +271,7 @@ function changeScreen(screen, direction) {
         }
     }
     if(screen==31){
-      if(skeletonBossDead == true){
+      if(knightBossDead == true){
         setX(enemies[0].base,1000000000)
       }
       barrier[barrier.length] = {
@@ -898,11 +906,18 @@ function finalBossLoop() {
             speed: 1
         };
     } else if (boss.health == 0) {
+              enemies = [];
+              for (var j = 0; j < heartArray.length; j++) {
+                  if (heartArray[j].getAttribute("xlink:href") == "Images/EmptyHeart.png") {
+                      heartArray[j] = (makeImage("Images/Heart.png", 16 + (j * 32), 0, 16, 16));
+                  }
+              }
+            heartArray.push(makeImage("Images/Heart.png", 16 + (heartArray.length * 32), 0, 16, 16));
+            player.maxHealth += 1;
         wizardDead = true;
         endRestart = true;
         creditsFunction();
         boss.health = -1;
-        enemies = [];
     }
     if (player.health > 0&& boss.health > 0) {
         setTimeout(finalBossLoop, bossSpeed)

@@ -3323,6 +3323,20 @@ var backgroundArray = [{
             direction: "west"
         }
     }]
+},{
+    base: "Images/Screens/Screen78.png",
+    exits: [{
+        x: 250,
+        y: 375,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 30,
+        direction: "south"
+    }],
+    backgroundElements: [],
+    enemies: []
 }]
 var heartArray = [];
 var background;
