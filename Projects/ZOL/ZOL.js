@@ -20,6 +20,9 @@ function gameStart() {
     } else {
         endRestart = false;
     }
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+console.log("mobile")
+}
 }
 function changeScreen(screen, direction) {
     if (screen != 63) {
@@ -78,9 +81,14 @@ function changeScreen(screen, direction) {
         setY(player.base, 344)
         player.base = makeImage("Images/Characters/Player/PlayerSideB.png", 32, 200, 32, 32)
     } else if (direction == "west") {
+      if(screen != 52&&screen != 31){
         setY(player.base, 24)
         player.base = makeImage("Images/Characters/Player/PlayerSideA.png", 736, 200, 32, 32)
-    }
+    }else{
+      setY(player.base, 24)
+      player.base = makeImage("Images/Characters/Player/PlayerSideA.png", 536, 200, 32, 32)
+  }
+  }
     for (var i = 0; i < heartArray.length; i++) {
         if (heartArray[i].getAttribute("xlink:href") == "Images/Heart.png") {
             heartArray[i] = (makeImage("Images/Heart.png", 16 + (i * 32), 0, 16, 16));
