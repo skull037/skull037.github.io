@@ -3324,20 +3324,125 @@ var backgroundArray = [{
         }
     }]
 },{
-    base: "Images/Screens/Screen78.png",
+    base: "Images/Screens/Screen79.png",
     exits: [{
+        x: 250,
+        y: -25,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 80,
+        direction: "north"
+    }],
+    backgroundElements: [],
+    enemies: []
+},{
+    base: "Images/Screens/Screen80.png",
+    exits: [{
+        x: 250,
+        y: -25,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 81,
+        direction: "north"
+    },{
         x: 250,
         y: 375,
         width: 300,
         height: 50,
         color: "cyan",
         opacity: 0,
-        screenToLoad: 30,
+        screenToLoad: 79,
+        direction: "south"
+    }],
+    backgroundElements: [],
+    enemies: [{
+        url: ("Images/Characters/Skeleton/RedSkeleton.gif"),
+        x: 400,
+        y: 150,
+        width: 48,
+        height: 48,
+        health: 3,
+        speed:1
+    }]
+},{
+    base: "Images/Screens/Screen80.png",
+    exits: [{
+        x: 250,
+        y: -25,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 82,
+        direction: "north"
+    },{
+        x: 250,
+        y: 375,
+        width: 300,
+        height: 50,
+        color: "cyan",
+        opacity: 0,
+        screenToLoad: 80,
         direction: "south"
     }],
     backgroundElements: [],
     enemies: []
-}]
+  },{
+      base: "Images/Screens/Screen82.png",
+      exits: [{
+          x: 250,
+          y: -25,
+          width: 300,
+          height: 50,
+          color: "cyan",
+          opacity: 0,
+          screenToLoad: 83,
+          direction: "north"
+      },{
+          x: 250,
+          y: 375,
+          width: 300,
+          height: 50,
+          color: "cyan",
+          opacity: 0,
+          screenToLoad: 81,
+          direction: "south"
+      }],
+      backgroundElements: [],
+      enemies: [{
+          url: ("Images/Characters/Skeleton/RedSkeleton.gif"),
+          x: 400,
+          y: 150,
+          width: 48,
+          height: 48,
+          health: 3,
+          speed:1
+      }]
+    },{
+        base: "Images/Screens/Screen83.png",
+        exits: [{
+            x: 250,
+            y: 375,
+            width: 300,
+            height: 50,
+            color: "cyan",
+            opacity: 0,
+            screenToLoad: 82,
+            direction: "south"
+        }],
+        backgroundElements: [{
+            url: ("Images/BackgroundElements/Pillars/Altar.png"),
+            x: 368,
+            y: 100,
+            width: 64,
+            height: 32
+        }],
+        enemies: []
+      }];
 var heartArray = [];
 var background;
 /*

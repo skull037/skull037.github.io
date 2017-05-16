@@ -1,6 +1,17 @@
 //>'д'<\\
 document.getElementById("titleStart").addEventListener("click", gameStart);
+document.getElementById("helpButton").addEventListener("click", helpScreen);
+document.getElementById("backButton").addEventListener("click", mainScreen);
 //player clicks button and this gets called
+function helpScreen(){
+          document.getElementById("titleScreen").style.visibility = "hidden";
+        document.getElementById("helpScreen").style.visibility = "visible";
+}
+function mainScreen(){
+  document.getElementById("titleScreen").style.visibility = "visible";
+document.getElementById("helpScreen").style.visibility = "hidden";
+}
+        document.getElementById("helpScreen").style.visibility = "hidden";
 function gameStart() {
     gameOver = false
     if (document.getElementById("titleScreen") != null) {
@@ -20,7 +31,7 @@ function gameStart() {
     } else {
         endRestart = false;
     }
-    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
 console.log("mobile")
 }
 }
@@ -182,7 +193,7 @@ function changeScreen(screen, direction) {
         }
     }
     else if(screen == 79){
-      levelText = makeText("Didnt code this yet. Come back in a while.", 300, 200, 32, "VT323", "white", 1)
+      levelText = makeText("???", 300, 200, 32, "VT323", "white", 1)
       totallyDone = false;
       tFadeDone = false;
       textFade(levelText);
@@ -374,6 +385,9 @@ function changeScreen(screen, direction) {
         totallyDone = false;
         tFadeDone = false;
         textFade(levelText);
+    }
+    if(screen == 81){
+      pickups[pickups.length] = (makeImage("Images/Items/HeartPickUp.png", 408, 208, 16, 20))
     }
 }
 var keyState = {};
