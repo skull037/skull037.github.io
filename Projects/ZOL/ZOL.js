@@ -432,7 +432,7 @@ function playerMove() {
             player.lastDir = "right";
         } else if (keyState[40] || keyState[83]) {
             move(player.base, 0, 2.5 + player.speed)
-            player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/playerForward.png")
+            player.base.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "Images/Characters/Player/PlayerForward.png")
             player.lastDir = "up";
         } else if (keyState[38] || keyState[87]) {
             move(player.base, 0, -2.5 - player.speed)
