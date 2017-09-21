@@ -6,3 +6,8 @@ font-family: Roboto;
 .center{
   text-align: center;
 }
+a{
+padding: 0 10px 0 10px;
+}
+.gButton{
+background-color: #4AC0C0;}
