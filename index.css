@@ -10,4 +10,6 @@ a{
 padding: 0 10px 0 10px;
 }
 .gButton{
-background-color: #4AC0C0;}
+background-color: #4AC0C0;
+    text-decoration: none;
+}
