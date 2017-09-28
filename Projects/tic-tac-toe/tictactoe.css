@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Asap+Condensed|Open+Sans');
+
+body {
+  background: url("images/greenbg.png");
+}
+
+h1 {
+  text-align: center;
+  font-family: "Asap Condensed";
+  font-size: 42px;
+  color: green;
+  background-color: rgba(230, 255, 230, 0.8);
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+#board {
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container {
+  display: flex;
+}
+
+.box {
+  flex: 1;
+  height: 0;
+  padding-bottom: 33%;
+  border: 3px solid rgb(0,51,0);
+  background-size: cover;
+    background-image: "potato"
+}
+
+#test {
+  background-image: url("images/x.png");
+}
