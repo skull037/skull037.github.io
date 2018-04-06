@@ -11,8 +11,10 @@ a{
 padding: 0 10px 0 10px;
 }
 .gButton{
-background-color: #4AC0C0;
+background-color: #0ee;
     text-decoration: none;
+    padding: 10px;
+    margin: 10px;
 }
 div{
   background-color: #0cc;
