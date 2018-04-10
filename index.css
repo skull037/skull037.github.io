@@ -1,7 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 html{
-  background-color: #0aa;
+  background-color: #099;
 font-family: Roboto;
 }
 .center{
@@ -11,17 +11,25 @@ a{
 padding: 0 10px 0 10px;
 }
 .gButton{
-background-color: #0ee;
+background-color: #0ff;
     text-decoration: none;
     padding: 10px;
     margin: 10px;
+    border-style: solid;
+border-color: black;
+border-width: 2px;
+border-radius: 8px;
 }
 div{
   background-color: #0cc;
   padding: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 img{
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top:20px;
+    margin-bottom:20px;
 }
