@@ -20,6 +20,9 @@ border-color: black;
 border-width: 2px;
 border-radius: 8px;
 }
+h1{
+  text-align: center;
+}
 div{
   background-color: #0cc;
   padding: 30px;
@@ -34,4 +37,19 @@ img{
 }
 a{
   text-decoration :none;
+}
+.navbar{
+  background-color: #0ff;
+  position: fixed;
+  bottom:0%;
+  width: 75%;
+  margin: auto;
+  margin-left: 10%;
+  height: 0;
+  padding:none;
+  text-align: center;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  border-radius: 8px;
 }
