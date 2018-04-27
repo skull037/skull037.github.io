@@ -1,0 +1,24 @@
+/*@import url('https://fonts.googleapis.com/css?family=Cabin|Pangolin');*/
+@font-face {
+    font-family: pixel;
+    src: url(pixel.ttf);
+}
+body {
+    padding: 0px;
+    margin: 0px;
+    background-color: #333333;
+}
+
+canvas {
+    display: block;
+    margin: auto;
+    padding: 0px;
+    width: 400%;
+}
+
+p {
+    text-align: center;
+    font-family: pixel;
+    font-size: 20px;
+    color: white;
+}
