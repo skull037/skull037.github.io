@@ -91,6 +91,10 @@ function drawPlayerCharacters() {
             }
         }
     }
+    for (var c = 0; c < moveArray.length; c++) {
+        fill(color('rgba(0, 0, 255, 0.25)'));
+        rect(moveArray[c].x * 32, moveArray[c].y * 32, 32, 32);
+    }
 }
 
 function keyPressed() {
@@ -98,15 +102,20 @@ function keyPressed() {
         if (playerCharacters[selectedChara].pm > 0) {
             if (keyCode == 37 || keyCode == 65) {
                 //left
+                checkAndMoveback(playerCharacters[selectedChara], "left")
                 checkAndMove(playerCharacters[selectedChara], "left")
             } else if (keyCode == 39 || keyCode == 68) {
                 //right
+                checkAndMoveback(playerCharacters[selectedChara], "right")
                 checkAndMove(playerCharacters[selectedChara], "right")
             } else if (keyCode == 87 || keyCode == 38) {
                 //up
+                checkAndMoveback(playerCharacters[selectedChara], "up")
                 checkAndMove(playerCharacters[selectedChara], "up")
             } else if (keyCode == 83 || keyCode == 40) {
                 //down
+
+                checkAndMoveback(playerCharacters[selectedChara], "down")
                 checkAndMove(playerCharacters[selectedChara], "down")
             }
         }
@@ -118,10 +127,69 @@ function keyPressed() {
             if (selectedChara == playerCharacters.length - 1) {
                 endTurn()
             } else {
+                if (playerCharacters[selectedChara].dead == true) {
+                    selectedChara++;
+                    moveArray = [{
+                        x: -1,
+                        y: -1
+                    }, {
+                        x: -1,
+                        y: -1
+                    }, {
+                        x: -1,
+                        y: -1
+                    }, {
+                        x: -1,
+                        y: -1
+                    }, {
+                        x: -1,
+                        y: -1
+                    }];
+                    playerCharacters[selectedChara].my = playerCharacters[selectedChara].y
+                    playerCharacters[selectedChara].mx = playerCharacters[selectedChara].x
+                }
                 selectedChara++;
+                moveArray = [{
+                    x: -1,
+                    y: -1
+                }, {
+                    x: -1,
+                    y: -1
+                }, {
+                    x: -1,
+                    y: -1
+                }, {
+                    x: -1,
+                    y: -1
+                }, {
+                    x: -1,
+                    y: -1
+                }];
                 playerCharacters[selectedChara].my = playerCharacters[selectedChara].y
                 playerCharacters[selectedChara].mx = playerCharacters[selectedChara].x
             }
+        }
+        if (keyCode == 16) {
+            playerCharacters[selectedChara].my = playerCharacters[selectedChara].y
+            playerCharacters[selectedChara].mx = playerCharacters[selectedChara].x
+            playerCharacters[selectedChara].pm = playerCharacters[selectedChara].m
+            moveArray = [{
+                x: -1,
+                y: -1
+            }, {
+                x: -1,
+                y: -1
+            }, {
+                x: -1,
+                y: -1
+            }, {
+                x: -1,
+                y: -1
+            }, {
+                x: -1,
+                y: -1
+            }];
+
         }
     }
 }
@@ -138,6 +206,22 @@ function endTurn() {
     selectedChara = 0;
     playerCharacters[selectedChara].my = playerCharacters[selectedChara].y
     playerCharacters[selectedChara].mx = playerCharacters[selectedChara].x
+    moveArray = [{
+        x: -1,
+        y: -1
+    }, {
+        x: -1,
+        y: -1
+    }, {
+        x: -1,
+        y: -1
+    }, {
+        x: -1,
+        y: -1
+    }, {
+        x: -1,
+        y: -1
+    }];
     checkForInfo()
 }
 
@@ -197,26 +281,70 @@ function checkAndMove(character, dir) {
     var done = false
     for (var m = 1; m < testMapData.length; m++) {
         if (dir == "up" && playerCharacters[selectedChara].my - 1 == testMapData[m].y && playerCharacters[selectedChara].mx == testMapData[m].x && testMapData[m].t != 1 && done == false) {
+            setMoveArray()
             playerCharacters[selectedChara].my--
-                playerCharacters[selectedChara].pm--
                 done = true
         } else if (dir == "down" && playerCharacters[selectedChara].my + 1 == testMapData[m].y && playerCharacters[selectedChara].mx == testMapData[m].x && testMapData[m].t != 1 && done == false) {
+            setMoveArray()
             playerCharacters[selectedChara].my++
-                playerCharacters[selectedChara].pm--
                 done = true
         } else if (dir == "left" && playerCharacters[selectedChara].mx - 1 == testMapData[m].x && playerCharacters[selectedChara].my == testMapData[m].y && testMapData[m].t != 1 && done == false) {
+            setMoveArray()
             playerCharacters[selectedChara].mx--
-                playerCharacters[selectedChara].pm--
                 done = true
         } else if (dir == "right" && playerCharacters[selectedChara].mx + 1 == testMapData[m].x && testMapData[m].t != 1 && playerCharacters[selectedChara].my == testMapData[m].y && done == false) {
+            setMoveArray()
+            console.log(dir, "act")
             playerCharacters[selectedChara].mx++
-                playerCharacters[selectedChara].pm--
                 done = true
         } else {
             //probably make nudge noise
         }
     }
     checkForInfo()
+}
+
+function checkAndMoveback(character, dir) {
+    var done = false
+    for (var m = 1; m < moveArray.length; m++) {
+        if (dir == "up" && playerCharacters[selectedChara].my - 1 == moveArray[m].y && playerCharacters[selectedChara].mx == moveArray[m].x && done == false || dir == "up" && playerCharacters[selectedChara].my - 1 == playerCharacters[selectedChara].y && playerCharacters[selectedChara].mx == playerCharacters[selectedChara].x && done == false) {
+            unsetMoveArray()
+            console.log(dir, "back")
+            playerCharacters[selectedChara].my--
+                done = true
+        } else if (dir == "down" && playerCharacters[selectedChara].my + 1 == moveArray[m].y && playerCharacters[selectedChara].mx == moveArray[m].xdone == false || dir == "down" && playerCharacters[selectedChara].my + 1 == playerCharacters[selectedChara].y && playerCharacters[selectedChara].mx == playerCharacters[selectedChara].x && done == false) {
+            unsetMoveArray()
+            console.log(dir, "back")
+            playerCharacters[selectedChara].my++
+                done = true
+        } else if (dir == "left" && playerCharacters[selectedChara].mx - 1 == moveArray[m].x && playerCharacters[selectedChara].my == moveArray[m].y && done == false || dir == "left" && playerCharacters[selectedChara].mx - 1 == playerCharacters[selectedChara].x && playerCharacters[selectedChara].my == playerCharacters[selectedChara].y && done == false) {
+            unsetMoveArray()
+            console.log(dir, "back")
+            playerCharacters[selectedChara].mx--
+                done = true
+        } else if (dir == "right" && playerCharacters[selectedChara].mx + 1 == moveArray[m].x && playerCharacters[selectedChara].my == moveArray[m].y && done == false || dir == "right" && playerCharacters[selectedChara].mx + 1 == playerCharacters[selectedChara].x && playerCharacters[selectedChara].my == playerCharacters[selectedChara].y && done == false) {
+            unsetMoveArray()
+            console.log(dir, "back")
+            playerCharacters[selectedChara].mx++
+                done = true
+        } else {
+            return
+        }
+
+    }
+    checkForInfo()
+}
+
+function setMoveArray() {
+    moveArray[playerCharacters[selectedChara].pm].x = playerCharacters[selectedChara].mx
+    moveArray[playerCharacters[selectedChara].pm].y = playerCharacters[selectedChara].my
+    playerCharacters[selectedChara].pm--
+}
+
+function unsetMoveArray() {
+    moveArray[playerCharacters[selectedChara].pm].x = -1
+    moveArray[playerCharacters[selectedChara].pm].y = -1
+    playerCharacters[selectedChara].pm++
 }
 
 function drawInfobox() {
@@ -275,15 +403,17 @@ function checkForInfo() {
         //check for info stats
         if (playerCharacters[selectedChara].my - 1 == testMapEnemies[e].y && playerCharacters[selectedChara].mx == testMapEnemies[e].x || playerCharacters[selectedChara].my + 1 == testMapEnemies[e].y && playerCharacters[selectedChara].mx == testMapEnemies[e].x || playerCharacters[selectedChara].mx - 1 == testMapEnemies[e].x && playerCharacters[selectedChara].my == testMapEnemies[e].y || playerCharacters[selectedChara].mx + 1 == testMapEnemies[e].x && playerCharacters[selectedChara].my == testMapEnemies[e].y) {
             if (testMapEnemies != []) {
+
                 stats = [1, [playerCharacters[selectedChara], "", ""],
                     [testMapEnemies[e], "", ""]
-
                 ]
+                console.log(e, stats)
+                return
             } else {
-                stats = [];
+                stats = [0, 0, 0];
             }
         } else {
-            stats = [];
+            stats = [0, 0, 0];
         }
     }
 }
