@@ -114,9 +114,22 @@ function keyPressed() {
                 checkAndMove(playerCharacters[selectedChara], "up")
             } else if (keyCode == 83 || keyCode == 40) {
                 //down
-
                 checkAndMoveback(playerCharacters[selectedChara], "down")
                 checkAndMove(playerCharacters[selectedChara], "down")
+            }
+        }else if(playerCharacters[selectedChara].pm == 0){
+        if (keyCode == 37 || keyCode == 65) {
+                //left
+                checkAndMoveback(playerCharacters[selectedChara], "left")
+            } else if (keyCode == 39 || keyCode == 68) {
+                //right
+                checkAndMoveback(playerCharacters[selectedChara], "right")
+            } else if (keyCode == 87 || keyCode == 38) {
+                //up
+                checkAndMoveback(playerCharacters[selectedChara], "up")
+            } else if (keyCode == 83 || keyCode == 40) {
+                //down
+                checkAndMoveback(playerCharacters[selectedChara], "down")
             }
         }
         if (keyCode == 13) {
@@ -226,25 +239,35 @@ function endTurn() {
 }
 
 function moveEnemies() {
+        for (var p = 0; p < playerCharacters.length; p++) {
+            for (var e = 0; e < testMapEnemies.length; e++) {
+        if(playerCharacters[p].y - 1 == testMapEnemies[e].y && playerCharacters[p].x == testMapEnemies[e].x || playerCharacters[p].y + 1 == testMapEnemies[e].y && playerCharacters[p].x == testMapEnemies[e].x || playerCharacters[p].x - 1 == testMapEnemies[e].x && playerCharacters[p].y == testMapEnemies[e].y || playerCharacters[p].x + 1 == testMapEnemies[e].x && playerCharacters[p].y == testMapEnemies[e].y){
+            stats = [1, [playerCharacters[p], "", ""],
+                    [testMapEnemies[e], "", ""]]
+            attack()
+            console.log("attacked?")
+            testMapEnemies[e].pm = 0;
+        }
+        }
+        }
     for (var e = 0; e < testMapEnemies.length; e++) {
+            if(testMapEnemies[e].ai != undefined){
         if (testMapEnemies[e].ai == 1 && testMapEnemies[e].pm > 0) {
             testMapEnemies[e].x--
                 testMapEnemies[e].pm--
                 console.log("moved " + e)
         }
+        }
     }
     for (var e = 0; e < testMapEnemies.length; e++) {
-
         testMapEnemies[e].pm = testMapEnemies[e].m
     }
 }
-
 function attack() {
     for (var e = 0; e < testMapEnemies.length; e++) {
         //check to attack
         if (playerCharacters[selectedChara].y - 1 == testMapEnemies[e].y && playerCharacters[selectedChara].x == testMapEnemies[e].x || playerCharacters[selectedChara].y + 1 == testMapEnemies[e].y && playerCharacters[selectedChara].x == testMapEnemies[e].x || playerCharacters[selectedChara].x - 1 == testMapEnemies[e].x && playerCharacters[selectedChara].y == testMapEnemies[e].y || playerCharacters[selectedChara].x + 1 == testMapEnemies[e].x && playerCharacters[selectedChara].y == testMapEnemies[e].y) {
             attackMath(playerCharacters[selectedChara], testMapEnemies[e], e)
-            //testMapEnemies[e].hp--
         }
     }
 }
@@ -294,7 +317,6 @@ function checkAndMove(character, dir) {
                 done = true
         } else if (dir == "right" && playerCharacters[selectedChara].mx + 1 == testMapData[m].x && testMapData[m].t != 1 && playerCharacters[selectedChara].my == testMapData[m].y && done == false) {
             setMoveArray()
-            console.log(dir, "act")
             playerCharacters[selectedChara].mx++
                 done = true
         } else {
@@ -309,22 +331,18 @@ function checkAndMoveback(character, dir) {
     for (var m = 1; m < moveArray.length; m++) {
         if (dir == "up" && playerCharacters[selectedChara].my - 1 == moveArray[m].y && playerCharacters[selectedChara].mx == moveArray[m].x && done == false || dir == "up" && playerCharacters[selectedChara].my - 1 == playerCharacters[selectedChara].y && playerCharacters[selectedChara].mx == playerCharacters[selectedChara].x && done == false) {
             unsetMoveArray()
-            console.log(dir, "back")
             playerCharacters[selectedChara].my--
                 done = true
         } else if (dir == "down" && playerCharacters[selectedChara].my + 1 == moveArray[m].y && playerCharacters[selectedChara].mx == moveArray[m].xdone == false || dir == "down" && playerCharacters[selectedChara].my + 1 == playerCharacters[selectedChara].y && playerCharacters[selectedChara].mx == playerCharacters[selectedChara].x && done == false) {
             unsetMoveArray()
-            console.log(dir, "back")
             playerCharacters[selectedChara].my++
                 done = true
         } else if (dir == "left" && playerCharacters[selectedChara].mx - 1 == moveArray[m].x && playerCharacters[selectedChara].my == moveArray[m].y && done == false || dir == "left" && playerCharacters[selectedChara].mx - 1 == playerCharacters[selectedChara].x && playerCharacters[selectedChara].my == playerCharacters[selectedChara].y && done == false) {
             unsetMoveArray()
-            console.log(dir, "back")
             playerCharacters[selectedChara].mx--
                 done = true
         } else if (dir == "right" && playerCharacters[selectedChara].mx + 1 == moveArray[m].x && playerCharacters[selectedChara].my == moveArray[m].y && done == false || dir == "right" && playerCharacters[selectedChara].mx + 1 == playerCharacters[selectedChara].x && playerCharacters[selectedChara].my == playerCharacters[selectedChara].y && done == false) {
             unsetMoveArray()
-            console.log(dir, "back")
             playerCharacters[selectedChara].mx++
                 done = true
         } else {
@@ -407,7 +425,6 @@ function checkForInfo() {
                 stats = [1, [playerCharacters[selectedChara], "", ""],
                     [testMapEnemies[e], "", ""]
                 ]
-                console.log(e, stats)
                 return
             } else {
                 stats = [0, 0, 0];

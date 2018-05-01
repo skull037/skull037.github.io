@@ -18,7 +18,7 @@ function createEnemy(xEVal,yEVal,type){
     if(type=="guard"){
     return {x:xEVal,y:yEVal,hp:2,strength:2,magic:1,ai:0,m:2,pm:2,aim:50,image:"knight dude"}
     }else if(type == "barb"){
-    return {x:xEVal,y:yEVal,hp:1,strength:3,magic:1,ai:1,m:3,pm:3,aim:50,image:"good ol' axes"}
+    return {x:xEVal,y:yEVal,hp:3,strength:3,magic:1,ai:1,m:3,pm:3,aim:50,image:"good ol' axes"}
     }
 }
 var moveArray=[{x:-1,y:-1},{x:-1,y:-1},{x:-1,y:-1},{x:-1,y:-1},{x:-1,y:-1}];
