@@ -1,20 +1,26 @@
 var yVal = -1;
 var xVal = 0;
 var inGame = true;
-var source = []
+var source = [[]]
 var playersTurn = true;
 var selectedChara = 0;
 // 0 is if should display(0 or 1), 1 is player[data,hit,dead], 2 is enemy[data,hit,dead],3+ should be background & stuff
 var stats = [0, 0, 0];
 
 function preload() {
-    source[0] = loadImage('img/grass.png')
+    source[0][0] = loadImage('img/grass.png')
+    source[0][1] = loadImage('img/grass2.png')
     source[5] = loadImage('img/tree.png')
 }
 
 function setup() {
     createCanvas(480, 320)
     background(0, 120, 120)
+    for (var i = 1; i < testMapData.length; i++) {
+    if(testMapData[i].t ==0){
+    testMapData[i].s=randomT(0,1)
+    }
+    }
 }
 
 function draw() {
@@ -68,9 +74,16 @@ function drawMap() {
             if (sourceIndex == -1) {
                 rect((xVal * 32), (yVal * 32), 32, 32)
             } else {
+                if(testMapData[i].t == 0){
+                image(source[0][testMapData[i].s], (xVal * 32), (yVal * 32))
+                noFill();
+                rect((xVal * 32), (yVal * 32), 32, 32)
+                }
+                else{
                 image(source[testMapData[i].t], (xVal * 32), (yVal * 32))
                 noFill();
                 rect((xVal * 32), (yVal * 32), 32, 32)
+                }
             }
             testMapData[i].x = xVal;
             testMapData[i].y = yVal;
@@ -287,7 +300,7 @@ function attackMath(player, enemy, e) {
         stats[1][1] = "miss"
     }
 
-    if (aimed[1] <= enemy.aim && enemy.hp < 1) {
+    if (aimed[1] <= enemy.aim && enemy.hp > 1) {
         console.log("hit", aimed)
         player.hp -= enemy.strength
         stats[2][1] = "hit"
@@ -413,7 +426,10 @@ function mousePressed() {
 }
 
 function random(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
+    return Math.round((Math.random() * max) + min)
+}
+function randomT(min, max) {
+    return Math.round((Math.random() * max) + min)
 }
 
 function checkForInfo() {
