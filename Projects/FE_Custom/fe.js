@@ -1,15 +1,21 @@
 var yVal = -1;
 var xVal = 0;
 var inGame = true;
-var source = [[]]
+var source = []
 var playersTurn = true;
 var selectedChara = 0;
+var moveOptions = [];
 // 0 is if should display(0 or 1), 1 is player[data,hit,dead], 2 is enemy[data,hit,dead],3+ should be background & stuff
 var stats = [0, 0, 0];
 
 function preload() {
+    source[0] = [];
+    source[1] = [];
     source[0][0] = loadImage('img/grass.png')
     source[0][1] = loadImage('img/grass2.png')
+    source[1][0] = loadImage('img/mountain.png')
+    source[1][1] = loadImage('img/mountain2.png')
+    source[1][source[1].length] = loadImage('img/mountain3.png')
     source[5] = loadImage('img/tree.png')
 }
 
@@ -17,9 +23,11 @@ function setup() {
     createCanvas(480, 320)
     background(0, 120, 120)
     for (var i = 1; i < testMapData.length; i++) {
-    if(testMapData[i].t ==0){
-    testMapData[i].s=randomT(0,1)
-    }
+        if (testMapData[i].t == 0) {
+            testMapData[i].s = randomT(0, source[0].length - 1)
+        } else if (testMapData[i].t == 1 && testMapData[i].s == undefined) {
+            testMapData[i].s = randomT(0, source[1].length - 2)
+        }
     }
 }
 
@@ -54,7 +62,8 @@ function drawMap() {
                 sourceIndex = 0;
             } else if (testMapData[i].t == 1) {
                 //impassible
-                fill("#404040")
+                //fill("#404040")
+                sourceIndex = 1;
             } else if (testMapData[i].t == 2) {
                 //mountains
                 fill("#808080")
@@ -74,15 +83,18 @@ function drawMap() {
             if (sourceIndex == -1) {
                 rect((xVal * 32), (yVal * 32), 32, 32)
             } else {
-                if(testMapData[i].t == 0){
-                image(source[0][testMapData[i].s], (xVal * 32), (yVal * 32))
-                noFill();
-                rect((xVal * 32), (yVal * 32), 32, 32)
-                }
-                else{
-                image(source[testMapData[i].t], (xVal * 32), (yVal * 32))
-                noFill();
-                rect((xVal * 32), (yVal * 32), 32, 32)
+                if (testMapData[i].t == 0) {
+                    image(source[0][testMapData[i].s], (xVal * 32), (yVal * 32))
+                    noFill();
+                    rect((xVal * 32), (yVal * 32), 32, 32)
+                } else if (testMapData[i].t == 1) {
+                    image(source[1][testMapData[i].s], (xVal * 32), (yVal * 32))
+                    noFill();
+                    rect((xVal * 32), (yVal * 32), 32, 32)
+                } else {
+                    image(source[testMapData[i].t], (xVal * 32), (yVal * 32))
+                    noFill();
+                    rect((xVal * 32), (yVal * 32), 32, 32)
                 }
             }
             testMapData[i].x = xVal;
@@ -130,8 +142,8 @@ function keyPressed() {
                 checkAndMoveback(playerCharacters[selectedChara], "down")
                 checkAndMove(playerCharacters[selectedChara], "down")
             }
-        }else if(playerCharacters[selectedChara].pm == 0){
-        if (keyCode == 37 || keyCode == 65) {
+        } else if (playerCharacters[selectedChara].pm == 0) {
+            if (keyCode == 37 || keyCode == 65) {
                 //left
                 checkAndMoveback(playerCharacters[selectedChara], "left")
             } else if (keyCode == 39 || keyCode == 68) {
@@ -153,27 +165,28 @@ function keyPressed() {
             if (selectedChara == playerCharacters.length - 1) {
                 endTurn()
             } else {
-                if (playerCharacters[selectedChara].dead == true) {
-                    selectedChara++;
-                    moveArray = [{
-                        x: -1,
-                        y: -1
-                    }, {
-                        x: -1,
-                        y: -1
-                    }, {
-                        x: -1,
-                        y: -1
-                    }, {
-                        x: -1,
-                        y: -1
-                    }, {
-                        x: -1,
-                        y: -1
-                    }];
-                    playerCharacters[selectedChara].my = playerCharacters[selectedChara].y
-                    playerCharacters[selectedChara].mx = playerCharacters[selectedChara].x
-                }
+                /*
+                                if (playerCharacters[selectedChara].dead == true) {
+                                    selectedChara++;
+                                    moveArray = [{
+                                        x: -1,
+                                        y: -1
+                                    }, {
+                                        x: -1,
+                                        y: -1
+                                    }, {
+                                        x: -1,
+                                        y: -1
+                                    }, {
+                                        x: -1,
+                                        y: -1
+                                    }, {
+                                        x: -1,
+                                        y: -1
+                                    }];
+                                    playerCharacters[selectedChara].my = playerCharacters[selectedChara].y
+                                    playerCharacters[selectedChara].mx = playerCharacters[selectedChara].x
+                                }*/
                 selectedChara++;
                 moveArray = [{
                     x: -1,
@@ -252,35 +265,41 @@ function endTurn() {
 }
 
 function moveEnemies() {
-        for (var p = 0; p < playerCharacters.length; p++) {
-            for (var e = 0; e < testMapEnemies.length; e++) {
-        if(playerCharacters[p].y - 1 == testMapEnemies[e].y && playerCharacters[p].x == testMapEnemies[e].x || playerCharacters[p].y + 1 == testMapEnemies[e].y && playerCharacters[p].x == testMapEnemies[e].x || playerCharacters[p].x - 1 == testMapEnemies[e].x && playerCharacters[p].y == testMapEnemies[e].y || playerCharacters[p].x + 1 == testMapEnemies[e].x && playerCharacters[p].y == testMapEnemies[e].y){
-            stats = [1, [playerCharacters[p], "", ""],
-                    [testMapEnemies[e], "", ""]]
-            attack()
-            console.log("attacked?")
-            testMapEnemies[e].pm = 0;
+    for (var p = 0; p < playerCharacters.length; p++) {
+        for (var e = 0; e < testMapEnemies.length; e++) {
+            if (playerCharacters[p].y - 1 == testMapEnemies[e].y && playerCharacters[p].x == testMapEnemies[e].x || playerCharacters[p].y + 1 == testMapEnemies[e].y && playerCharacters[p].x == testMapEnemies[e].x || playerCharacters[p].x - 1 == testMapEnemies[e].x && playerCharacters[p].y == testMapEnemies[e].y || playerCharacters[p].x + 1 == testMapEnemies[e].x && playerCharacters[p].y == testMapEnemies[e].y) {
+                stats = [1, [playerCharacters[p], "", ""],
+                    [testMapEnemies[e], "", ""]
+                ]
+                attack()
+                console.log("attacked?")
+                testMapEnemies[e].pm = 0;
+            }
         }
-        }
-        }
+    }
     for (var e = 0; e < testMapEnemies.length; e++) {
-            if(testMapEnemies[e].ai != undefined){
-        if (testMapEnemies[e].ai == 1 && testMapEnemies[e].pm > 0) {
-            testMapEnemies[e].x--
-                testMapEnemies[e].pm--
-                console.log("moved " + e)
-        }
+        if (testMapEnemies[e].ai != undefined) {
+            if (testMapEnemies[e].ai == 1 && testMapEnemies[e].pm > 0) {
+                testMapEnemies[e].x--
+                    testMapEnemies[e].pm--
+                    console.log("moved " + e)
+            }
         }
     }
     for (var e = 0; e < testMapEnemies.length; e++) {
         testMapEnemies[e].pm = testMapEnemies[e].m
     }
 }
+
 function attack() {
     for (var e = 0; e < testMapEnemies.length; e++) {
         //check to attack
         if (playerCharacters[selectedChara].y - 1 == testMapEnemies[e].y && playerCharacters[selectedChara].x == testMapEnemies[e].x || playerCharacters[selectedChara].y + 1 == testMapEnemies[e].y && playerCharacters[selectedChara].x == testMapEnemies[e].x || playerCharacters[selectedChara].x - 1 == testMapEnemies[e].x && playerCharacters[selectedChara].y == testMapEnemies[e].y || playerCharacters[selectedChara].x + 1 == testMapEnemies[e].x && playerCharacters[selectedChara].y == testMapEnemies[e].y) {
-            attackMath(playerCharacters[selectedChara], testMapEnemies[e], e)
+            if (playersTurn == false) {
+                attackMath(playerCharacters[selectedChara], testMapEnemies[e], e)
+            } else {
+                moveOptions = [1, playerCharacters[selectedChara].mx, playerCharacters[selectedChara].my]
+            }
         }
     }
 }
@@ -407,6 +426,15 @@ function drawInfobox() {
         text(stats[1][1], 432, 272)
         text(stats[1][2], 432, 288);
     }
+    if (moveOptions[0] == 1) {
+        fill("white")
+        rect(moveOptions[1] * 32 + 32, moveOptions[2] * 32, 64, 32)
+        fill("black")
+        textSize(8);
+        text("Attack", moveOptions[1] * 32 + 32, moveOptions[2] * 32 + 8)
+        text("Wait", moveOptions[1] * 32 + 32, moveOptions[2] * 32 + 16);
+
+    }
 }
 
 function removeArrayElement(array, index) {
@@ -428,6 +456,7 @@ function mousePressed() {
 function random(min, max) {
     return Math.round((Math.random() * max) + min)
 }
+
 function randomT(min, max) {
     return Math.round((Math.random() * max) + min)
 }

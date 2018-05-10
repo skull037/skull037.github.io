@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Cabin|Pangolin');
+@font-face {
+    font-family: cube;
+    src: url(cubic.ttf);
+}
+body {
+    padding: 0px;
+    margin: 0px;
+    background-color: #333333;
+}
+
+canvas {
+    display: block;
+    margin: auto;
+    padding: 0px;
+}
+
+p {
+    text-align: center;
+    font-family: cube;
+    font-size: 20px;
+    color: white;
+}
+button{
+  font-family: cube;
+  background-color: "black";
+  color:"white";
+  border: none;
+  text-decoration: none;
+  padding: 15px 15px;
+}
