@@ -2,6 +2,8 @@ var yVal = -1;
 var xVal = 0;
 var inGame = true;
 var source = []
+var playerSource;
+var enemySource;
 var playersTurn = true;
 var selectedChara = 0;
 var moveOptions = [];
@@ -9,6 +11,7 @@ var moveOptions = [];
 var stats = [0, 0, 0];
 
 function preload() {
+    //load map
     source[0] = [];
     source[1] = [];
     source[0][0] = loadImage('img/grass.png')
@@ -17,6 +20,10 @@ function preload() {
     source[1][1] = loadImage('img/mountain2.png')
     source[1][source[1].length] = loadImage('img/mountain3.png')
     source[5] = loadImage('img/tree.png')
+    //load player
+    playerSource =loadImage('img/maybe.png')
+    enemySource =loadImage('img/maybeEnemies.png')
+    //load enenmy
 }
 
 function setup() {
@@ -107,8 +114,9 @@ function drawMap() {
 function drawPlayerCharacters() {
     for (var i = 0; i < playerCharacters.length; i++) {
         if (playerCharacters[i].dead == false) {
-            fill("#0000b0")
-            rect(playerCharacters[i].x * 32, playerCharacters[i].y * 32, 32, 32)
+            image(playerSource, playerCharacters[i].x * 32, playerCharacters[i].y*32,32,32,0,32*playerCharacters[i].img,32,32)
+            noFill();
+                    rect((xVal * 32), (yVal * 32), 32, 32)
             if (i == selectedChara) {
 
                 fill("#fff")
@@ -165,8 +173,7 @@ function keyPressed() {
             if (selectedChara == playerCharacters.length - 1) {
                 endTurn()
             } else {
-                /*
-                                if (playerCharacters[selectedChara].dead == true) {
+                /*if (playerCharacters[selectedChara].dead == true) {
                                     selectedChara++;
                                     moveArray = [{
                                         x: -1,
@@ -235,8 +242,9 @@ function keyPressed() {
 
 function drawEnemies() {
     for (var e = 0; e < testMapEnemies.length; e++) {
-        fill("#b00000")
-        rect(testMapEnemies[e].x * 32, testMapEnemies[e].y * 32, 32, 32)
+    image(enemySource, testMapEnemies[e].x * 32, testMapEnemies[e].y*32,32,32,0,32*testMapEnemies[e].img,32,32)
+            noFill();
+        rect((testMapEnemies[e].x * 32), (testMapEnemies[e].y * 32), 32, 32)
     }
 }
 
@@ -298,7 +306,8 @@ function attack() {
             if (playersTurn == false) {
                 attackMath(playerCharacters[selectedChara], testMapEnemies[e], e)
             } else {
-                moveOptions = [1, playerCharacters[selectedChara].mx, playerCharacters[selectedChara].my]
+                //moveOptions = [1, playerCharacters[selectedChara].mx, playerCharacters[selectedChara].my]
+                attackMath(playerCharacters[selectedChara], testMapEnemies[e], e)
             }
         }
     }
