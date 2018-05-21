@@ -16,9 +16,9 @@ var testMapEnemies =[createEnemy(8,8,"guard"),createEnemy(3,3,"barb"),createEnem
 //create enemies (x,y,type)
 function createEnemy(xEVal,yEVal,type){
     if(type=="guard"){
-    return {x:xEVal,y:yEVal,hp:2,strength:2,magic:1,ai:0,m:2,pm:2,aim:75,img:"1"}
+    return {x:xEVal,y:yEVal,hp:4,strength:2,magic:1,ai:0,m:2,pm:2,aim:75,img:"1"}
     }else if(type == "barb"){
-    return {x:xEVal,y:yEVal,hp:2,strength:3,magic:1,ai:1,m:3,pm:3,aim:50,img:"0"}
+    return {x:xEVal,y:yEVal,hp:3,strength:2,magic:1,ai:1,m:3,pm:3,aim:50,img:"0"}
     }
 }
 var moveArray=[{x:-1,y:-1},{x:-1,y:-1},{x:-1,y:-1},{x:-1,y:-1},{x:-1,y:-1}];

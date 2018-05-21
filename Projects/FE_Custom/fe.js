@@ -125,7 +125,7 @@ function drawPlayerCharacters() {
         }
     }
     for (var c = 0; c < moveArray.length; c++) {
-        fill(color('rgba(0, 0, 255, 0.25)'));
+        fill(color('rgba(0, 0, 255, 0.2)'));
         rect(moveArray[c].x * 32, moveArray[c].y * 32, 32, 32);
     }
 }
