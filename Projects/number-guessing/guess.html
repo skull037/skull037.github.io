@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Guessing Game</title>
+<link rel="stylesheet" type='text/css' href="guess.css" />
+</head>
+<body>
+<h1>Guessing Game</h1>
+    <h2 id="header2">Guess A number from 1 to 10</h2>
+    <div class="container">
+        <div class="flex1">
+<input type="text" id="input"></input>
+<button type="button" id="button" onclick="numFun()">Click To guess</button>
+        </div>
+    <div class="flex1">
+    <p id="output">GUESS</p>
+    </div>
+    </div>
+        <div class="container">
+                    <div class="flex1">
+<button type="button" id="button" onclick="newNum()">Generate New Number</button>
+            </div>
+            <div class="flex1">
+                Change  Range
+                Min
+<input type="text" id="minInput"></input>
+            Max
+<input type="text" id="maxInput"></input>
+    <button type="button" onClick="setRange()">Click To Set Range</button>
+            </div>
+            </div>
+<div>
+    <h2>Guess Pile</h2>
+    <p id="pile"></p>
+</div>
+
+
+
+
+
+<script src="guess.js"></script>
+</body>
+</html>

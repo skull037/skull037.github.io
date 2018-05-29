@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Asap+Condensed|Open+Sans|Roboto:300');
+.container{display: flex}
+.flex1{flex:1; background-color: #4AC0C0; padding: 50px 50px 50px 50px;}
+body{background-color: #0aa}
+h1{text-align: center; padding: 20px 20px 20px 20px; background-color: #5B7DCB; margin: 0 0 0 0;}
+h2{text-align: center; padding: 20px 20px 20px 20px; background-color: #5B7DCB; margin: 0 0 0 0;}
+#pile{text-align: center;}
+button{display: block; background-color: #0cc;border: none;padding: 10px 10px 10px 10px;  justify-content: center;}
+html{font-family: Roboto};
