@@ -88,15 +88,22 @@ function mousePressed() {
       songText ="Darude Sandstorm"
       started = true
     }
+    else if(collidePointRect(mouseX, mouseY, 100, 190, 30, 16)){
+      addSongToArray("tetris")
+      songText ="Tetris"
+      started = true
+    }
 }
 
 function draw() {
     background(backgroundColor)
     fill("red")
+    //rect(100, 190, 30, 16)
     fill("black")
     if (started == false) {
         text("Mary Had a Little Lamb", 100, 100)
         text("Darude Sandstorm", 300, 100)
+        text("Tetris", 100, 200)
     } else {
         text("score: " + scoreInt, 500, 50)
         text(songText, 250, 25)
@@ -334,6 +341,89 @@ function addSongToArray(songToAdd){
 
   addSong();
   noteSpeed = 6
+}
+else if(songToAdd == "tetris"){
+song[0]=[{
+    note: "E"
+}, {
+    note: "B"
+}, {
+    note: "C"
+}, {
+    note: "D"
+}, {
+    note: "C"
+}, {
+    note: "B"
+}, {
+    note: "A"
+}, {
+    note: "A"
+}, {
+    note: "C"
+}, {
+    note: "E"
+}, {
+    note: "D"
+}, {
+    note: "C"
+}, {
+    note: "B"
+}, {
+    note: "C"
+}, {
+    note: "D"
+}, {
+    note: "E"
+}, {
+    note: "C"
+}, {
+    note: "A"
+}, {
+    note: "A"
+},
+//line 2
+{
+    note: "D"
+}, {
+    note: "F"
+}, {
+    note: "A"
+}, {
+    note: "G"
+}, {
+    note: "F"
+}, {
+    note: "E"
+},{
+    note: "C"
+}, {
+    note: "F"
+}, {
+    note: "E"
+}, {
+    note: "D"
+}, {
+    note: "C"
+}, {
+    note: "B"
+}, {
+    note: "B"
+}, {
+    note: "C"
+}, {
+    note: "D"
+}, {
+    note: "E"
+}, {
+    note: "C"
+}, {
+    note: "A"
+}, {
+    note: "A"
+}]
+  addSong();
+  noteSpeed = 2
 }
 }
 function addRepeatedNotes(noteString,num){
